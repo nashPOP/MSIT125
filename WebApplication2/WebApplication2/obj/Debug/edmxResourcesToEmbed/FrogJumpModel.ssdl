@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="InStock">
+    <Key>
+      <PropertyRef Name="Sid" />
+    </Key>
+    <Property Name="Sid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Pid" Type="int" Nullable="false" />
+    <Property Name="Wid" Type="int" Nullable="false" />
+    <Property Name="Wieght" Type="nvarchar" MaxLength="50" />
+    <Property Name="Milliltion" Type="nvarchar" MaxLength="50" />
+    <Property Name="CaseSize" Type="nvarchar" MaxLength="50" />
+    <Property Name="InStockDate" Type="datetime" />
+    <Property Name="Note" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Orderid" />
+    </Key>
+    <Property Name="Orderid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="OutDate" Type="datetime" />
+    <Property Name="IsFinish" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Productid" />
+    </Key>
+    <Property Name="Productid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Weight" Type="nvarchar" MaxLength="50" />
+    <Property Name="Millilition" Type="nvarchar" MaxLength="50" />
+    <Property Name="CaseSize" Type="nvarchar" MaxLength="50" />
+    <Property Name="LocationInWarehouse" Type="nvarchar" MaxLength="50" />
+    <Property Name="Wid" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsDisplay" Type="tinyint" />
+    <Property Name="CreateDate" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="InStock" EntityType="Self.InStock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

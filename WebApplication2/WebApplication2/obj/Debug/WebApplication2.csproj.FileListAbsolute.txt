@@ -159,8 +159,13 @@ C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\zh-Hant\System.Web.Raz
 C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\zh-Hant\System.Web.WebPages.resources.dll
 C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
 C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
-C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
 C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb
+C:\Users\User\Desktop\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
+C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\EntityFramework.dll
+C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\EntityFramework.SqlServer.dll
+C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\EntityFramework.xml
+C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\EntityFramework.SqlServer.xml
+C:\Users\User\Desktop\WebApplication2\WebApplication2\bin\zh-Hant\EntityFramework.resources.dll

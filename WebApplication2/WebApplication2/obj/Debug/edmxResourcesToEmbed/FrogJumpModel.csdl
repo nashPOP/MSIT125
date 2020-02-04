@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="InStock">
+    <Key>
+      <PropertyRef Name="Sid" />
+    </Key>
+    <Property Name="Sid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Pid" Type="Int32" Nullable="false" />
+    <Property Name="Wid" Type="Int32" Nullable="false" />
+    <Property Name="Wieght" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Milliltion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CaseSize" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InStockDate" Type="DateTime" Precision="3" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Orderid" />
+    </Key>
+    <Property Name="Orderid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OutDate" Type="DateTime" Precision="3" />
+    <Property Name="IsFinish" Type="Byte" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Productid" />
+    </Key>
+    <Property Name="Productid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Weight" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Millilition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CaseSize" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LocationInWarehouse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Wid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDisplay" Type="Byte" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="FrogJumpEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="InStock" EntityType="Self.InStock" />
+    <EntitySet Name="Order" EntityType="Self.Order" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+  </EntityContainer>
+</Schema>

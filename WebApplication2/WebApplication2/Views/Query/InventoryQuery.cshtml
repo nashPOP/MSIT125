@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h2>庫存查詢</h2>
+    </div>
+
+<div class="card-body">
+    <form>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tborderid" id="lborderid">商品編號：</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="tborderid" name="tborderid" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tbCategory" id="lbCategory">分類：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbCategory" name="tbCategory" class="form-control">
+                    <option>酒類</option>
+                    <option>其他</option>
+                </select>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
+                <label for="tbProduct" id="lbProduct">商品名稱：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbProduct" name="tbProduct" class="form-control">
+                    <option>葡萄酒</option>
+                    <option>白葡萄酒</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tbCustomer" id="lbw">酒莊：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbCategory" name="tbCategory" class="form-control">
+                    <option>酒莊1</option>
+                    <option>酒莊2</option>
+                </select>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3"></div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tbOutTimeStart" id="lbOutTime">容量：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbProduct" name="tbProduct" class="form-control">
+                    <option>1bs</option>
+                    <option>2bs</option>
+                </select>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
+                <label for="tbWieght" id="lbWieght">重量：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbWieght" name="tbWieght" class="form-control">
+                    <option>375ml</option>
+                    <option>750ml</option>
+                    <option>1.5L</option>
+                    <option>3.0L</option>
+                    <option>6.0L</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tbCaseSize" id="lbCaseSize">瓶數：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbCaseSize" name="tbCaseSize" class="form-control">
+                    <option>3 Bottle</option>
+                    <option>6 Bottle</option>
+                    <option>12 Bottle</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tbCaseSize" id="tbCaseSize">倉儲位置：</label>
+            </div>
+            <div class="col-sm-3">
+                <select id="tbCaseSize" name="tbCaseSize" class="form-control">
+                    <option>A區12</option>
+                    <option>A區14</option>
+                    <option>B區1</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+        
+    </form>
+</div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h3>庫存列表</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>編號</th>
+                    <th>商品號碼</th>
+                    <th>商品名稱</th>
+                    <th>酒莊</th>
+                    <th>容量</th>
+                    <th>重量</th>
+                    <th>瓶數</th>
+                    <th>總數</th>
+                    <th>倉儲位置</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>P10000001</td>
+                    <td>葡萄酒</td>
+                    <td>酒莊1</td>
+                    <td>375ml</td>
+                    <td>1bs</td>
+                    <td>12 Bottle</td>
+                    <td>300</td>
+                    <td>A區12</td>
+                    <td class="text-center">
+                        <button id="btnEdit" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
+                        <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>P10000603</td>
+                    <td>白葡萄酒</td>
+                    <td>酒莊2</td>
+                    <td>1.5L</td>
+                    <td>1bs</td>
+                    <td>6 Bottle</td>
+                    <td>530</td>
+                    <td>A區14</td>
+                    <td class="text-center">
+                        <button id="btnEdit" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
+                        <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

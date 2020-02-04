@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="FrogJumpEntities">
+    <EntitySetMapping Name="InStock">
+      <EntityTypeMapping TypeName="Model.InStock">
+        <MappingFragment StoreEntitySet="InStock">
+          <ScalarProperty Name="Sid" ColumnName="Sid" />
+          <ScalarProperty Name="Pid" ColumnName="Pid" />
+          <ScalarProperty Name="Wid" ColumnName="Wid" />
+          <ScalarProperty Name="Wieght" ColumnName="Wieght" />
+          <ScalarProperty Name="Milliltion" ColumnName="Milliltion" />
+          <ScalarProperty Name="CaseSize" ColumnName="CaseSize" />
+          <ScalarProperty Name="InStockDate" ColumnName="InStockDate" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="Model.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Orderid" ColumnName="Orderid" />
+          <ScalarProperty Name="WName" ColumnName="WName" />
+          <ScalarProperty Name="CName" ColumnName="CName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="OutDate" ColumnName="OutDate" />
+          <ScalarProperty Name="IsFinish" ColumnName="IsFinish" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="Model.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Productid" ColumnName="Productid" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Millilition" ColumnName="Millilition" />
+          <ScalarProperty Name="CaseSize" ColumnName="CaseSize" />
+          <ScalarProperty Name="LocationInWarehouse" ColumnName="LocationInWarehouse" />
+          <ScalarProperty Name="Wid" ColumnName="Wid" />
+          <ScalarProperty Name="IsDisplay" ColumnName="IsDisplay" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
