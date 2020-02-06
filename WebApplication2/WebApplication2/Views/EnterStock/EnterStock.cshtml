@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "EnterStock";
+}
+
+<h2 style="font-family:標楷體;">存貨輸入</h2>
+<br />
+<form>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label>酒莊：</label>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control">
+                <option>酒莊1</option>
+                <option>酒莊2</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label>種類：</label>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control">
+                <option>白酒</option>
+                <option>葡萄酒</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label>品名：</label>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control">
+                <option>Cava</option>
+                <option>Barolo</option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <label>容量：</label>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control">
+                <option>375ml</option>
+                <option>700ml</option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <label>數量：</label>
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" style="width:40%" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label>貨架：</label>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control">
+                <option>A區12</option>
+                <option>B區16</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label>備註：</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <input class="btn btn-primary" type="button" value="新增" />
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>序號</th>
+        <th>種類</th>
+        <th>品名</th>
+        <th>容量</th>
+        <th>數量</th>
+        <th>貨架</th>
+        <th>備註</th>
+        <th>刪除</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>白酒</td>
+        <td>Cava</td>
+        <td>375</td>
+        <td>100</td>
+        <td>A區12</td>
+        <td>驗貨少2瓶</td>
+        <td><button type="button" class="btn btn-danger">刪除</button></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>葡萄酒</td>
+        <td>Barolo</td>
+        <td>700</td>
+        <td>50</td>
+        <td>B區16</td>
+        <td>運送破1瓶</td>
+        <td><button type="button" class="btn btn-danger">刪除</button></td>
+    </tr>
+</table>
+<hr />
+<div class="form-inline">
+    <div class="card" style="width: 12rem;">
+        <div class="card-body py-sm-1">
+            酒莊1 庫存輸入
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="送出" style="margin-bottom:20px;" />
+</div>
