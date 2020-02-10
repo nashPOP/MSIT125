@@ -12,15 +12,13 @@ namespace WebApplication2
     using System;
     using System.Collections.Generic;
     
-    public partial class InStock
+    public partial class Order_Details
     {
-        public int Sid { get; set; }
-        public int Pid { get; set; }
-        public int Wid { get; set; }
-        public string Wieght { get; set; }
-        public string Milliltion { get; set; }
-        public string CaseSize { get; set; }
-        public Nullable<System.DateTime> InStockDate { get; set; }
-        public string Note { get; set; }
+        public int OrderID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+    
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

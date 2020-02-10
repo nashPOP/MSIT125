@@ -1,29 +1,36 @@
-﻿@{
-    ViewBag.Title = "Order";
+﻿@model IEnumerable<WebApplication2.Order>
+
+@{
+    ViewBag.Title = "訂單查詢";
 }
 
-
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
 <div class="card shadow mb-4">
     <div class="card-header py-2 d-flex flex-row">
         <h3>訂單查詢</h3>
     </div>
     <div class="card-body">
-        <form>
+        @using (Html.BeginForm())
+        {
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="tborderid" id="lborderid">訂單編號：</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="text" id="tborderid" name="tborderid" class="form-control" />
+                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control" })
+                    @*<input type="text" id="tborderid" name="tborderid" class="form-control" />*@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
                     <label for="selw" id="lbw">酒莊：</label>
                 </div>
                 <div class="col-sm-3">
-                    <select id="selw" name="selw" class="form-control">
-                        <option>酒莊1</option>
-                        <option>酒莊2</option>
+                    @*@Html.DropDownList("DDL_Winery","",, new { @class = "form-control" })*@
+                    <select id="DDL_Winery" name="DDL_Winery" class="form-control">
+                        <option value="1">酒莊1</option>
+                        <option value="2">酒莊2</option>
                     </select>
                 </div>
                 <div class="col-sm-4"></div>
@@ -33,7 +40,8 @@
                     <label for="tbCustomer" id="lbw">客戶名稱：</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="text" id="tbCustomer" name="tbCustomer" class="form-control" />
+                    @Html.TextBox("TB_CustomerName","", new { @class = "form-control" })
+                    @*<input type="text" id="tbCustomer" name="tbCustomer" class="form-control" />*@
                 </div>
                 <div class="col-sm-8"></div>
             </div>
@@ -64,12 +72,13 @@
                     <label for="tbOutTimeStart" id="lbOutTime">出貨時間：</label>
                 </div>
                 <div class="col-sm-3">
+                    
                     <input type="date" id="tbOutTimeStart" name="tbOutTimeStart" class="form-control is-vaid" />
                 </div>
                 <div class="col-sm-8"></div>
             </div>
             <button id="" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
-        </form>
+        }
     </div>
 </div>
 <br />
@@ -88,29 +97,65 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>編號</th>
-                                    <th>訂單號碼</th>
-                                    <th>酒莊</th>
-                                    <th>客戶名稱</th>
-                                    <th>備註</th>
-                                    <th>出貨時間</th>
+                                    <th>@Html.DisplayNameFor(model => model.OrderID)</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WineryID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.OrderDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RequiredDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ShippedDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Note)
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var item in Model)
+                                {
                                 <tr>
-                                    <td>1</td>
-                                    <td>10000000</td>
-                                    <td>酒莊1</td>
-                                    <td>aaa</td>
-                                    <td></td>
-                                    <td>2020/02/01</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RequiredDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ShippedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Note)
+                                    </td>
                                     <td class="text-center">
                                         <button id="opener" class="btn btn-info"><span class="fa fa-sticky-note"></span>&nbsp;明細</button>
                                         <button id="btnEdit" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
                                         <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                                     </td>
+                                    @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.OrderID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.OrderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.OrderID })
+        </td>*@
                                 </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -122,68 +167,67 @@
         </div>
     </div>
 </div>
-    <div id="dialog" title="訂單明細" >
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <label>訂單編號：</label>
-            </div>
-            <div class="col-lg-4">
-                <label>10000000</label>
-            </div>
+<div id="dialog" title="訂單明細">
+    <div class="form-group row">
+        <div class="col-lg-2">
+            <label>訂單編號：</label>
         </div>
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <label>酒莊：</label>
-            </div>
-            <div class="col-lg-4">
-                <label>酒莊1</label>
-            </div>
-            <div class="col-lg-2">
-                <label>客戶名稱：</label>
-            </div>
-            <div class="col-lg-4">
-                <label>aaa</label>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-lg-2">
-                <label>送貨地點：</label>
-            </div>
-            <div class="col-lg-4">
-                <label>台北市</label>
-            </div>
-            <div class="col-lg-2">
-                <label>出貨時間：</label>
-            </div>
-            <div class="col-lg-4">
-                <label>2020/02/03</label>
-            </div>
-        </div>
-        <div class="form-group row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>編號</th>
-                        <th>產品編號</th>
-                        <th>產品名稱</th>
-                        <th>重量</th>
-                        <th>容量</th>
-                        <th>瓶數</th>
-                        <th>數量</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>P1000435</td>
-                        <td>白葡萄酒</td>
-                        <td>1bs</td>
-                        <td>375ml</td>
-                        <td>12 Bottle</td>
-                        <td>20</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-4">
+            <label>10000000</label>
         </div>
     </div>
-    
+    <div class="form-group row">
+        <div class="col-lg-2">
+            <label>酒莊：</label>
+        </div>
+        <div class="col-lg-4">
+            <label>酒莊1</label>
+        </div>
+        <div class="col-lg-2">
+            <label>客戶名稱：</label>
+        </div>
+        <div class="col-lg-4">
+            <label>aaa</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-2">
+            <label>送貨地點：</label>
+        </div>
+        <div class="col-lg-4">
+            <label>台北市</label>
+        </div>
+        <div class="col-lg-2">
+            <label>出貨時間：</label>
+        </div>
+        <div class="col-lg-4">
+            <label>2020/02/03</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>編號</th>
+                    <th>產品編號</th>
+                    <th>產品名稱</th>
+                    <th>重量</th>
+                    <th>容量</th>
+                    <th>瓶數</th>
+                    <th>數量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>P1000435</td>
+                    <td>白葡萄酒</td>
+                    <td>1bs</td>
+                    <td>375ml</td>
+                    <td>12 Bottle</td>
+                    <td>20</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

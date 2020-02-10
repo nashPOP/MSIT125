@@ -125,9 +125,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Category.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="FrogJumpModel.Context.cs">
@@ -148,16 +154,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="InStock.cs">
+    <Compile Include="Inventory.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Milliliter.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderQueryFastory.cs" />
+    <Compile Include="ModelViews\QOrder.cs" />
     <Compile Include="Order.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Order_Details.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shelf.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockEnter.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Winery.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -2007,7 +2030,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

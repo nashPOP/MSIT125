@@ -12,27 +12,20 @@ namespace WebApplication2
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class Milliliter
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public Milliliter()
         {
             this.Inventory = new HashSet<Inventory>();
-            this.Order_Details = new HashSet<Order_Details>();
             this.StockEnter = new HashSet<StockEnter>();
         }
     
-        public int ProductID { get; set; }
-        public string ProductName { get; set; }
-        public int WineryID { get; set; }
-        public int CategoryID { get; set; }
+        public int MilliliterID { get; set; }
+        public string Milliliter1 { get; set; }
     
-        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventory> Inventory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order_Details> Order_Details { get; set; }
-        public virtual Winery Winery { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockEnter> StockEnter { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@*@model List<>*@
+@{
     /**/
 
     ViewBag.Title = "Stock";
@@ -68,7 +69,7 @@
                         <option>2bs</option>
                     </select>
                 </div>
-                <div class="col-sm-1"></div>
+                <div class="col-sm-1"><button class="btn btn-primary"><span class="fa fa-plus"></span></button></div>
                 <div class="col-sm-1">
                     <label for="tbWieght" id="lbWieght">重量：</label>
                 </div>
@@ -114,7 +115,7 @@
 
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary" value="查詢" />
+            <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
         </form>
         @*}*@
     </div>
@@ -135,6 +136,20 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            
+                            @*<th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th>@Html.DisplayNameFor(model => model.id)</th>
+                            <th></th>*@
+
+
                             <th>編號</th>
                             <th>商品號碼</th>
                             <th>商品名稱</th>
@@ -151,21 +166,23 @@
                     </thead>
                     <tbody>
                         @*@{
-                            foreach ()
-                            {
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td  class="text-center>
-                                        @Html.ActionLink("編輯","",new { @class= "btn btn-success" });
-                                        @Html.ActionLink("刪除", "", new { @class = "btn btn-danger" });
-                                    </td>
-                                </tr>
+                            if(model!=null){
+                                foreach ()
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td  class="text-center>
+                                            @Html.ActionLink("編輯","",new { @class= "btn btn-success" });
+                                            @Html.ActionLink("刪除", "", new { @class = "btn btn-danger" });
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }*@
                         <tr>
@@ -182,7 +199,6 @@
                             <td>2020/02/02</td>
                             <td class="text-center">
                                 <button id="btnEdit" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
-                                <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                             </td>
                         </tr>
                         <tr>
@@ -199,7 +215,6 @@
                             <td>2020/02/02</td>
                             <td class="text-center">
                                 <button id="btnEdit" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
-                                <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                             </td>
                         </tr>
                     </tbody>

@@ -5,9 +5,31 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3a2ea88a82f14f478061a635f8ac26cf" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.InStock" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Order" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Category" Width="1.5" PointX="4.625" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.Inventory" Width="1.5" PointX="3.25" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.Milliliter" Width="1.5" PointX="0.5" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.Shelf" Width="1.5" PointX="2.375" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.StockEnter" Width="1.5" PointX="6.25" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.Order_Details" Width="1.5" PointX="12.375" PointY="1.375" />
+        <AssociationConnector Association="Model.FK_Inventory_Category" />
+        <AssociationConnector Association="Model.FK_StockEnter_Category" />
+        <AssociationConnector Association="Model.FK_Inventory_Milliliter" />
+        <AssociationConnector Association="Model.FK_Inventory_Shelf" />
+        <AssociationConnector Association="Model.FK_StockEnter_Milliliter" />
+        <AssociationConnector Association="Model.FK_StockEnter_Shelf" />
+        <EntityTypeShape EntityType="Model.Winery" Width="1.5" PointX="9.25" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.Account" Width="1.5" PointX="14.375" PointY="6.25" />
+        <AssociationConnector Association="Model.FK_StockEnter_Winery" />
+        <AssociationConnector Association="Model.FK_Account_Winery" />
+        <EntityTypeShape EntityType="Model.Order" Width="1.5" PointX="11.5" PointY="6" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="14.5" PointY="9" />
+        <AssociationConnector Association="Model.FK_Product_Category" />
+        <AssociationConnector Association="Model.FK_Inventory_Product" />
+        <AssociationConnector Association="Model.FK_Order_Details_Order" />
+        <AssociationConnector Association="Model.FK_Order_Winery" />
+        <AssociationConnector Association="Model.FK_Order_Details_Product" />
+        <AssociationConnector Association="Model.FK_Product_Winery" />
+        <AssociationConnector Association="Model.FK_StockEnter_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

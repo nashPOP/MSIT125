@@ -11,14 +11,26 @@ namespace WebApplication2
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
-        public int Orderid { get; set; }
-        public string WName { get; set; }
-        public string CName { get; set; }
-        public string Address { get; set; }
-        public Nullable<System.DateTime> OutDate { get; set; }
-        public Nullable<byte> IsFinish { get; set; }
+        [Display(Name ="訂單編號")]
+        public int OrderID { get; set; }
+        [Display(Name = "酒莊")]
+        public Nullable<int> WineryID { get; set; }
+        [Display(Name = "客戶名稱")]
+        public string CustomerName { get; set; }
+        [Display(Name = "訂購時間")]
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        [Display(Name = "訂單編號")]
+        public Nullable<System.DateTime> RequiredDate { get; set; }
+        [Display(Name = "出貨時間")]
+        public Nullable<System.DateTime> ShippedDate { get; set; }
+        [Display(Name = "備註")]
+        public string Note { get; set; }
+    
+        public virtual Order_Details Order_Details { get; set; }
+        public virtual Winery Winery { get; set; }
     }
 }
