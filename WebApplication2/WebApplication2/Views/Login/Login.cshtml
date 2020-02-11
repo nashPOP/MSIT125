@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebApplication2.Models.Account>
+
+@{
+    ViewBag.Title = "Login";
+}
+
+
+
+<p>
+    @Html.ActionLink("Login", "Login")
+</p>
+
+<div class="">
+    <p>歡迎登入本網站</p>
+    <form method="post" action="~/">
+        <label>帳號:</label>
+        <input type="text" name="Username" id="LoginID" value="" placeholder="請輸入帳號" />
+</div>
+<div>
+    <label>密碼:</label>
+    <input type="text" name="Usepwd" id="Password" value="" placeholder="請輸入密碼" />
+</div>
+<div>
+    <input type="submit" value="登入" /><input type="submit" value="登出" />
+</div>
+<div>
+    <a href=""><input type="button" value="註冊新員工/廠商資料" /></a>
+</div>
+<div>
+    <a href=""><input type="button" value="刪除員工/廠商資料" /></a>
+</div>
+<div>
+    <a href=""><input type="button" value="修改員工/廠商資料" /></a>
+</div>
+
+<hr />
+</form>
+
+</div>
+
+

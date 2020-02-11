@@ -1,0 +1,49 @@
+﻿@model WebApplication2.Models.Account
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>刪除會員</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Account</h4>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <form>
+                <div>
+                    <input type="text" name="username" value="" placeholder="請輸入會員帳號....." />
+                </div>
+                <div>
+                    <input type="text" name="userpwd" value="" placeholder="請輸入會員密碼....." />
+                </div>
+                <div>
+                    <input type="button" value="刪除會員資料..." />
+                </div>
+                <div>
+                    <input type="submit" value="確定刪除" />
+                </div>
+                <div>
+                    <input type="reset" value="重新輸入資料" />
+                </div>
+                <div>
+                    <a><input type="button" value="返回首頁" /></a>
+                </div>
+            </form>
+        </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+    
+}
+
+
