@@ -23,7 +23,7 @@ namespace WebApplication2
         public string CustomerName { get; set; }
         [Display(Name = "訂購時間")]
         public Nullable<System.DateTime> OrderDate { get; set; }
-        [Display(Name = "訂單編號")]
+        [Display(Name = "時間")]
         public Nullable<System.DateTime> RequiredDate { get; set; }
         [Display(Name = "出貨時間")]
         public Nullable<System.DateTime> ShippedDate { get; set; }

@@ -10,6 +10,9 @@ namespace WebApplication2.Controllers
 {
     public class QueryController : Controller
     {
+
+        DDLFastory ddl = new DDLFastory();
+
         #region Order Query Web
 
         // GET: OrderQuery
@@ -22,22 +25,35 @@ namespace WebApplication2.Controllers
         /// <returns>IEnumerable<FrogJump.Order></returns>
         public ActionResult OrderQuery()
         {
-            OrderQueryFastory fas = new OrderQueryFastory();
-            var OrderTable = fas.getAllOrder();
-            return View(OrderTable);
+            QueryFastory fas = new QueryFastory();
+            QueryModelByView qv = new QueryModelByView()
+            {
+                Orderlist = fas.getAllOrder(),
+                Wineryddl = ddl.getWinery(),
+                Categoryddl = ddl.getCategory(),
+                Productddl = ddl.getProduct()
+            };
+            
+            return View(qv);
         }
 
         [HttpPost]
         public ActionResult OrderQuery(QOrder qOrder)
         {
-            OrderQueryFastory fas = new OrderQueryFastory();
-            var Query = fas.getOrderQuery(qOrder);
-            return View(Query);
+            QueryFastory fas = new QueryFastory();
+            QueryModelByView qv = new QueryModelByView()
+            {
+                Orderlist = fas.getOrderQuery(qOrder),
+                Wineryddl = ddl.getWinery(),
+                Categoryddl = ddl.getCategory(),
+                Productddl = ddl.getProduct()
+            };
+            return View(qv);
         }
 
         public ActionResult OrderEdit()
         {
-            return RedirectToAction("OrderQuery");
+            return View();
         }
 
         public ActionResult OrderDelete()
@@ -51,6 +67,14 @@ namespace WebApplication2.Controllers
 
         public ActionResult InStockQuery()
         {
+            QueryFastory fas = new QueryFastory();
+            QueryModelByView qv = new QueryModelByView()
+            {
+                //StockEnterlist = fas.getAllStockEnter(),
+                Wineryddl = ddl.getWinery(),
+                Categoryddl = ddl.getCategory(),
+                Productddl = ddl.getProduct()
+            };
             return View();
         }
 

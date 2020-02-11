@@ -333,26 +333,9 @@
     <!-- Page level custom scripts -->
     <script src="~/Content/js/demo/chart-area-demo.js"></script>
     <script src="~/Content/js/demo/chart-pie-demo.js"></script>
- 
+
+    @RenderSection("scripts", required: false)
+
     
-    <script>
-        $(document).ready(function () {
-            $("#dialog").dialog({
-                autoOpen: false,
-                width: 1000,
-                height: 800,
-                show: {
-
-                },
-                hide: {
-
-                }
-            });
-
-            $("#opener").on("click", function () {
-                $("#dialog").dialog("open");
-            });
-        });
-    </script>
 </body>
 </html>

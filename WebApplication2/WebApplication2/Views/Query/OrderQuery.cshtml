@@ -1,7 +1,9 @@
-﻿@model IEnumerable<WebApplication2.Order>
-
+﻿@model WebApplication2.ModelViews.QueryModelByView
 @{
     ViewBag.Title = "訂單查詢";
+    //IEnumerable<WebApplication2.Order> orders = Model.Orderlist;
+    
+
 }
 
 @*<p>
@@ -27,11 +29,11 @@
                     <label for="selw" id="lbw">酒莊：</label>
                 </div>
                 <div class="col-sm-3">
-                    @*@Html.DropDownList("DDL_Winery","",, new { @class = "form-control" })*@
-                    <select id="DDL_Winery" name="DDL_Winery" class="form-control">
+                    @Html.DropDownList("DDL_Winery",(IEnumerable<SelectListItem>)Model.Wineryddl, new { @class = "form-control" })
+                    @*<select id="DDL_Winery" name="DDL_Winery" class="form-control">
                         <option value="1">酒莊1</option>
                         <option value="2">酒莊2</option>
-                    </select>
+                    </select>*@
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -41,6 +43,7 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBox("TB_CustomerName","", new { @class = "form-control" })
+                    
                     @*<input type="text" id="tbCustomer" name="tbCustomer" class="form-control" />*@
                 </div>
                 <div class="col-sm-8"></div>
@@ -50,20 +53,22 @@
                     <label for="tbCategory" id="lbCategory">分類：</label>
                 </div>
                 <div class="col-sm-3">
-                    <select id="tbCategory" name="tbCategory" class="form-control">
+                    @Html.DropDownList("DDL_Category", (IEnumerable<SelectListItem>)Model.Categoryddl, new { @class = "form-control" })
+                    @*<select id="tbCategory" name="tbCategory" class="form-control">
                         <option>酒類</option>
                         <option>其他</option>
-                    </select>
+                    </select>*@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
                     <label for="tbProduct" id="lbProduct">商品名稱：</label>
                 </div>
                 <div class="col-sm-3">
-                    <select id="tbProduct" name="tbProduct" class="form-control">
+                    @Html.DropDownList("DDL_Product", (IEnumerable<SelectListItem>)Model.Productddl, new { @class = "form-control" })
+                    @*<select id="tbProduct" name="tbProduct" class="form-control">
                         <option>葡萄酒</option>
                         <option>白葡萄酒</option>
-                    </select>
+                    </select>*@
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -71,9 +76,8 @@
                 <div class="col-sm-1">
                     <label for="tbOutTimeStart" id="lbOutTime">出貨時間：</label>
                 </div>
-                <div class="col-sm-3">
-                    
-                    <input type="date" id="tbOutTimeStart" name="tbOutTimeStart" class="form-control is-vaid" />
+                <div class="col-sm-3"> 
+                    <input type="date" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" />
                 </div>
                 <div class="col-sm-8"></div>
             </div>
@@ -97,30 +101,32 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.OrderID)</th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.WineryID)
+                                        訂單編號
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.CustomerName)
+                                        酒莊
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.OrderDate)
+                                        客戶名稱
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.RequiredDate)
+                                        訂購時間
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.ShippedDate)
+                                        時間
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Note)
+                                        出貨時間
+                                    </th>
+                                    <th>
+                                        備註
                                     </th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Orderlist)
                                 {
                                 <tr>
                                     <td>
@@ -231,3 +237,28 @@
         </table>
     </div>
 </div>
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $("#dialog").dialog({
+            autoOpen: false,
+            width: 1000,
+            height: 800,
+            show: {
+
+            },
+            hide: {
+
+            }
+        });
+
+        $("#opener").on("click", function () {
+            $("#dialog").dialog("open");
+        });
+    });
+
+
+</script>
+    
+    }

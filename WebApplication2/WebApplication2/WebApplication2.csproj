@@ -160,8 +160,12 @@
     <Compile Include="Milliliter.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrderQueryFastory.cs" />
+    <Compile Include="Models\DDLFastory.cs" />
+    <Compile Include="Models\QueryFastory.cs" />
+    <Compile Include="ModelViews\FJWinery.cs" />
     <Compile Include="ModelViews\QOrder.cs" />
+    <Compile Include="ModelViews\QStockEnter.cs" />
+    <Compile Include="ModelViews\QueryModelByView.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
@@ -2027,6 +2031,7 @@
     <Content Include="Views\Query\InStockQuery.cshtml" />
     <Content Include="Views\Query\OrderQuery.cshtml" />
     <Content Include="Views\Query\InventoryQuery.cshtml" />
+    <Content Include="Views\Query\OrderEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
