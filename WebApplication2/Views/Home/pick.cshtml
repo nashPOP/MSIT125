@@ -1,0 +1,226 @@
+﻿@model IQueryable<WebApplication2.Models.Order>
+
+@{
+    ViewBag.Title = "pick";
+}
+@section css
+    {
+   <style>
+       #CanDrive{
+           cursor: pointer
+       }
+       .orderPick{
+           margin-right:5px;
+       }
+    </style>
+    }
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="CanDrive">可出貨</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">缺貨</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <div>
+                <table class="table table-bordered" id="table_order">
+                    <thead>
+                        <tr>
+                            <th>訂單編號</th>
+                            <th>送貨日期</th>
+                            <th>狀態</th>
+                            <th>詳細資料</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_For_Order">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.OrderID</td>
+                                <td>@item.RequiredDate</td>
+                                <td>運送中</td>
+                                <td>
+                                    <input type="button" class="btn btn-success orderPick" value="揀貨" data-orderpick="@item.OrderID" />
+                                    <input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="@item.OrderID " />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div id="dialog">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>訂單編號</th>
+                                <th>品名</th>
+                                <th>數量</th>
+                                <th></th>
+                            </tr>
+                        </thead>                        
+                        <tbody id="table_orderDetail">
+                            <tr>
+                                <td>1</td>
+                                <td>台灣啤酒(375ml),台灣啤酒(700ml)</td>
+                                <td>30</td>
+                                <td><input type="button" value="修改" class="btn btn-danger"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+    </div>
+</div>
+   <div id="div1"><button id="opener">Open Dialog</button></div>
+    
+
+    @section scripts
+    {
+        <script>
+            //$(function () {
+            //    $("#dialog").dailog({
+            //        autoOpen: false,
+            //        show: {
+            //            effect: "blind",
+            //            duration: 1000
+            //        },
+            //        hide: {
+            //            effect: "explode",
+            //            duration: 1000
+            //        }
+            //    });
+
+            //    $("#opener").on("click", function () {
+            //        $("#dialog").dialog("open");
+            //    });
+            //});
+
+        </script>
+
+        <script>
+            
+          /* $('.btn_orderDetail').click(function () {
+                var id = $(this).attr('data-orderId');
+                console.log($('#table_orderDetail').children());
+
+                $('#table_orderDetail').children().remove();
+               
+                $.get("/Home/order_Detail",{orderID: id},
+                    function (datas) {
+
+                        $(datas).each(function (idx, value) {
+
+
+                            var tr = $('<tr></tr>')
+                            var td1 = $('<td></td>')
+                            var td2 = $('<td></td>')
+                            var td3 = $('<td></td>')
+                            var td4 = $('<td class="td_Fix"></td>')
+                            var button = $('<input type="button" value="修改" class="btn btn-danger btn_Fix" data-OrderDetailID="' + value.OrderID + '"/>')
+
+                            td1.text(value.OrderID)
+                            td2.text(value.ProductName)
+                            td3.text(value.Quantity)
+                            td4.append(button)
+
+                            tr.append(td1).append(td2).append(td3).append(td4)
+
+                            $('#table_orderDetail').append(tr)
+
+                        })
+                                              
+                    })
+                $("#opener").remove();
+                var newButton = $('<input style="position:relative ;left:800px" id="opener" type="button" value="新增" class="btn btn-success" />')
+
+                $('#dialog').append(newButton);
+
+            })
+            */
+            </script>
+            <script>
+            $('#tbody_For_Order').on('click', '.btn_orderDetail', function () {
+                var id = $(this).attr('data-orderId');
+                console.log($('#table_orderDetail').children());
+
+                $('#table_orderDetail').children().remove();
+
+                $.get("/Home/order_Detail", { orderID: id },
+                    function (datas) {
+
+                        $(datas).each(function (idx, value) {
+
+
+                            var tr = $('<tr></tr>')
+                            var td1 = $('<td></td>')
+                            var td2 = $('<td></td>')
+                            var td3 = $('<td></td>')
+                            var td4 = $('<td class="td_Fix"></td>')
+                            var button = $('<input type="button" value="修改" class="btn btn-danger btn_Fix" data-OrderDetailID="' + value.OrderID + '"/>')
+
+                            td1.text(value.OrderID)
+                            td2.text(value.ProductName)
+                            td3.text(value.Quantity)
+                            td4.append(button)
+
+                            tr.append(td1).append(td2).append(td3).append(td4)
+
+                            $('#table_orderDetail').append(tr)
+
+                        })
+
+                    })
+                $("#opener").remove();
+                var newButton = $('<input style="position:relative ;left:800px" id="opener" type="button" value="新增" class="btn btn-success" />')
+
+                $('#dialog').append(newButton);
+
+            })
+
+            
+
+            $('#CanDrive').click(function () {                
+                $('#tbody_For_Order').children().remove();
+                $.get("/Home/Ajax_Pick",function (datas) {
+                    console.log(datas);
+                    $(datas).each(function (idx, value) {
+                        
+                        console.log(value.OrderID);
+                         var tr = $('<tr></tr>')
+                         var td1 =$('<td>'+value.OrderID+'</td>')
+                         var td2 =$('<td>'+value.RequiredDate+'</td>')
+                        var td3 = $('<td>運送中</td>')
+                        var td4 = $('<td><input type="button" class="btn btn-success orderPick" value="揀貨" data-orderPick="' + value.OrderID + '" /><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID +'" /></td>')
+                      
+
+                      
+                        tr.append(td1).append(td2).append(td3).append(td4)
+                        $('#tbody_For_Order').append(tr)
+                    })
+                })
+
+            })
+
+                $('#tbody_For_Order').on("click", '.orderPick', function () {
+                    alert("123")
+            })
+
+            $('.td_fix').on("click", '.btn_fix', function () {
+                alert("123")
+            })
+           
+
+        </script>
+
+    }

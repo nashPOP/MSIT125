@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="daf27777f5114bceae588cc6c05e51d3" Name="Diagram1">
+        <EntityTypeShape EntityType="DELogisticsModel.Account" Width="1.5" PointX="3" PointY="15.625" />
+        <EntityTypeShape EntityType="DELogisticsModel.Category" Width="1.5" PointX="3.75" PointY="2.875" />
+        <EntityTypeShape EntityType="DELogisticsModel.Inventory" Width="1.5" PointX="6" PointY="3" />
+        <EntityTypeShape EntityType="DELogisticsModel.Milliliter" Width="1.5" PointX="0.75" PointY="10.125" />
+        <EntityTypeShape EntityType="DELogisticsModel.Order" Width="1.5" PointX="3" PointY="12.25" />
+        <EntityTypeShape EntityType="DELogisticsModel.Order_Details" Width="1.5" PointX="8.25" PointY="9.875" />
+        <EntityTypeShape EntityType="DELogisticsModel.Product" Width="1.5" PointX="6" PointY="6.625" />
+        <EntityTypeShape EntityType="DELogisticsModel.Shelf" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="DELogisticsModel.StockEnter" Width="1.5" PointX="3" PointY="6.125" />
+        <EntityTypeShape EntityType="DELogisticsModel.Winery" Width="1.5" PointX="0.75" PointY="6.5" />
+        <AssociationConnector Association="DELogisticsModel.FK_Account_Account" />
+        <AssociationConnector Association="DELogisticsModel.FK_Inventory_Category" />
+        <AssociationConnector Association="DELogisticsModel.FK_Product_Category" />
+        <AssociationConnector Association="DELogisticsModel.FK_StockEnter_Category" />
+        <AssociationConnector Association="DELogisticsModel.FK_Inventory_Milliliter" />
+        <AssociationConnector Association="DELogisticsModel.FK_Inventory_Shelf" />
+        <AssociationConnector Association="DELogisticsModel.FK_StockEnter_Milliliter" />
+        <AssociationConnector Association="DELogisticsModel.FK_Order_Details_Order" />
+        <AssociationConnector Association="DELogisticsModel.FK_Order_Winery" />
+        <AssociationConnector Association="DELogisticsModel.FK_Order_Details_Product" />
+        <AssociationConnector Association="DELogisticsModel.FK_Product_Winery" />
+        <AssociationConnector Association="DELogisticsModel.FK_StockEnter_Shelf" />
+        <AssociationConnector Association="DELogisticsModel.FK_StockEnter_Winery" />
+        <AssociationConnector Association="DELogisticsModel.FK_StockEnter_Category1" ManuallyRouted="true" >
+          <ConnectorPoint PointX="6" PointY="8.4972591145833327" />
+          <ConnectorPoint PointX="5.833333333333333" PointY="8.4972591145833327" />
+          <ConnectorPoint PointX="5.666666666666667" PointY="8.4972591145833327" />
+          <ConnectorPoint PointX="4.5" PointY="8.4972591145833327" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

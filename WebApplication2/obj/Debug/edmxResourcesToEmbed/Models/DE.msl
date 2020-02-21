@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DELogisticsModelStoreContainer" CdmEntityContainer="DELogisticsEntities">
+    <EntitySetMapping Name="Account">
+      <EntityTypeMapping TypeName="DELogisticsModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Account1" ColumnName="Account" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="DELogisticsModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Inventory">
+      <EntityTypeMapping TypeName="DELogisticsModel.Inventory">
+        <MappingFragment StoreEntitySet="Inventory">
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Milliliter">
+      <EntityTypeMapping TypeName="DELogisticsModel.Milliliter">
+        <MappingFragment StoreEntitySet="Milliliter">
+          <ScalarProperty Name="capacity" ColumnName="capacity" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="DELogisticsModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="ShippedDate" ColumnName="ShippedDate" />
+          <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order_Details">
+      <EntityTypeMapping TypeName="DELogisticsModel.Order_Details">
+        <MappingFragment StoreEntitySet="Order_Details">
+          <ScalarProperty Name="Order_Detail_ID" ColumnName="Order_Detail_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="DELogisticsModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shelf">
+      <EntityTypeMapping TypeName="DELogisticsModel.Shelf">
+        <MappingFragment StoreEntitySet="Shelf">
+          <ScalarProperty Name="ShelfPosition" ColumnName="ShelfPosition" />
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StockEnter">
+      <EntityTypeMapping TypeName="DELogisticsModel.StockEnter">
+        <MappingFragment StoreEntitySet="StockEnter">
+          <ScalarProperty Name="StockEnterDate" ColumnName="StockEnterDate" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="StockEnterID" ColumnName="StockEnterID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Winery">
+      <EntityTypeMapping TypeName="DELogisticsModel.Winery">
+        <MappingFragment StoreEntitySet="Winery">
+          <ScalarProperty Name="WineryEmail" ColumnName="WineryEmail" />
+          <ScalarProperty Name="WineryAddress" ColumnName="WineryAddress" />
+          <ScalarProperty Name="WineryPhone" ColumnName="WineryPhone" />
+          <ScalarProperty Name="WineryName" ColumnName="WineryName" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
