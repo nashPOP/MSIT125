@@ -46,6 +46,7 @@
     <Property Name="CustomerName" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="WineryID" Type="int" Nullable="false" />
     <Property Name="Note" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="10" Nullable="false" />
   </EntityType>
   <EntityType Name="Order_Details">
     <Key>

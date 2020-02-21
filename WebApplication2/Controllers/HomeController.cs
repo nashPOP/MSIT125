@@ -35,7 +35,7 @@ namespace WebApplication2.Controllers
         {
             DELogisticsEntities dbcontext = new DELogisticsEntities();
 
-            var orders = dbcontext.Order.Select(p => new { p.OrderID, p.RequiredDate });
+            var orders = dbcontext.Order.Select(p => new { p.OrderID, p.RequiredDate , p.Status});
             
             return Json(orders,JsonRequestBehavior.AllowGet); 
         }

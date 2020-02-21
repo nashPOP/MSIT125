@@ -151,11 +151,10 @@
             </script>
             <script>
             $('#tbody_For_Order').on('click', '.btn_orderDetail', function () {
-                var id = $(this).attr('data-orderId');
-                console.log($('#table_orderDetail').children());
+                var id = $(this).attr('data-orderId');               
 
                 $('#table_orderDetail').children().remove();
-
+                $("#opener").remove();
                 $.get("/Home/order_Detail", { orderID: id },
                     function (datas) {
 
@@ -167,7 +166,7 @@
                             var td2 = $('<td></td>')
                             var td3 = $('<td></td>')
                             var td4 = $('<td class="td_Fix"></td>')
-                            var button = $('<input type="button" value="修改" class="btn btn-danger btn_Fix" data-OrderDetailID="' + value.OrderID + '"/>')
+                            var button = $('<input type="button"class="btn btn-danger btn_Fix"  value="修改"  data-OrderDetailID="' + value.OrderID + '"/>')
 
                             td1.text(value.OrderID)
                             td2.text(value.ProductName)
@@ -181,7 +180,7 @@
                         })
 
                     })
-                $("#opener").remove();
+                
                 var newButton = $('<input style="position:relative ;left:800px" id="opener" type="button" value="新增" class="btn btn-success" />')
 
                 $('#dialog').append(newButton);
@@ -189,21 +188,27 @@
             })
 
             
-
+                let textstatus
             $('#CanDrive').click(function () {                
                 $('#tbody_For_Order').children().remove();
                 $.get("/Home/Ajax_Pick",function (datas) {
                     console.log(datas);
+                    
                     $(datas).each(function (idx, value) {
-                        
+                        console.log(value.Status);
+                        if (value.Status == 'C') {
+                            textstatus = "可揀貨"
+                        }
+                        else { textstatus="揀貨中" }
+
                         console.log(value.OrderID);
                          var tr = $('<tr></tr>')
                          var td1 =$('<td>'+value.OrderID+'</td>')
                          var td2 =$('<td>'+value.RequiredDate+'</td>')
-                        var td3 = $('<td>運送中</td>')
+                        var td3 = $('<td>'+textstatus+'</td>')
                         var td4 = $('<td><input type="button" class="btn btn-success orderPick" value="揀貨" data-orderPick="' + value.OrderID + '" /><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID +'" /></td>')
                       
-
+                        
                       
                         tr.append(td1).append(td2).append(td3).append(td4)
                         $('#tbody_For_Order').append(tr)
@@ -216,8 +221,8 @@
                     alert("123")
             })
 
-            $('.td_fix').on("click", '.btn_fix', function () {
-                alert("123")
+                $('#dialog').on("click", '.btn_Fix', function () {
+                alert("567")
             })
            
 

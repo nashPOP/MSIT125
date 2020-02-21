@@ -43,6 +43,7 @@
     <EntitySetMapping Name="Order">
       <EntityTypeMapping TypeName="DELogisticsModel.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="WineryID" ColumnName="WineryID" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />

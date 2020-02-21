@@ -27,6 +27,7 @@ namespace WebApplication2.Models
         public string CustomerName { get; set; }
         public int WineryID { get; set; }
         public string Note { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Details> Order_Details { get; set; }

@@ -13,19 +13,19 @@ namespace WebApplication2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class DELogisticsEntities : DbContext
     {
         public DELogisticsEntities()
             : base("name=DELogisticsEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Inventory> Inventory { get; set; }
