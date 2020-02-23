@@ -1,4 +1,38 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model EntityModels.Members
+@{
+    ViewBag.Title = "Index";
 }
 
+<h2>Index</h2>
+
+<h2>登入頁面</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <p>@Model.Account1 </p>
+        <form method="post" action="~/">
+            <label></label>
+
+            <div class="form-group">
+                <label>密碼:</label>
+                <input type="text" name="Usepwd" id="Password" value="" placeholder="請輸入密碼" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="登入" /><input type="submit" value="登出" />
+            </div>
+            <div class="form-group">
+                <a href=""><input type="button" value="註冊新員工/廠商資料" class="btn btn-primary" /></a>
+            </div>
+            <div class="form-group">
+                <a href=""><input type="button" value="刪除員工/廠商資料" /></a>
+            </div>
+            <div class="form-group">
+                <a href=""><input type="button" value="修改員工/廠商資料" /></a>
+            </div>
+
+            <hr />
+        </form>
+
+   </div>
+}

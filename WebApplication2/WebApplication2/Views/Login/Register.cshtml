@@ -1,32 +1,66 @@
-﻿@model WebApplication2.Models.Account
+﻿@model EntityModels.Members
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "註冊";
+    List<SelectListItem> list = new List<SelectListItem>
+{
+new SelectListItem{Text="酒莊" ,Value="0"},
+new SelectListItem { Text = "員工", Value = "1" }
+};
 }
 
-<h4>註冊頁面</h4>
 
+<h2>註冊新會員</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @Html.EditorForModel();
+}
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+    <h4>建立新的帳戶。</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-sm-4">
+            @Html.LabelFor(m => m.fAccount, new { @class = "col-md-2 control-label" })
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.fAccount, "帳號", new { @class = "form-control" })
         </div>
     </div>
-}
+    <div class="form-group">
+        @Html.LabelFor(m => m.fPassWord, new { @class = "col-md-2 control-label" })
+        <div class="col-sm-4">
+            @Html.PasswordFor(m => m.fPassWord, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="註冊" />
+        </div>
+    </div>
+    
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            $()
+
+
+
+
+
+        </script>
+    }
+
+
+
+    @section scripts
+
+    {
+
+
+    }
+
 }

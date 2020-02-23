@@ -1,0 +1,49 @@
+﻿@model EntityModels.Members
+@{
+    ViewBag.Title = "LoginPage";
+    Layout = "";
+}
+
+<h2>歡迎 @Html.Encode(User.Identity.Name) 登入</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("LoginPage", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>使用本機帳戶登入。</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.fAccount, "帳號", new { @class = "col-md-2 control-label" })
+                    <div class="col-sm-7" id="name">
+                        @Html.TextBoxFor(m => m.fAccount, new { @class = "form-control", @id = "name" })
+                        @Html.ValidationMessageFor(m => m.fAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.fPassWord, new { @class = "col-md-2 control-label", })
+                    <div class="col-sm-7" id="password">
+                        @Html.PasswordFor(m => m.fPassWord, new { @class = "form-control", @id = "password" })
+                        @Html.ValidationMessageFor(m => m.fPassWord,"" ,new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-7">
+                        <input id="submit"  type="submit" value="登入" class="btn btn-primary" />
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("註冊為新使用者", "Register","Login",new {@class="btn btn-primary" })
+                </p>
+
+            }
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

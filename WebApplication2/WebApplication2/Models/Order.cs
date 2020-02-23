@@ -12,14 +12,17 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Account
+    public partial class Order
     {
-        public int AccountID { get; set; }
-        public string Account1 { get; set; }
-        public string PassWord { get; set; }
-        public string IdentityCode { get; set; }
+        public int OrderID { get; set; }
+        public string OrderDate { get; set; }
+        public string RequiredDate { get; set; }
+        public string ShippedDate { get; set; }
+        public string CustomerName { get; set; }
         public int WineryID { get; set; }
+        public string Note { get; set; }
     
+        public virtual Order_Details Order_Details { get; set; }
         public virtual Winery Winery { get; set; }
     }
 }
