@@ -1,6 +1,15 @@
-﻿@model WebApplication2.ModelViews.QueryModelByView
+﻿@model IQueryable<WebApplication2.StockEnter>
 @{
-    ViewBag.Title = "Stock";
+    ViewBag.Title = "存貨查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>()
+       {
+            new SelectListItem()
+            {
+                Text="--請選擇--",
+                Value="0"
+                }
+    };
 }
 
 <div class="card shadow mb-4">
@@ -8,15 +17,14 @@
         <h2>存貨查詢</h2>
     </div>
     <div class="card-body">
-        @Html.BeginForm(){
-        <form>
+        @using (Html.BeginForm())
+        {
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="TB_ProductID" id="LB_ProductID">商品編號：</label>
-                    @*@Html.LabelFor(Model=>Model.orderid,htmlAttributes:new {@class="" });*@
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBox("TB_ProductID","",new {@class="form-control" });
+                    @Html.TextBox("TB_ProductID","",new {@class="form-control" })
                 </div>
             </div>
             <div class="form-group row">
@@ -24,18 +32,15 @@
                     <label for="DDL_Category" id="LB_Category">分類：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Category", (IEnumerable<SelectListItem>)Model.Categoryddl, new { @class="form-control"})
+                    @Html.DropDownList("DDL_Category", list, new { @class="form-control"})
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
                     <label for="DDL_Product" id="lbProduct">商品名稱：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Product", (IEnumerable<SelectListItem>)Model.Productddl, new { @class = "form-control" })
-                    @*<select id="tbProduct" name="tbProduct" class="form-control">
-                        <option>葡萄酒</option>
-                        <option>白葡萄酒</option>
-                    </select>*@
+                    @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+                    
                 </div>
             </div>
             <div class="form-group row">
@@ -43,11 +48,7 @@
                     <label for="DDL_Winery" id="LB_Winery">酒莊：</label>
                 </div>
                 <div class="col-sm-3">
-                    @*@Html.DropDownList("DDL_Winery",(IEnumerable<SelectListItem>)Model.Wineryddl,new { @class = "form-control" })*@
-                    @*<select id="tbCategory" name="tbCategory" class="form-control">
-                        <option>酒莊1</option>
-                        <option>酒莊2</option>
-                    </select>*@
+                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-3"></div>
@@ -55,19 +56,19 @@
 
             <div class="form-group row">
                 <div class="col-sm-1">
-                    <label for="DDL_Winery" id="LB_Winery">容量：</label>
+                    <label for="DDL_Millilter" id="LB_Winery">容量：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Winery", (IEnumerable<SelectListItem>)Model.Millilterddl, new { @class = "form-control" })
+                    @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
                 </div>
-                <div class="col-sm-1"><button class="btn btn-primary"><span class="fa fa-plus"></span></button></div>
+                <div class="col-sm-1"></div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Shelf",(IEnumerable<SelectListItem>)Model.Shellddl,htmlAttributes:new { @class= "form-control" })
+                    @Html.DropDownList("DDL_Shelf", list, htmlAttributes:new { @class= "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
@@ -75,11 +76,9 @@
                 </div>
                 <div class="col-sm-3">
                     <input type="date" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" />
-
                 </div>
             </div>
             <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
-        </form>
         }
     </div>
 </div>
@@ -104,8 +103,6 @@
                             <th>商品名稱</th>
                             <th>酒莊</th>
                             <th>容量</th>
-                            <th>重量</th>
-                            <th>瓶數</th>
                             <th>入庫數量</th>
                             <th>倉儲位置</th>
                             <th>備註</th>
@@ -114,7 +111,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.StockEnterlist)
+                        @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
@@ -156,3 +153,85 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    
+    <script>
+        $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+                    //if ($('#DDL_Product').html == null) {
+                    //    var op = $('<option></option>');
+                    //    op.text("--請選擇--");
+                    //    op.val('0');
+                    //    $('#DDL_Product').append(op);
+                    //}
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ProductName);
+                        op.val(data.ProductID);
+                        $('#DDL_Product').append(op);
+                    })
+                })
+            }
+
+    function WineryData() {
+        $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.WineryName);
+                op.val(data.WineryID);
+                $('#DDL_Winery').append(op);
+            })
+        })
+    }
+
+    function CategoryData() {
+        $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.CategoryName);
+                op.val(data.CategoryID);
+                $('#DDL_Category').append(op);
+            })
+        })
+        }
+
+        function MillilterData() {
+            $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.MilliliterName);
+                    op.val(data.MillilterID);
+                    $('#DDL_Millilter').append(op);
+                })
+            })
+        }
+
+        function ShelfData() {
+            $.post("@Url.Action("GetShelf", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.ShelfPosition);
+                    op.val(data.ShelfID);
+                    $('#DDL_Shelf').append(op);
+                })
+            })
+        }
+
+        $(function () {
+            WineryData();
+            CategoryData();
+            ProductData();
+            MillilterData();
+            ShelfData();
+        })
+    </script>
+    
+    }

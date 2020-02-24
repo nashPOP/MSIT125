@@ -11,26 +11,25 @@ namespace WebApplication2
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Order
     {
-        [Display(Name ="訂單編號")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Order()
+        {
+            this.Order_Details = new HashSet<Order_Details>();
+        }
+    
         public int OrderID { get; set; }
-        [Display(Name = "酒莊")]
-        public Nullable<int> WineryID { get; set; }
-        [Display(Name = "客戶名稱")]
+        public int WineryID { get; set; }
         public string CustomerName { get; set; }
-        [Display(Name = "訂購時間")]
         public Nullable<System.DateTime> OrderDate { get; set; }
-        [Display(Name = "時間")]
         public Nullable<System.DateTime> RequiredDate { get; set; }
-        [Display(Name = "出貨時間")]
         public Nullable<System.DateTime> ShippedDate { get; set; }
-        [Display(Name = "備註")]
         public string Note { get; set; }
     
-        public virtual Order_Details Order_Details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Details> Order_Details { get; set; }
         public virtual Winery Winery { get; set; }
     }
 }

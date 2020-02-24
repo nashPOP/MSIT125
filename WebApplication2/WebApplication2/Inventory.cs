@@ -16,14 +16,12 @@ namespace WebApplication2
     {
         public int InventoryID { get; set; }
         public int ProductID { get; set; }
-        public int CategoryID { get; set; }
         public int MilliliterID { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public int Quantity { get; set; }
         public int ShelfID { get; set; }
     
-        public virtual Category Category { get; set; }
         public virtual Milliliter Milliliter { get; set; }
-        public virtual Shelf Shelf { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Shelf Shelf { get; set; }
     }
 }

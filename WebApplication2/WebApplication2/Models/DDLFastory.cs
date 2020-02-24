@@ -11,58 +11,74 @@ namespace WebApplication2.Models
     {
         FrogJumpEntities fj = new FrogJumpEntities();
 
-        public List<SelectListItem> getWinery()
+        /// <summary>
+        /// DropDownList Data By Winery
+        /// 酒莊下拉式選單
+        /// </summary>
+        /// <returns>{Int:WineryID,String:WineryName}</returns>
+        public IQueryable getWinery()
         {
-            var winery = fj.Winery.Select(p => p);
+            var winery = from n in fj.Winery
+                         select new
+                         {
+                             n.WineryID,
+                             n.WineryName
+                         };
 
-            List<SelectListItem> listItems = new List<SelectListItem>();
-
-            foreach(var item in winery)
-            {
-                SelectListItem s = new SelectListItem()
-                {
-                    Text = item.WineryName,
-                    Value = item.WineryID.ToString()
-                };
-                listItems.Add(s);
-            }
-            return listItems;
+            return winery;
         }
 
-        public List<SelectListItem> getCategory()
+        /// <summary>
+        /// DropDownList Data By Category
+        /// 酒莊下拉式選單
+        /// </summary>
+        /// <returns>{Int:CategoryID,String:CategoryName}</returns>
+        public IQueryable getCategory()
         {
-            var category = fj.Category.Select(p => p);
+            var category = fj.Category.Select(p => new {
+                p.CategoryID,
+                p.CategoryName
+            });
 
-            List<SelectListItem> listItems = new List<SelectListItem>();
-
-            foreach (var item in category)
-            {
-                SelectListItem s = new SelectListItem()
-                {
-                    Text = item.CategoryName,
-                    Value = item.CategoryID.ToString()
-                };
-                listItems.Add(s);
-            }
-            return listItems;
+            return category;
         }
 
-        public List<SelectListItem> getProduct()
+        /// <summary>
+        /// DropDownList Data By Product
+        /// 酒莊下拉式選單
+        /// 由CategoryID(產品分類)判斷
+        /// </summary>
+        /// <returns>{Int:ProductID,String:ProductName}</returns>
+        public IQueryable getProduct(int? id)
         {
             var products = fj.Product.Select(p => p);
 
-            List<SelectListItem> listItems = new List<SelectListItem>();
-
-            foreach (var item in products)
+            if (id != null && id != 0) 
             {
-                SelectListItem s = new SelectListItem()
-                {
-                    Text = item.ProductName,
-                    Value = item.ProductID.ToString()
-                };
-                listItems.Add(s);
+                var q = from n in products
+                        where n.CategoryID == id
+                        select new { n.ProductID, n.ProductName };
+                return q;
             }
-            return listItems;
+            else
+            {
+                var q=from n in products
+                      select new { n.ProductID, n.ProductName };
+                return q;
+            }
+
+        }
+
+        public IQueryable getMillilter()
+        {
+            var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.Milliliter1 });
+            return millilter;
+        }
+
+        public IQueryable getShelf()
+        {
+            var shelf = fj.Shelf.Select(p => new { p.ShelfID, p.ShelfPosition });
+            return shelf;
         }
     }
 }

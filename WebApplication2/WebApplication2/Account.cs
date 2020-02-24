@@ -14,6 +14,7 @@ namespace WebApplication2
     
     public partial class Account
     {
+        public int id { get; set; }
         public string Account1 { get; set; }
         public string Password { get; set; }
         public string IdentityCode { get; set; }

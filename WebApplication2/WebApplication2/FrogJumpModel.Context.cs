@@ -25,15 +25,15 @@ namespace WebApplication2
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Inventory> Inventory { get; set; }
-        public virtual DbSet<Milliliter> Milliliter { get; set; }
-        public virtual DbSet<Shelf> Shelf { get; set; }
-        public virtual DbSet<StockEnter> StockEnter { get; set; }
-        public virtual DbSet<Order_Details> Order_Details { get; set; }
-        public virtual DbSet<Winery> Winery { get; set; }
         public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Milliliter> Milliliter { get; set; }
         public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Order_Details> Order_Details { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<Shelf> Shelf { get; set; }
+        public virtual DbSet<Winery> Winery { get; set; }
+        public virtual DbSet<Inventory> Inventory { get; set; }
+        public virtual DbSet<StockEnter> StockEnter { get; set; }
     }
 }
