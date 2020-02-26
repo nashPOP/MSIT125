@@ -96,37 +96,76 @@ namespace WebApplication2.Models
         public IQueryable<StockEnter> getAllStockEnter()
         {
             var StockEnterTable = db.StockEnter.Select(p => p);
+            
             return StockEnterTable;
         }
 
-        public IQueryable<Order> getStockEnter(ModelViews.QOrder qOrder)
+        public string StockEnterEdit(StockEnter stock)
         {
-            var table = getAllOrder().Select(p => p);
+            var stockenter = db.StockEnter.FirstOrDefault(p => p.StockEnterID == stock.StockEnterID);
+            stockenter = new StockEnter()
+            {
+                WineryID = stock.WineryID,
+                ProductID = stock.ProductID,
+                MilliliterID = stock.MilliliterID,
+                ShelfID = stock.ShelfID,
+                Quantity = stock.Quantity,
+                Note = stock.Note,
+                StockEnterDate = stock.StockEnterDate
+            };
+            db.SaveChanges();
+            return "編輯成功";
+        }
 
-            //if (!string.IsNullOrEmpty(qOrder.TB_OrderID))
-            //{
-            //    table = table.Where(p => p.OrderID.ToString() == qOrder.TB_OrderID.Trim());
-            //}
-            //if (!string.IsNullOrEmpty(qOrder.DDL_Winery))
-            //{
-            //    table = table.Where(p => p.WineryID.ToString() == qOrder.DDL_Winery.Trim());
-            //}
-            //if (!string.IsNullOrEmpty(qOrder.TB_CustomerName))
-            //{
-            //    table = table.Where(p => p.CustomerName.ToString() == qOrder.TB_CustomerName.Trim());
-            //}
-            //if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
-            //{
-            //    table = table.Where(p => p.OrderDate == qOrder.D_OrderDate);
-            //}
-            //if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
-            //{
-            //    table = table.Where(p => p.RequiredDate == qOrder.D_RequiredDate);
-            //}
-            //if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
-            //{
-            //    table = table.Where(p => p.ShippedDate == qOrder.D_ShippedDate);
-            //}
+        public string StockEnterDelete(int stid)
+        {
+            try
+            {
+                var stockenter = db.StockEnter.FirstOrDefault(p => p.StockEnterID == stid);
+                db.StockEnter.Remove(stockenter);
+                db.SaveChanges();
+                return "刪除成功";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public StockEnter getStockEnterByid(int id)
+        {
+            var table = db.StockEnter.FirstOrDefault(p => p.StockEnterID == id);
+            return table;
+        }
+
+        public IEnumerable<StockEnter> getStockEnter(StockEnter stockEnter)
+        {
+            var table = getAllStockEnter().Select(p => p);
+
+            if (!string.IsNullOrEmpty(stockEnter.StockEnterID.ToString()))
+            {
+                table = table.Where(p=>p.StockEnterID==stockEnter.StockEnterID);
+            }
+            if (stockEnter.WineryID!=0)
+            {
+                table = table.Where(p => p.WineryID == stockEnter.WineryID);
+            }
+            if (stockEnter.ProductID!=0)
+            {
+                table = table.Where(p => p.ProductID == stockEnter.ProductID);
+            }
+            if (stockEnter.MilliliterID!=0)
+            {
+                table = table.Where(p => p.MilliliterID == stockEnter.MilliliterID);
+            }
+            if (stockEnter.ShelfID!=0)
+            {
+                table = table.Where(p => p.ShelfID == stockEnter.ShelfID);
+            }
+            if(stockEnter.StockEnterDate!=null)
+            {
+                table = table.Where(p => p.StockEnterDate == stockEnter.StockEnterDate);
+            }
 
             return table;
         }

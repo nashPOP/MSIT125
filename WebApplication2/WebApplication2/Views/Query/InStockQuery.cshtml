@@ -75,10 +75,10 @@
                     <label for="D_StockEnterDate" id="LB_StockEnterDate">入庫時間：</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="date" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" />
+                    <input type="text" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" />
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+            <button id="Btn_StockEnterQuery" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
         }
     </div>
 </div>
@@ -93,8 +93,6 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-
-
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -142,8 +140,8 @@
                                     @Html.DisplayFor(modelItem => item.StockEnterDate)
                                 </td>
                                 <td class="text-center">
-                                    @Html.ActionLink("編輯", "", new { @class = "btn btn-success" });
-                                    @Html.ActionLink("刪除", "", new { @class = "btn btn-danger" });
+                                    <a id="Btn_Edit" href="@Url.Action("StockEnterEdit","Query",new { id=item.StockEnterID})" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                    <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                                 </td>
                             </tr>
                         }
@@ -166,12 +164,12 @@
             $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
                 function (datas) {
                     $('#DDL_Product').empty();
-                    //if ($('#DDL_Product').html == null) {
-                    //    var op = $('<option></option>');
-                    //    op.text("--請選擇--");
-                    //    op.val('0');
-                    //    $('#DDL_Product').append(op);
-                    //}
+                    
+                    var allop = $('<option></option>');
+                    allop.text("--請選擇--");
+                    allop.val('0');
+                    $('#DDL_Product').append(allop);
+                    
                     $.each(datas, function (Idx, data) {
                         var op = $('<option></option>');
                         op.text(data.ProductName);
@@ -208,9 +206,10 @@
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
                     op.text(data.MilliliterName);
-                    op.val(data.MillilterID);
+                    op.val(data.MilliliterID);
                     $('#DDL_Millilter').append(op);
                 })
+
             })
         }
 
@@ -225,12 +224,60 @@
             })
         }
 
+        $('[id="Btn_Delete"]').click(function () {
+            var invid = $(this).attr("data-StockEnterId");
+        $.post("@Url.Action("StockEnterDelete", "Query")", { 'stockenterid': stid },
+            function (datas) {
+                console.log(datas);
+                alert(datas.Message);
+                location.reload();
+            })
+        })
+
+        function btn_edit(sid) {
+            window.location.href = "@Url.Action("StockEnterEdit","Query")";
+        })
+
+        $('#Btn_StockEnterQuery').click(function () {
+            $.post("@Url.Action("StockEnter","Query")",
+                {
+                    'id': $('#TB_ProductID').val(),
+                    'pid': $('#DDL_Product').val(),
+                    'wid': $('#DDL_Winery').val(),
+                    'mid': $('#DDL_Millilter').val(),
+                    'sid': $('#DDL_Shelf').val(),
+                    'stockenterdate': $('#D_StockEnterDate').val()
+                }, function (datas) {
+                    $.each(datas,function (i,data) {
+                        var tr = $('<tr></tr>');
+                        var productid = $('<td></td>').text(data.ProductID);
+                        var productname = $('<td></td>').text(data.ProductName);
+                        var winery = $('<td></td>').text(data.Winery);
+                        var milliliter = $('<td></td>').text(data.Milliliter);
+                        var quantity = $('<td></td>').text(data.Quantity);
+                        var shelf = $('<td></td>').text(data.Shelf);
+                        var note = $('<td></td>').text(data.Note);
+                        var Date = $('<td></td>').text(data.StockEnterDate);
+                        var btn = $('<td id="btntd"></td>');
+                        var sid = data.StockEnterID;
+                        btn.append($('<a id="Btn_Edit" href="" class="btn btn-success">&nbsp;編輯</a>').append($('<span class="fa fa-edit" ></span>')));
+                        btn.append($('<button id="Btn_Delete" class="btn btn-danger">&nbsp;刪除</button>').attr('data').append($('<span class="fa fa-trash" ></span>')));
+                        tr.append(productid).append(productname).append(winery).append(milliliter).
+                            append(quantity).append(shelf).append(note).append(Date).append(btn);
+                    })
+                    
+                })
+        })
+
         $(function () {
             WineryData();
             CategoryData();
             ProductData();
             MillilterData();
             ShelfData();
+
+            console.log("");
+            $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
         })
     </script>
     

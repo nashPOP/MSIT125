@@ -73,12 +73,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        $('#DDL_Category').change(function () {
-            let categoryid = $(this).val();
-            ProductData(categoryid);
-        })
+        //$('#DDL_Category').change(function () {
+        //    let categoryid = $(this).val();
+        //    ProductData(categoryid);
+        //})
 
         function ProductData(id) {
+            
             $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
                 function (datas) {
                     $('#ProductID').empty();
@@ -94,7 +95,7 @@
                         op.val(data.ProductID);
                         $('#ProductID').append(op);
                     })
-                   
+                   $('#ProductID option[value="@Model.ProductID"]').attr('selected',true);
                 })
         }
 
@@ -103,9 +104,10 @@
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
                     op.text(data.MilliliterName);
-                    op.val(data.MillilterID);
+                    op.val(data.MilliliterID);
                     $('#MilliliterID').append(op);
                 })
+                $('#MilliliterID option[value="@Model.MilliliterID"]').attr('selected',true);
             })
         }
 
@@ -117,10 +119,11 @@
                     op.val(data.ShelfID);
                     $('#ShelfID').append(op);
                 })
+                $('#ShelfID option[value="@Model.ShelfID"]').attr('selected',true);
             })
         }
 
-        function CategoryData() {
+        @*function CategoryData() {
             $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
@@ -129,7 +132,7 @@
                     $('#DDL_Category').append(op);
                 })
             })
-        }
+        }*@
 
         $(function () {
             //CategoryData();
@@ -137,9 +140,6 @@
             MillilterData();
             ShelfData();
 
-            $('#ProductID option[value=@Model.ProductID]').attr('selected',true);
-            $('#MilliliterID option[value=@Model.MilliliterID]').attr('selected', true);
-            $('#ShelfID option[value=@Model.ShelfID]').attr('selected', true);
 
         })
     </script>

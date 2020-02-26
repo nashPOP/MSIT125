@@ -2050,6 +2050,7 @@
     <Content Include="Views\Query\InventoryQuery.cshtml" />
     <Content Include="Views\Query\OrderEdit.cshtml" />
     <Content Include="Views\Query\InventoryEdit.cshtml" />
+    <Content Include="Views\Query\StockEnterEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

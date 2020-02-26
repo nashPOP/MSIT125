@@ -70,14 +70,32 @@ namespace WebApplication2.Controllers
             return RedirectToAction("OrderEdit", order.OrderID);
         }
 
-        public ActionResult Order_DetailEdit(int oid,int pid,int qty)
+        public ActionResult Order_DetailEdit(Order_Details item,int oid,int pid,int qty)
         {
-            string message = fas.EditOrderDetail(oid,pid,qty);
-            if (!string.IsNullOrEmpty(message))
+            if(Session["OrderDetailList"]!=null)
             {
-                return Json("{'message':" + message + "}", JsonRequestBehavior.AllowGet);
+                List<Order_Details> details = Session["OrderDetailList"] as List<Order_Details>;
+                Order_Details order_Details = new Order_Details() { OrderID = oid, ProductID = pid, Quantity = qty };
+                details.Add(order_Details);
+
+                Session["OrderDetailList"] = details;
+                return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
             }
-            return Json("{'message':"+message+"}", JsonRequestBehavior.AllowGet);
+            else
+            {
+                List<Order_Details> details = new List<Order_Details>();
+                Order_Details order_Details = new Order_Details() { OrderID = oid, ProductID = pid, Quantity = qty };
+                details.Add(order_Details);
+
+                Session["OrderDetailList"] = details;
+                return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
+            }
+            //string message = fas.EditOrderDetail(oid,pid,qty);
+            //if (!string.IsNullOrEmpty(message))
+            //{
+            //    return Json("{'message':" + message + "}", JsonRequestBehavior.AllowGet);
+            //}
+            //return Json("{'message':"+message+"}", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult OrderDelete()
@@ -95,18 +113,44 @@ namespace WebApplication2.Controllers
             return View(StockQuery);
         }
 
-        //[HttpPost]
-        //public ActionResult InStockQuery(FJInStock fjIS)
-        //{
-        //    FrogJumpEntities db = new FrogJumpEntities();
-        //    var Query = Model.Select(p => p);
-        //    if (!string.IsNullOrEmpty(fjIS.id))
-        //    {
-        //        Query.Where(ID => ID.id == fjIS.id);
-        //    }
 
-        //    return View(Query);
-        //}
+        public ActionResult StockEnterQuery(int id, int pid, int wid, int mid, int sid, DateTime stockenterdate)
+        {
+            StockEnter stock = new StockEnter() { StockEnterID = id, ProductID = pid, WineryID = wid, MilliliterID = mid,
+                ShelfID = sid, StockEnterDate = stockenterdate };
+            var query=fas.getStockEnter(stock).Select(p=>new
+            {
+                p.StockEnterID,
+                p.WineryID, p.Winery.WineryName,
+                p.ProductID, p.Product.ProductName,
+                p.MilliliterID, p.Milliliter.Milliliter1,
+                p.ShelfID, p.Shelf.ShelfPosition,
+                p.Quantity,
+                p.Note,
+                p.StockEnterDate
+            });
+
+            return View(query);
+        }
+
+        public ActionResult StockEnterEdit(int id)
+        {
+            StockEnter StockEdit = fas.getStockEnterByid(id);
+            return View(StockEdit);
+        }
+
+        [HttpPost]
+        public ActionResult StockEnterEdit(StockEnter stock)
+        {
+            var StockEdit = fas.StockEnterEdit(stock);
+            return View(StockEdit);
+        }
+
+        public ActionResult StockEnterDelete(int stid)
+        {
+            var StockDelete = fas.StockEnterDelete(stid);
+            return View(StockDelete);
+        }
         #endregion
 
         #region Inventory Query Web

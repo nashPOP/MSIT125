@@ -11,7 +11,8 @@ namespace WebApplication2
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class StockEnter
     {
         public int StockEnterID { get; set; }
@@ -21,6 +22,7 @@ namespace WebApplication2
         public int MilliliterID { get; set; }
         public int Quantity { get; set; }
         public string Note { get; set; }
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> StockEnterDate { get; set; }
     
         public virtual Milliliter Milliliter { get; set; }

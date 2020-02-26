@@ -11,6 +11,17 @@
             Value="0"
         }
     };
+
+    if ((List<Order_Details>)Session["OrderDetail"] != Model.Order_details)
+    {
+        Session.Remove("OrderDetailList");
+        Session["OrderDetailList"] = Model.Order_details;
+    }
+    else
+    {
+        Session["OrderDetailList"] = Model.Order_details;
+    }
+
 }
 
 <div>
@@ -35,7 +46,7 @@
                         @Html.LabelFor(model => model.Order.WineryID, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @Html.DropDownList("DDL_Winery", list,  htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("DDL_Winery", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Order.WineryID, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
@@ -116,23 +127,28 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Order_details)
+                @{int count = 0; }
+                @foreach (var item in (Session["OrderDetailList"] as List<Order_Details>))
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelitem => item.ProductID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelitem => item.Product.ProductName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelitem => item.Quantity)
-                        </td>
-                        <td class="text-center">
-                            <button id="btnEdit" data-Orderid="@item.OrderID" data-Prodcutid="@item.ProductID" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
-                            <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                        </td>
-                    </tr>
+
+                <tr id="@count" data-item="@item">
+                    <td id="productid">
+                        @Html.DisplayFor(modelitem => item.ProductID)
+                    </td>
+                    <td id="productname">
+                        @Html.DisplayFor(modelitem => item.Product.ProductName)
+                    </td>
+                    <td id="quantity">
+                        @Html.DisplayFor(modelitem => item.Quantity)
+                    </td>
+                    <td class="text-center">
+                        <button id="btnEdit" data-Orderid="@item.OrderID" data-Prodcutid="@item.ProductID" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
+                        <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                    </td>
+                    @{count++;
+                    }
+
+                </tr>
                 }
             </tbody>
         </table>
@@ -217,10 +233,6 @@
             }
     });
 
-    //$('#DDL_Winery').on('change', function () {
-    //    $('#DDL_Winery option[value=' + $(this).val() + ']').attr('selected', true);
-    //})
-
         $(function () {
             WineryData();
             ProductData();
@@ -232,24 +244,36 @@
                 $.post("@Url.Action("Dialog_OrderDetail","Query")",
                     { 'id': orderid, 'pid': productid },
                     function (datas) {
-                        $.each(datas, function (idx, data) {
-                            $('#Dlog_ProductName').val(data.ProductID);
-                            $('#Dlog_Quantity').val(data.Quantity);
-                        })
+                            $('#Dlog_ProductName').val(datas[0].ProductID);
+                        $('#Dlog_Quantity').val(datas[0].Quantity);
+                        var tid = $('[id="btnEdit"]').parents('tr').attr('data-item');
+                        $('#Btn_Sava').attr('data-td', tid);
                     })
             });
 
             $('[id="Btn_Sava"]').on('click', function () {
-                //var oid = $('#OrderID').val();
                 var oid ='@Model.Order.OrderID';
-                var pid = $('#Dlog_ProductName').val();
+                var pid = $('#Dlog_ProductName :selected').val();
+                var pname = $('#Dlog_ProductName :selected').text();
                 var qty = $('#Dlog_Quantity').val();
-                $.post("@Url.Action("Order_DetailEdit","Query")", { 'oid': oid, 'pid': pid, 'qty': qty },
+                var tdid = $(this).attr('data-td');
+                //var tr = $('tr [id="' + tdid + '"]');
+                $.post("@Url.Action("Order_DetailEdit","Query")", { 'item':tdid,'oid': oid, 'pid': pid, 'qty': qty },
                     function (datas) {
-                        $.each(datas, function (i, data) {
-                            alert(data.message);
-                        })
+                        if (datas[0].message != 0) {
+                            alert("錯誤");
+                            $('#EditDialog').dialog("close");
+                            window.location.reload();
+                        }
                     })
+                //tr.children('#productid').text(pid);
+                //tr.children('#productname').text(pname);
+                //tr.children('#quantity').text(qty);
+                
+            });
+
+            $('[id="Btn_Not"]').on('click', function () {
+                $('#EditDialog').dialog("close");
             });
         })
 
