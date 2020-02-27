@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using WebApplication2.Models;
 namespace WebApplication2.ModelView
 {
     public class SelectClick
     {
-        DELogisticsEntities db = new DELogisticsEntities();
+        Frog_JumpEntities db = new Frog_JumpEntities();
 
         public IQueryable getWinery()
         {
-            var winery = db.Wineries.Select(w => new
+            var winery = db.Winery.Select(w => new
             {
                 w.WineryName,
                 w.WineryID
@@ -22,7 +22,7 @@ namespace WebApplication2.ModelView
 
         public IQueryable getProductName()
         {
-            var product = db.Products.Select(p => new
+            var product = db.Product.Select(p => new
             {
                 p.ProductName,
                 p.ProductID
@@ -33,7 +33,7 @@ namespace WebApplication2.ModelView
 
         public IQueryable getCategory()
         {
-            var category = db.Categories.Select(c => new
+            var category = db.Category.Select(c => new
             {
                 c.CategoryID,
                 c.CategoryName
@@ -44,7 +44,7 @@ namespace WebApplication2.ModelView
 
         public IQueryable getMilliliter()
         {
-            var milliliter = db.Milliliters.Select(m => new
+            var milliliter = db.Milliliter.Select(m => new
             {
                 m.MilliliterID,
                 m.capacity
@@ -55,7 +55,7 @@ namespace WebApplication2.ModelView
 
         public IQueryable getShelf()
         {
-            var shelf = db.Shelves.Select(s => new
+            var shelf = db.Shelf.Select(s => new
             {
                 s.ShelfID,
                 s.ShelfPosition

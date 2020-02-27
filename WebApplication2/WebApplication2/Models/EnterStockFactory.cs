@@ -10,7 +10,7 @@ namespace WebApplication2.Models
 {
     public class EnterStockFactory
     {
-        private readonly DELogisticsEntities db = new DELogisticsEntities();
+        private readonly Frog_JumpEntities db = new Frog_JumpEntities();
 
         public CEnterStock getByWinery (int WineryID)
         {          
