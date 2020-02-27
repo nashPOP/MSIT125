@@ -10,7 +10,7 @@
             cursor: pointer
         }
 
-        .orderPick {
+        .orderPick, .btn-primary {
             margin-right: 5px;
         }
 
@@ -22,9 +22,8 @@
             text-align: center;
         }
 
-        #Add {
-            position: relative;
-            left: 430px
+        .Add {
+            text-align:right;
         }
     </style>
 }
@@ -64,11 +63,11 @@
                             }
                             <tr>
                                 <td>@item.OrderID</td>
-                                <td>@item.RequiredDate.ToString().Substring(0,9)</td>
+                                <td>@item.RequiredDate.ToString().Substring(0, 9)</td>
                                 <td>@status</td>
                                 <td>
                                     <input type="button" class="btn btn-success orderPick" value="揀貨" data-orderpick="@item.OrderID" />
-                                    <input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="@item.OrderID " />
+                                    <input type="button" class="btn btn-danger btn_orderDetail"  id="opener" value="詳細資料..." data-orderId="@item.OrderID " />
                                 </td>
                             </tr>
                         }
@@ -92,117 +91,37 @@
             </div>
 
         </div>
-       
 
-        
+
+
     </div>
 </div>
-
 
 
 @section scripts
     {
     <script>
-        //$(function () {
-        //    $("#dialog").dailog({
-        //        autoOpen: false,
-        //        show: {
-        //            effect: "blind",
-        //            duration: 1000
-        //        },
-        //        hide: {
-        //            effect: "explode",
-        //            duration: 1000
-        //        }
-        //    });
+        $(function () {
+            $("#dialog").dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                height: 600,
+                width:800
+                
+            });
 
-        //    $(".btn_orderDetail").on("click", function () {
-        //        $("#dialog").dialog("open");
-        //    });
-        //});
+            $("#opener").on("click", function () {
+                $("#dialog").dialog("open");
+            });
+        });
 
-    </script>
-
-    <script>
-
-        /* $('.btn_orderDetail').click(function () {
-              var id = $(this).attr('data-orderId');
-              console.log($('#table_orderDetail').children());
-
-              $('#table_orderDetail').children().remove();
-
-              $.get("/Home/order_Detail",{orderID: id},
-                  function (datas) {
-
-                      $(datas).each(function (idx, value) {
-
-
-                          var tr = $('<tr></tr>')
-                          var td1 = $('<td></td>')
-                          var td2 = $('<td></td>')
-                          var td3 = $('<td></td>')
-                          var td4 = $('<td class="td_Fix"></td>')
-                          var button = $('<input type="button" value="修改" class="btn btn-danger btn_Fix" data-OrderDetailID="' + value.OrderID + '"/>')
-
-                          td1.text(value.OrderID)
-                          td2.text(value.ProductName)
-                          td3.text(value.Quantity)
-                          td4.append(button)
-
-                          tr.append(td1).append(td2).append(td3).append(td4)
-
-                          $('#table_orderDetail').append(tr)
-
-                      })
-
-                  })
-              $("#opener").remove();
-              var newButton = $('<input style="position:relative ;left:800px" id="opener" type="button" value="新增" class="btn btn-success" />')
-
-              $('#dialog').append(newButton);
-
-          })
-          */
-    </script>
-    @*訂單詳細資料*@
-    <script>
-        //function DrderDetail_table () {
-        //    var id = $(this).attr('data-orderId');
-        //    $('#table_orderDetail').children().remove();
-
-        //    $.get("/Home/order_Detail", { orderID: id },
-        //        function (datas) {
-
-        //            $(datas).each(function (idx, value) {
-
-
-        //                var tr = $('<tr></tr>')
-        //                var td1 = $('<td></td>')
-        //                var td2 = $('<td></td>')
-        //                var td3 = $('<td><input type="number" value="" /></td>')
-        //                var td4 = $('<td class="td_Fix"></td>')
-        //                var button = $('<input type="button"class="btn btn-danger btn_Fix"  value="修改"  data-OrderID="' + value.OrderID + '" data-OrderDetailID ="' + value.Order_Detail_ID + '"/>')
-
-        //                td1.text(value.OrderID)
-        //                td2.text(value.ProductName)
-        //                td3.text(value.Quantity)
-        //                td4.append(button)
-
-        //                tr.append(td1).append(td2).append(td3).append(td4)
-
-        //                $('#table_orderDetail').append(tr)
-
-        //            })
-
-        //        })
-
-        //    var newButton = $('<input style="position:relative ;left:800px" id="Add" type="button" value="新增" class="btn btn-success" />')
-
-        //    $('#dialog').append(newButton);
-
-        //}
-    </script>
-    <script>
         function Order_detail_Creat() {
             var id = $(this).attr('data-orderId');
             $('#table_orderDetail').children().remove();
@@ -234,18 +153,13 @@
                 })
             console.log($(this).attr('data-OrderDetailID'))
 
-            var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success" data-OrderID ="' + $(this).attr('data-OrderID') + '" />')
+            var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success Add" data-OrderID ="' + $(this).attr('data-OrderID') + '" />')
 
             $('#dialog').append(newButton);
         }
-    </script>
-    <script>
-        $('#tbody_For_Order').on('click', '.btn_orderDetail', Order_detail_Creat)
-    </script>
 
 
-    @*//頁簽可撿貨AJAX*@
-    <script>
+        $('#tbody_For_Order').on('click', '.btn_orderDetail', Order_detail_Creat);
 
         let textstatus
         $('#CanDrive').click(function () {
@@ -273,20 +187,8 @@
                     $('#tbody_For_Order').append(tr)
                 })
             })
-
         })
-    </script>
 
-    @*//揀貨按鈕*@
-    <script>
-
-        $('#tbody_For_Order').on("click", '.orderPick', function () {
-            alert("123","123")
-        })
-    </script>
-
-    @*//詳細資料裡的修改*@
-    <script>
 
         $('#dialog').on("click", '.btn_Fix', function () {
             console.log($(this).attr('data-OrderID'));
@@ -334,9 +236,9 @@
                 Quantity: $(this).parent().prevAll().eq(0).children().eq(0).val()
             }, function (data) {
                 alert("更新成功!")
-                
-                })
-            
+
+            })
+
 
         })
 
@@ -345,7 +247,7 @@
             var id = $(this).attr('data-orderId');
             $('#table_orderDetail').children().remove();
             $('#Add').remove();
-            var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success" data-OrderID ="' + $(this).attr('data-orderID') + '" />')
+            var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success Add" data-OrderID ="' + $(this).attr('data-orderID') + '" />')
 
             $('#dialog').append(newButton);
             console.log($(this).attr('data-orderID'));
@@ -398,6 +300,11 @@
         })
     </script>
 
+
+
+
+
+    </script>
 
 
 }
