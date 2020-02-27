@@ -11,7 +11,7 @@ namespace WebApplication2.Controllers
 {
     public class LoginController : Controller
     {
-        DELogisticsEntities1 db = new DELogisticsEntities1();
+        Frog_JumpEntities db = new Frog_JumpEntities();
 
         // GET: Login
         public ActionResult Index()
@@ -24,11 +24,11 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult Delete(string account1)
         {
-            DELogisticsEntities1 db = (new DELogisticsEntities1());
-            var mems = db.Accounts.Where(p => p.Account1 == account1).FirstOrDefault();
+            Frog_JumpEntities db = new Frog_JumpEntities();
+            var mems = db.Account.Where(p => p.Account1 == account1).FirstOrDefault();
             if (mems != null)
             {
-                db.Accounts.Remove(mems);
+                db.Account.Remove(mems);
                 db.SaveChanges();
             }
             return RedirectToAction("LoginPage");
@@ -47,13 +47,13 @@ namespace WebApplication2.Controllers
         public ActionResult EditPassWord(string account1, string Password)
         {
 
-            DELogisticsEntities1 db = new DELogisticsEntities1();
-            var mem = db.Accounts.FirstOrDefault(t => t.PassWord != Password);
+            Frog_JumpEntities db = new Frog_JumpEntities();
+            var mem = db.Account.FirstOrDefault(t => t.Password != Password);
             if (mem == null)
             {
-               
-                mem.PassWord = Password;
-            
+
+                mem.Password = Password;
+
 
                 db.SaveChanges();
             }
@@ -72,88 +72,88 @@ namespace WebApplication2.Controllers
 
         }
 
-//        [ValidateAntiForgeryToken]
-//        [HttpPost]
-//        public ActionResult Register(string WineryName, string WineryPhone,string WineryAddress, string WineryEmail)
-//        {
-//            DELogisticsEntities1 db = new DELogisticsEntities1();
-//            if (!db.Wineries.All(P=>P.WineryName==WineryName&& P.WineryPhone ==             if (!db.Wineries.All(P => P.WineryName == WineryName && P.WineryPhone == WineryName && P.WineryName == WineryName && P.WineryName == WineryName,)
-//&& P.WineryName == WineryName &&P.WineryName == WineryName,)
-//            {
-//                db.Accounts.Add(new Account { Account1 = account1, PassWord = password,IdentityCode="A",});
-//                db.SaveChanges();
+        //        [ValidateAntiForgeryToken]
+        //        [HttpPost]
+        //        public ActionResult Register(string WineryName, string WineryPhone,string WineryAddress, string WineryEmail)
+        //        {
+        //            DELogisticsEntities1 db = new DELogisticsEntities1();
+        //            if (!db.Wineries.All(P=>P.WineryName==WineryName&& P.WineryPhone ==             if (!db.Wineries.All(P => P.WineryName == WineryName && P.WineryPhone == WineryName && P.WineryName == WineryName && P.WineryName == WineryName,)
+        //&& P.WineryName == WineryName &&P.WineryName == WineryName,)
+        //            {
+        //                db.Accounts.Add(new Account { Account1 = account1, PassWord = password,IdentityCode="A",});
+        //                db.SaveChanges();
 
-//                return RedirectToAction("LoginPage");
+        //                return RedirectToAction("LoginPage");
 
-//            }
-//            else
-//            {
+        //            }
+        //            else
+        //            {
 
-//                return View();
+        //                return View();
 
-//            }
-
-
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
+        //            }
 
 
+        //      }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LoginPage(string Account1, string PassWord)
-        {
-            
-            DELogisticsEntities1 db = new DELogisticsEntities1();
-            var q = db.Accounts.FirstOrDefault(p => p.Account1 == Account1 && p.PassWord == PassWord);
-            //這邊未來可能要改action位置
-            if (q != null && q.IdentityCode.Trim() == "A")
-            {
-                Session["Account"] = q.Account1.ToString();
-                Session["IdentityCode"] = q.IdentityCode.ToString();
-                return RedirectToAction("EditPassWord", "Login");
+        //public ActionResult Register()
+        //{
+        //    return View();
+        //}
 
-            }
-            //這邊未來可能要改action位置
-            else if (q != null && q.IdentityCode.Trim() == "B")
-            {
-                Session["Account"] = q.Account1.ToString();
-                Session["IdentityCode"] = q.IdentityCode.ToString();
-                return RedirectToAction("EditPassWord", "Login");
-            }
-            else if (string.IsNullOrEmpty(Account1) && string.IsNullOrEmpty(PassWord) && q == null)
-            {
-                ViewBag.message = "未檢查到帳號,轉至註冊頁面";
-                return RedirectToAction("Register", "Login");
-            }
-            else 
-            {
-                return View();
-            }
-            //var q = db.Accounts.FirstOrDefault(p => p.Account1 == p.Account1 && p.PassWord == p.PassWord);
 
-            //if (q != null)
-            //{
-            //    Session["Account"] = q.Account1.ToString();
-            //    Session["IdentityCode"] = q.IdentityCode.ToString();
-            //    return RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    return View();
 
-            //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LoginPage(string Account1, string PassWord)
+        //{
 
-        }
+        //    DELogisticsEntities1 db = new DELogisticsEntities1();
+        //    var q = db.Accounts.FirstOrDefault(p => p.Account1 == Account1 && p.PassWord == PassWord);
+        //    //這邊未來可能要改action位置
+        //    if (q != null && q.IdentityCode.Trim() == "A")
+        //    {
+        //        Session["Account"] = q.Account1.ToString();
+        //        Session["IdentityCode"] = q.IdentityCode.ToString();
+        //        return RedirectToAction("EditPassWord", "Login");
 
-        public ActionResult LoginPage()
-        {
-            return View();
-        }
+        //    }
+        //    //這邊未來可能要改action位置
+        //    else if (q != null && q.IdentityCode.Trim() == "B")
+        //    {
+        //        Session["Account"] = q.Account1.ToString();
+        //        Session["IdentityCode"] = q.IdentityCode.ToString();
+        //        return RedirectToAction("EditPassWord", "Login");
+        //    }
+        //    else if (string.IsNullOrEmpty(Account1) && string.IsNullOrEmpty(PassWord) && q == null)
+        //    {
+        //        ViewBag.message = "未檢查到帳號,轉至註冊頁面";
+        //        return RedirectToAction("Register", "Login");
+        //    }
+        //    else 
+        //    {
+        //        return View();
+        //    }
+        //    //var q = db.Accounts.FirstOrDefault(p => p.Account1 == p.Account1 && p.PassWord == p.PassWord);
+
+        //    //if (q != null)
+        //    //{
+        //    //    Session["Account"] = q.Account1.ToString();
+        //    //    Session["IdentityCode"] = q.IdentityCode.ToString();
+        //    //    return RedirectToAction("Index");
+        //    //}
+        //    //else
+        //    //{
+        //    //    return View();
+
+        //    //}
+
+        //}
+
+        //public ActionResult LoginPage()
+        //{
+        //    return View();
+        //}
     }
 }
 

@@ -19,6 +19,7 @@
     <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Inventory" Relationship="Self.FK_Inventory_Category" FromRole="Category" ToRole="Inventory" />
     <NavigationProperty Name="StockEnter" Relationship="Self.FK_StockEnter_Category" FromRole="Category" ToRole="StockEnter" />
+    <NavigationProperty Name="Product" Relationship="Model1.FK_Product_Category" FromRole="Category" ToRole="Product" />
   </EntityType>
   <EntityType Name="Inventory">
     <Key>
@@ -33,6 +34,7 @@
     <NavigationProperty Name="Category" Relationship="Self.FK_Inventory_Category" FromRole="Inventory" ToRole="Category" />
     <NavigationProperty Name="Milliliter" Relationship="Self.FK_Inventory_Milliliter" FromRole="Inventory" ToRole="Milliliter" />
     <NavigationProperty Name="Shelf" Relationship="Self.FK_Inventory_Shelf" FromRole="Inventory" ToRole="Shelf" />
+    <NavigationProperty Name="Product" Relationship="Model1.FK_Inventory_Product" FromRole="Inventory" ToRole="Product" />
   </EntityType>
   <EntityType Name="Milliliter">
     <Key>
@@ -41,21 +43,6 @@
     <Property Name="MilliliterID" Type="Int32" Nullable="false" />
     <Property Name="capacity" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Inventory" Relationship="Self.FK_Inventory_Milliliter" FromRole="Milliliter" ToRole="Inventory" />
-  </EntityType>
-  <EntityType Name="Order">
-    <Key>
-      <PropertyRef Name="OrderID" />
-    </Key>
-    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="OrderDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="RequiredDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShippedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="WineryID" Type="Int32" Nullable="false" />
-    <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Order_Details" Relationship="Self.FK_Order_Details_Order" FromRole="Order" ToRole="Order_Details" />
-    <NavigationProperty Name="Winery" Relationship="Self.FK_Order_Winery" FromRole="Order" ToRole="Winery" />
   </EntityType>
   <EntityType Name="Order_Details">
     <Key>
@@ -67,8 +54,8 @@
     <Property Name="ProductID" Type="Int32" Nullable="false" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="Order_Detail_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <NavigationProperty Name="Order" Relationship="Self.FK_Order_Details_Order" FromRole="Order_Details" ToRole="Order" />
     <NavigationProperty Name="Product" Relationship="Self.FK_Order_Details_Product" FromRole="Order_Details" ToRole="Product" />
+    <NavigationProperty Name="Order" Relationship="Model1.FK_Order_Details_Order" FromRole="Order_Details" ToRole="Order" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -81,6 +68,9 @@
     <NavigationProperty Name="Order_Details" Relationship="Self.FK_Order_Details_Product" FromRole="Product" ToRole="Order_Details" />
     <NavigationProperty Name="Winery" Relationship="Self.FK_Product_Winery" FromRole="Product" ToRole="Winery" />
     <NavigationProperty Name="StockEnter" Relationship="Self.FK_StockEnter_Product" FromRole="Product" ToRole="StockEnter" />
+    <Property Name="CategoryID" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Model1.FK_Product_Category" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Inventory" Relationship="Model1.FK_Inventory_Product" FromRole="Product" ToRole="Inventory" />
   </EntityType>
   <EntityType Name="Shelf">
     <Key>
@@ -119,9 +109,9 @@
     <Property Name="WineryAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="WineryEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Account" Relationship="Self.FK_Account_Account" FromRole="Winery" ToRole="Account" />
-    <NavigationProperty Name="Order" Relationship="Self.FK_Order_Winery" FromRole="Winery" ToRole="Order" />
     <NavigationProperty Name="Product" Relationship="Self.FK_Product_Winery" FromRole="Winery" ToRole="Product" />
     <NavigationProperty Name="StockEnter" Relationship="Self.FK_StockEnter_Winery" FromRole="Winery" ToRole="StockEnter" />
+    <NavigationProperty Name="Order" Relationship="Model1.FK_Order_Winery" FromRole="Winery" ToRole="Order" />
   </EntityType>
   <Association Name="FK_Account_Account">
     <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
@@ -180,30 +170,6 @@
       </Principal>
       <Dependent Role="Inventory">
         <PropertyRef Name="ShelfID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Order_Details_Order">
-    <End Role="Order" Type="Self.Order" Multiplicity="1" />
-    <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="OrderID" />
-      </Principal>
-      <Dependent Role="Order_Details">
-        <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Order_Winery">
-    <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
-    <End Role="Order" Type="Self.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Winery">
-        <PropertyRef Name="WineryID" />
-      </Principal>
-      <Dependent Role="Order">
-        <PropertyRef Name="WineryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -272,7 +238,6 @@
     <EntitySet Name="Category" EntityType="Self.Category" />
     <EntitySet Name="Inventory" EntityType="Self.Inventory" />
     <EntitySet Name="Milliliter" EntityType="Self.Milliliter" />
-    <EntitySet Name="Order" EntityType="Self.Order" />
     <EntitySet Name="Order_Details" EntityType="Self.Order_Details" />
     <EntitySet Name="Product" EntityType="Self.Product" />
     <EntitySet Name="Shelf" EntityType="Self.Shelf" />
@@ -298,14 +263,6 @@
       <End Role="Shelf" EntitySet="Shelf" />
       <End Role="Inventory" EntitySet="Inventory" />
     </AssociationSet>
-    <AssociationSet Name="FK_Order_Details_Order" Association="Self.FK_Order_Details_Order">
-      <End Role="Order" EntitySet="Order" />
-      <End Role="Order_Details" EntitySet="Order_Details" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Order_Winery" Association="Self.FK_Order_Winery">
-      <End Role="Winery" EntitySet="Winery" />
-      <End Role="Order" EntitySet="Order" />
-    </AssociationSet>
     <AssociationSet Name="FK_Order_Details_Product" Association="Self.FK_Order_Details_Product">
       <End Role="Product" EntitySet="Product" />
       <End Role="Order_Details" EntitySet="Order_Details" />
@@ -326,5 +283,85 @@
       <End Role="Winery" EntitySet="Winery" />
       <End Role="StockEnter" EntitySet="StockEnter" />
     </AssociationSet>
+    <AssociationSet Name="FK_Product_Category" Association="Model1.FK_Product_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inventory_Product" Association="Model1.FK_Inventory_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Inventory" EntitySet="Inventory" />
+    </AssociationSet>
+    <EntitySet Name="Order" EntityType="Model1.Order" />
+    <AssociationSet Name="FK_Order_Details_Order" Association="Model1.FK_Order_Details_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Order_Details" EntitySet="Order_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Winery" Association="Model1.FK_Order_Winery">
+      <End Role="Winery" EntitySet="Winery" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_Product_Category">
+    <End Type="Model1.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="Model1.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inventory_Product">
+    <End Type="Model1.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="Model1.Inventory" Role="Inventory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Inventory">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+    <Property Name="ShippedDate" Type="DateTime" Precision="3" />
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="WineryID" Type="Int32" Nullable="false" />
+    <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order_Details" Relationship="Model1.FK_Order_Details_Order" FromRole="Order" ToRole="Order_Details" />
+    <NavigationProperty Name="Winery" Relationship="Model1.FK_Order_Winery" FromRole="Order" ToRole="Winery" />
+  </EntityType>
+  <Association Name="FK_Order_Details_Order">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.Order_Details" Role="Order_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="Order_Details">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Winery">
+    <End Type="Model1.Winery" Role="Winery" Multiplicity="1" />
+    <End Type="Model1.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Winery">
+        <PropertyRef Name="WineryID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="WineryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

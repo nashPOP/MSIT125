@@ -16,6 +16,8 @@ namespace WebApplication2.Controllers
         //Load
         public ActionResult pick()
         {
+            #region 庫存判斷
+            /*
             ArrayList k = new ArrayList();
             DataTable dataTable = new DataTable();
             var e = (dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity).Select(p => new { p.Order_Detail_ID, p.ProductID })).ToList();
@@ -31,7 +33,7 @@ namespace WebApplication2.Controllers
                 //;
                 var r = dbcontext.Order_Details.Where(h => h.Product == dataTable.Rows[i]["ProductID"]);
 
-            }
+            }*/
 
             //Todo..Load
             /*
@@ -71,8 +73,8 @@ namespace WebApplication2.Controllers
                         #endregion
                         //把變數容器顯示出來
              */
-
-            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity /*&& p.Product.ProductName!=*/).Select(p => p.Order);
+            #endregion
+            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity ).Select(p => p.Order);
 
             return View(q);
         }
