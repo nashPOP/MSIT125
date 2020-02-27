@@ -1,0 +1,284 @@
+﻿@model IQueryable<WebApplication2.StockEnter>
+@{
+    ViewBag.Title = "存貨查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>()
+       {
+            new SelectListItem()
+            {
+                Text="--請選擇--",
+                Value="0"
+                }
+    };
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-2  d-flex flex-row">
+        <h2>存貨查詢</h2>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="TB_ProductID" id="LB_ProductID">商品編號：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_ProductID","",new {@class="form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Category" id="LB_Category">分類：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Category", list, new { @class="form-control"})
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="DDL_Product" id="lbProduct">商品名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Winery" id="LB_Winery">酒莊：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Millilter" id="LB_Winery">容量：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Shelf", list, htmlAttributes:new { @class= "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="D_StockEnterDate" id="LB_StockEnterDate">入庫時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" />
+                </div>
+            </div>
+            <button id="Btn_StockEnterQuery" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+        }
+    </div>
+</div>
+<br />
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row">
+        <h3>存貨列表</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>編號</th>
+                            <th>商品號碼</th>
+                            <th>商品名稱</th>
+                            <th>酒莊</th>
+                            <th>容量</th>
+                            <th>入庫數量</th>
+                            <th>倉儲位置</th>
+                            <th>備註</th>
+                            <th>入庫時間</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StockEnterID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Milliliter.Milliliter1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Shelf.ShelfPosition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Note)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StockEnterDate)
+                                </td>
+                                <td class="text-center">
+                                    <a id="Btn_Edit" href="@Url.Action("StockEnterEdit","Query",new { id=item.StockEnterID})" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                    <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    
+    <script>
+        $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+                    
+                    var allop = $('<option></option>');
+                    allop.text("--請選擇--");
+                    allop.val('0');
+                    $('#DDL_Product').append(allop);
+                    
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ProductName);
+                        op.val(data.ProductID);
+                        $('#DDL_Product').append(op);
+                    })
+                })
+            }
+
+    function WineryData() {
+        $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.WineryName);
+                op.val(data.WineryID);
+                $('#DDL_Winery').append(op);
+            })
+        })
+    }
+
+    function CategoryData() {
+        $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.CategoryName);
+                op.val(data.CategoryID);
+                $('#DDL_Category').append(op);
+            })
+        })
+        }
+
+        function MillilterData() {
+            $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.MilliliterName);
+                    op.val(data.MilliliterID);
+                    $('#DDL_Millilter').append(op);
+                })
+
+            })
+        }
+
+        function ShelfData() {
+            $.post("@Url.Action("GetShelf", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.ShelfPosition);
+                    op.val(data.ShelfID);
+                    $('#DDL_Shelf').append(op);
+                })
+            })
+        }
+
+        $('[id="Btn_Delete"]').click(function () {
+            var invid = $(this).attr("data-StockEnterId");
+        $.post("@Url.Action("StockEnterDelete", "Query")", { 'stockenterid': stid },
+            function (datas) {
+                console.log(datas);
+                alert(datas.Message);
+                location.reload();
+            })
+        })
+
+        function btn_edit(sid) {
+            window.location.href = "@Url.Action("StockEnterEdit","Query")";
+        })
+
+        $('#Btn_StockEnterQuery').click(function () {
+            $.post("@Url.Action("StockEnter","Query")",
+                {
+                    'id': $('#TB_ProductID').val(),
+                    'pid': $('#DDL_Product').val(),
+                    'wid': $('#DDL_Winery').val(),
+                    'mid': $('#DDL_Millilter').val(),
+                    'sid': $('#DDL_Shelf').val(),
+                    'stockenterdate': $('#D_StockEnterDate').val()
+                }, function (datas) {
+                    $.each(datas,function (i,data) {
+                        var tr = $('<tr></tr>');
+                        var productid = $('<td></td>').text(data.ProductID);
+                        var productname = $('<td></td>').text(data.ProductName);
+                        var winery = $('<td></td>').text(data.Winery);
+                        var milliliter = $('<td></td>').text(data.Milliliter);
+                        var quantity = $('<td></td>').text(data.Quantity);
+                        var shelf = $('<td></td>').text(data.Shelf);
+                        var note = $('<td></td>').text(data.Note);
+                        var Date = $('<td></td>').text(data.StockEnterDate);
+                        var btn = $('<td id="btntd"></td>');
+                        var sid = data.StockEnterID;
+                        btn.append($('<a id="Btn_Edit" href="" class="btn btn-success">&nbsp;編輯</a>').append($('<span class="fa fa-edit" ></span>')));
+                        btn.append($('<button id="Btn_Delete" class="btn btn-danger">&nbsp;刪除</button>').attr('data').append($('<span class="fa fa-trash" ></span>')));
+                        tr.append(productid).append(productname).append(winery).append(milliliter).
+                            append(quantity).append(shelf).append(note).append(Date).append(btn);
+                    })
+                    
+                })
+        })
+
+        $(function () {
+            WineryData();
+            CategoryData();
+            ProductData();
+            MillilterData();
+            ShelfData();
+
+            console.log("");
+            $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
+        })
+    </script>
+    
+    }

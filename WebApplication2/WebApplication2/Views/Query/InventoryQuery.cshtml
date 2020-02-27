@@ -1,0 +1,188 @@
+﻿@model IEnumerable<WebApplication2.Inventory>
+@{
+    ViewBag.Title = "Index";
+
+    List<SelectListItem> list = new List<SelectListItem>()
+    {
+            new SelectListItem()
+            {
+                Text="--請選擇--",
+                Value="0"
+            }
+    };
+
+    int count = 0;
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h2>庫存查詢</h2>
+    </div>
+
+<div class="card-body">
+    
+    @using (Html.BeginForm())
+    { 
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="TB_ProductID" id="LB_ProductID">商品編號：</label>
+            </div>
+            <div class="col-sm-3">
+                @Html.TextBox("TB_ProductID", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+    <div class="form-group row">
+        <div class="col-sm-1">
+            <label for="DDL_Category" id="LB_Category">分類：</label>
+        </div>
+        <div class="col-sm-3">
+            @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
+            
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-1">
+            <label for="DDL_Product" id="LB_Product">商品名稱：</label>
+        </div>
+        <div class="col-sm-3">
+            @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+        </div>
+    </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="DDL_Millilter" id="LB_Millilter">容量：</label>
+            </div>
+            <div class="col-sm-3">
+                @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
+            </div>
+            <div class="col-sm-3">
+                @Html.DropDownList("DDL_Shelf", list, new { @class = "form-control" })
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="fa fa-search"></span>&nbsp;查詢
+        </button>
+}
+</div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <h3>庫存列表</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>編號</th>
+                    <th>商品編號</th>
+                    <th>商品名稱</th>
+                    <th>容量</th>
+                    <th>總數</th>
+                    <th>倉儲位置</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Milliliter.Milliliter1)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
+                        <td class="text-center">
+                            <a id="Btn_Edit" href="@Url.Action("InventoryEdit","Query",new { id=item.InventoryID})" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                            <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+<script>
+        $('#DDL_Category').change(function () {
+            let categoryid = $(this).val();
+            ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+                    var all = $('<option></option>')
+                    all.text('--請選擇--');
+                    all.val('0');
+                    $('#DDL_Product').append(all);
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ProductName);
+                        op.val(data.ProductID);
+                        $('#DDL_Product').append(op);
+                    })
+                })
+        }
+
+        function MillilterData() {
+            $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    console.log(datas);
+                    op.text(data.MilliliterName);
+                    op.val(data.MillilterID);
+                    $('#DDL_Millilter').append(op);
+                })
+            })
+        }
+
+        function ShelfData() {
+            $.post("@Url.Action("GetShelf", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.ShelfPosition);
+                    op.val(data.ShelfID);
+                    $('#DDL_Shelf').append(op);
+                })
+            })
+        }
+
+        function CategoryData() {
+            $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.CategoryName);
+                    op.val(data.CategoryID);
+                    $('#DDL_Category').append(op);
+                })
+            })
+        }
+
+
+    $('[id="Btn_Delete"]').click(function () {
+        var invid = $(this).attr("data-InventoryId");
+        $.post("@Url.Action("InventoryDelete","Query")", { 'inventoryid': invid },
+            function (datas) {
+                console.log(datas);
+                alert(datas.Message);
+                location.reload();
+            })
+    })
+        $(function () {
+            CategoryData();
+            ProductData();
+            MillilterData();
+            ShelfData();
+        })
+</script>
+    
+    }

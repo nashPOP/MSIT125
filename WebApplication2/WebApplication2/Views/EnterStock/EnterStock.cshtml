@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "EnterStock";
+}
+
+<h2 style="font-family:標楷體;">存貨輸入</h2>
+<br />
+<div class="form-group row">
+    <div class="col-sm-1">
+        <label>酒莊：</label>
+    </div>
+    <div class="col-sm-4">
+        <select id="winery" class="form-control">
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-1">
+        <label>種類：</label>
+    </div>
+    <div class="col-sm-4">
+        <select id="category" class="form-control">
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-1">
+        <label>品名：</label>
+    </div>
+    <div class="col-sm-2">
+        <select id="item" class="form-control">
+        </select>
+    </div>
+    <div class="col-sm-1">
+        <label>容量：</label>
+    </div>
+    <div class="col-sm-2">
+        <select id="ml" class="form-control">
+        </select>
+    </div>
+    <div class="col-sm-1">
+        <label>數量：</label>
+    </div>
+    <div class="col-sm-2">
+        <input id="count" type="text" class="form-control" style="width:40%" />
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-1">
+        <label>貨架：</label>
+    </div>
+    <div class="col-sm-4">
+        <select id="area" class="form-control">
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-1">
+        <label>備註：</label>
+    </div>
+    <div class="col-sm-4">
+        <input id="note" type="text" class="form-control" />
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-1">
+        <button id="CreateBtn" class="btn btn-primary">新增</button>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>序號</th>
+            <th>種類</th>
+            <th>品名</th>
+            <th>容量</th>
+            <th>數量</th>
+            <th>貨架</th>
+            <th>備註</th>
+            <th>刪除</th>
+        </tr>
+    </thead>
+    <tbody id="tb">
+        @*<tr>
+                <td>1</td>
+                <td>白酒</td>
+                <td>Cava</td>
+                <td>375</td>
+                <td>100</td>
+                <td>A區12</td>
+                <td>驗貨少2瓶</td>
+                <td><button type="button" class="btn btn-danger">刪除</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>葡萄酒</td>
+                <td>Barolo</td>
+                <td>700</td>
+                <td>50</td>
+                <td>B區16</td>
+                <td>運送破1瓶</td>
+                <td><button type="button" class="btn btn-danger">刪除</button></td>
+            </tr>*@
+    </tbody>
+</table>
+<hr />
+<div class="form-inline">
+    <div class="alert alert-success" style="width: 10rem;">
+        酒莊1 庫存輸入
+    </div>
+    <div style="margin-left:10px;">
+        <input type="submit" class="btn btn-primary" value="送出" style="margin-bottom:20px;" />
+    </div>
+</div>
+
+@section scripts{
+<script>
+        var x = 1;
+        $("#CreateBtn").click(function () {
+
+
+            var winery = $("#winery option:selected");
+            var category = $("#category option:selected");
+            var item = $("#item option:selected");
+            var ml = $("#ml option:selected");
+            var count = $("#count");
+            var area = $("#area option:selected");
+            var note = $("#note");
+
+            $.get("@Url.Action("CreateBtn", "EnterStock")",
+                {
+                    'winery': $("#winery").val(),
+                    'category': $("#category").val(),
+                    'item': $("#item").val(),
+                    'ml': $("#ml").val(),
+                    'count': $("#count").val(),
+                    'area': $("#area").val(),
+                    'note': $("#note").val()
+                }, function (datas) {
+                    //var x = 1;
+                    //$("#tb").empty();
+
+                    var eletr = $("<tr></tr>");
+                    eletr.attr('id',x);
+                        //var eleWineryID = $("<td></td>").text(data.WineryID);
+                        var eleNote = $("<td></td>").text(note.val());
+                        var eleMilliliterID = $("<td></td>").text(ml.text());
+                        var eleitem = $("<td></td>").text(item.text());
+                        var eleQuantity = $("<td></td>").text(count.val());
+                        var eleCategoryID = $("<td></td>").text(category.text());
+                        var eleShelfID = $("<td></td>").text(area.text());
+                    var eleCount = $("<td></td>").text(x++);
+
+                    var eleBtn = $("<td><input id='btn_delete' type='button' class='btn btn-danger' value='刪除'/></td>")
+                    eletr.append(eleCount).append(eleCategoryID).append(eleitem).append(eleMilliliterID).append(eleQuantity).append(eleShelfID).append(eleNote).append(eleBtn);
+                        $("#tb").append(eletr);
+                })
+        })
+
+        $('#tb').on('click','#btn_delete',function () {
+            var r = $(this).parents("tr");
+            var id = r.attr('id');
+            $.post("@Url.Action("DelSession","EnterStock")",
+                {
+                    'Id': id
+                }, function (datas) {
+
+            })
+            r.remove();
+        })
+
+    function start() {
+        $.post("@Url.Action("SelectWinery","EnterStock")", function (datas) {
+            $("#winery").append($('<option></option>').text("--請選擇--"));
+            $.each(datas, function (i, data) {
+                var eleWineryName = $('<option></option>');
+                eleWineryName.text(data.WineryName);
+                eleWineryName.val(data.WineryID);
+                $("#winery").append(eleWineryName);
+            })
+        })
+        $.post("@Url.Action("SelectProduct", "EnterStock")", function (datas) {
+            $("#item").append($('<option></option>').text("--請選擇--"));
+            $.each(datas, function (i, data) {
+                var eleProductName = $('<option></option>');
+                eleProductName.text(data.ProductName);
+                eleProductName.val(data.ProductID);
+                $("#item").append(eleProductName);
+            })
+        })
+        $.post("@Url.Action("SelectCategory", "EnterStock")", function (datas) {
+            $("#category").append($('<option></option>').text("--請選擇--"));
+            $.each(datas, function (i, data) {
+                var eleCategory = $('<option></option>');
+                eleCategory.text(data.CategoryName);
+                eleCategory.val(data.CategoryName);
+                $("#category").append(eleCategory);
+            })
+        })
+    }
+
+    $(function () {
+        start();
+    })
+</script>
+}

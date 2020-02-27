@@ -1,0 +1,795 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="IdentityCode" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="WineryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="MilliliterID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ShelfID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Milliliter">
+          <Key>
+            <PropertyRef Name="MilliliterID" />
+          </Key>
+          <Property Name="MilliliterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Milliliter" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WineryID" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="RequiredDate" Type="datetime" />
+          <Property Name="ShippedDate" Type="datetime" />
+          <Property Name="Note" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WineryID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shelf">
+          <Key>
+            <PropertyRef Name="ShelfID" />
+          </Key>
+          <Property Name="ShelfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShelfPosition" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockEnter">
+          <Key>
+            <PropertyRef Name="StockEnterID" />
+          </Key>
+          <Property Name="StockEnterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="WineryID" Type="int" Nullable="false" />
+          <Property Name="ShelfID" Type="int" Nullable="false" />
+          <Property Name="MilliliterID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="StockEnterDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Winery">
+          <Key>
+            <PropertyRef Name="WineryID" />
+          </Key>
+          <Property Name="WineryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WineryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WineryPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="WineryAddress" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Account_Winery">
+          <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Milliliter1">
+          <End Role="Milliliter" Type="Self.Milliliter" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milliliter">
+              <PropertyRef Name="MilliliterID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="MilliliterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Shelf">
+          <End Role="Shelf" Type="Self.Shelf" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ShelfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Order1">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Winery">
+          <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Winery">
+          <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Milliliter">
+          <End Role="Milliliter" Type="Self.Milliliter" Multiplicity="1" />
+          <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milliliter">
+              <PropertyRef Name="MilliliterID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="MilliliterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Shelf">
+          <End Role="Shelf" Type="Self.Shelf" Multiplicity="1" />
+          <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="ShelfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Winery">
+          <End Role="Winery" Type="Self.Winery" Multiplicity="1" />
+          <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Milliliter" EntityType="Self.Milliliter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Details" EntityType="Self.Order_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shelf" EntityType="Self.Shelf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockEnter" EntityType="Self.StockEnter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Winery" EntityType="Self.Winery" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Winery" Association="Self.FK_Account_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Milliliter1" Association="Self.FK_Inventory_Milliliter1">
+            <End Role="Milliliter" EntitySet="Milliliter" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Product" Association="Self.FK_Inventory_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Shelf" Association="Self.FK_Inventory_Shelf">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Order1" Association="Self.FK_Order_Details_Order1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Product" Association="Self.FK_Order_Details_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Winery" Association="Self.FK_Order_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Winery" Association="Self.FK_Product_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Milliliter" Association="Self.FK_StockEnter_Milliliter">
+            <End Role="Milliliter" EntitySet="Milliliter" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Product" Association="Self.FK_StockEnter_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Shelf" Association="Self.FK_StockEnter_Shelf">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Winery" Association="Self.FK_StockEnter_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FrogJumpEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account" EntityType="Model.Account" />
+          <EntitySet Name="Category" EntityType="Model.Category" />
+          <EntitySet Name="Milliliter" EntityType="Model.Milliliter" />
+          <EntitySet Name="Order" EntityType="Model.Order" />
+          <EntitySet Name="Order_Details" EntityType="Model.Order_Details" />
+          <EntitySet Name="Product" EntityType="Model.Product" />
+          <EntitySet Name="Shelf" EntityType="Model.Shelf" />
+          <EntitySet Name="Winery" EntityType="Model.Winery" />
+          <AssociationSet Name="FK_Account_Winery" Association="Model.FK_Account_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Model.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Order1" Association="Model.FK_Order_Details_Order1">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Winery" Association="Model.FK_Order_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Product" Association="Model.FK_Order_Details_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Winery" Association="Model.FK_Product_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <EntitySet Name="Inventory" EntityType="Model.Inventory" />
+          <AssociationSet Name="FK_Inventory_Milliliter1" Association="Model.FK_Inventory_Milliliter1">
+            <End Role="Milliliter" EntitySet="Milliliter" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Product" Association="Model.FK_Inventory_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Shelf" Association="Model.FK_Inventory_Shelf">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <EntitySet Name="StockEnter" EntityType="Model.StockEnter" />
+          <AssociationSet Name="FK_StockEnter_Milliliter" Association="Model.FK_StockEnter_Milliliter">
+            <End Role="Milliliter" EntitySet="Milliliter" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Product" Association="Model.FK_StockEnter_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Shelf" Association="Model.FK_StockEnter_Shelf">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockEnter_Winery" Association="Model.FK_StockEnter_Winery">
+            <End Role="Winery" EntitySet="Winery" />
+            <End Role="StockEnter" EntitySet="StockEnter" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account1" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="WineryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Winery" Relationship="Model.FK_Account_Winery" FromRole="Account" ToRole="Winery" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Model.FK_Product_Category" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Milliliter">
+          <Key>
+            <PropertyRef Name="MilliliterID" />
+          </Key>
+          <Property Name="MilliliterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Milliliter1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Inventory" Relationship="Model.FK_Inventory_Milliliter1" FromRole="Milliliter" ToRole="Inventory" />
+          <NavigationProperty Name="StockEnter" Relationship="Model.FK_StockEnter_Milliliter" FromRole="Milliliter" ToRole="StockEnter" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WineryID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+          <Property Name="ShippedDate" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order_Details" Relationship="Model.FK_Order_Details_Order1" FromRole="Order" ToRole="Order_Details" />
+          <NavigationProperty Name="Winery" Relationship="Model.FK_Order_Winery" FromRole="Order" ToRole="Winery" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Model.FK_Order_Details_Order1" FromRole="Order_Details" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="Model.FK_Order_Details_Product" FromRole="Order_Details" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WineryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Model.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Order_Details" Relationship="Model.FK_Order_Details_Product" FromRole="Product" ToRole="Order_Details" />
+          <NavigationProperty Name="Winery" Relationship="Model.FK_Product_Winery" FromRole="Product" ToRole="Winery" />
+          <NavigationProperty Name="Inventory" Relationship="Model.FK_Inventory_Product" FromRole="Product" ToRole="Inventory" />
+          <NavigationProperty Name="StockEnter" Relationship="Model.FK_StockEnter_Product" FromRole="Product" ToRole="StockEnter" />
+        </EntityType>
+        <EntityType Name="Shelf">
+          <Key>
+            <PropertyRef Name="ShelfID" />
+          </Key>
+          <Property Name="ShelfID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShelfPosition" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Inventory" Relationship="Model.FK_Inventory_Shelf" FromRole="Shelf" ToRole="Inventory" />
+          <NavigationProperty Name="StockEnter" Relationship="Model.FK_StockEnter_Shelf" FromRole="Shelf" ToRole="StockEnter" />
+        </EntityType>
+        <EntityType Name="Winery">
+          <Key>
+            <PropertyRef Name="WineryID" />
+          </Key>
+          <Property Name="WineryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WineryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WineryPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WineryAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="Model.FK_Account_Winery" FromRole="Winery" ToRole="Account" />
+          <NavigationProperty Name="Order" Relationship="Model.FK_Order_Winery" FromRole="Winery" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="Model.FK_Product_Winery" FromRole="Winery" ToRole="Product" />
+          <NavigationProperty Name="StockEnter" Relationship="Model.FK_StockEnter_Winery" FromRole="Winery" ToRole="StockEnter" />
+        </EntityType>
+        <Association Name="FK_Account_Winery">
+          <End Type="Model.Winery" Role="Winery" Multiplicity="1" />
+          <End Type="Model.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Type="Model.Category" Role="Category" Multiplicity="1" />
+          <End Type="Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Order1">
+          <End Type="Model.Order" Role="Order" Multiplicity="1" />
+          <End Type="Model.Order_Details" Role="Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Winery">
+          <End Type="Model.Winery" Role="Winery" Multiplicity="1" />
+          <End Type="Model.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Product">
+          <End Type="Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="Model.Order_Details" Role="Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Winery">
+          <End Type="Model.Winery" Role="Winery" Multiplicity="1" />
+          <End Type="Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="MilliliterID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ShelfID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Milliliter" Relationship="Model.FK_Inventory_Milliliter1" FromRole="Inventory" ToRole="Milliliter" />
+          <NavigationProperty Name="Product" Relationship="Model.FK_Inventory_Product" FromRole="Inventory" ToRole="Product" />
+          <NavigationProperty Name="Shelf" Relationship="Model.FK_Inventory_Shelf" FromRole="Inventory" ToRole="Shelf" />
+        </EntityType>
+        <Association Name="FK_Inventory_Milliliter1">
+          <End Type="Model.Milliliter" Role="Milliliter" Multiplicity="1" />
+          <End Type="Model.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milliliter">
+              <PropertyRef Name="MilliliterID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="MilliliterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Product">
+          <End Type="Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="Model.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Shelf">
+          <End Type="Model.Shelf" Role="Shelf" Multiplicity="1" />
+          <End Type="Model.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfID" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ShelfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StockEnter">
+          <Key>
+            <PropertyRef Name="StockEnterID" />
+          </Key>
+          <Property Name="StockEnterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="WineryID" Type="Int32" Nullable="false" />
+          <Property Name="ShelfID" Type="Int32" Nullable="false" />
+          <Property Name="MilliliterID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StockEnterDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Milliliter" Relationship="Model.FK_StockEnter_Milliliter" FromRole="StockEnter" ToRole="Milliliter" />
+          <NavigationProperty Name="Product" Relationship="Model.FK_StockEnter_Product" FromRole="StockEnter" ToRole="Product" />
+          <NavigationProperty Name="Shelf" Relationship="Model.FK_StockEnter_Shelf" FromRole="StockEnter" ToRole="Shelf" />
+          <NavigationProperty Name="Winery" Relationship="Model.FK_StockEnter_Winery" FromRole="StockEnter" ToRole="Winery" />
+        </EntityType>
+        <Association Name="FK_StockEnter_Milliliter">
+          <End Type="Model.Milliliter" Role="Milliliter" Multiplicity="1" />
+          <End Type="Model.StockEnter" Role="StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milliliter">
+              <PropertyRef Name="MilliliterID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="MilliliterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Product">
+          <End Type="Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="Model.StockEnter" Role="StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Shelf">
+          <End Type="Model.Shelf" Role="Shelf" Multiplicity="1" />
+          <End Type="Model.StockEnter" Role="StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="ShelfID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockEnter_Winery">
+          <End Type="Model.Winery" Role="Winery" Multiplicity="1" />
+          <End Type="Model.StockEnter" Role="StockEnter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Winery">
+              <PropertyRef Name="WineryID" />
+            </Principal>
+            <Dependent Role="StockEnter">
+              <PropertyRef Name="WineryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="FrogJumpEntities">
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="Model.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+                <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account1" ColumnName="Account" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="Model.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Milliliter">
+            <EntityTypeMapping TypeName="Model.Milliliter">
+              <MappingFragment StoreEntitySet="Milliliter">
+                <ScalarProperty Name="Milliliter1" ColumnName="Milliliter" />
+                <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="Model.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ShippedDate" ColumnName="ShippedDate" />
+                <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Details">
+            <EntityTypeMapping TypeName="Model.Order_Details">
+              <MappingFragment StoreEntitySet="Order_Details">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="Model.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shelf">
+            <EntityTypeMapping TypeName="Model.Shelf">
+              <MappingFragment StoreEntitySet="Shelf">
+                <ScalarProperty Name="ShelfPosition" ColumnName="ShelfPosition" />
+                <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Winery">
+            <EntityTypeMapping TypeName="Model.Winery">
+              <MappingFragment StoreEntitySet="Winery">
+                <ScalarProperty Name="WineryAddress" ColumnName="WineryAddress" />
+                <ScalarProperty Name="WineryPhone" ColumnName="WineryPhone" />
+                <ScalarProperty Name="WineryName" ColumnName="WineryName" />
+                <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventory">
+            <EntityTypeMapping TypeName="Model.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockEnter">
+            <EntityTypeMapping TypeName="Model.StockEnter">
+              <MappingFragment StoreEntitySet="StockEnter">
+                <ScalarProperty Name="StockEnterDate" ColumnName="StockEnterDate" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+                <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+                <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="StockEnterID" ColumnName="StockEnterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
