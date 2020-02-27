@@ -271,3 +271,7 @@ C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebAppli
 C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb
+C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
+C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
+C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb

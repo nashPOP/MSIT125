@@ -7,7 +7,7 @@ namespace WebApplication2.Models
 {
     public class QueryFastory
     {
-        FrogJumpEntities db = new FrogJumpEntities();
+        Frog_JumpEntities db = new Frog_JumpEntities();
 
         public IQueryable<Order> getAllOrder()
         {

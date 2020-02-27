@@ -27,7 +27,7 @@ namespace WebApplication2.Controllers
         {
             QueryModelByView qv = new QueryModelByView()
             {
-                Orderlist = fas.getAllOrder(),
+                Orderlist = fas.getAllOrder()
             };
             
             return View(qv);
@@ -45,7 +45,7 @@ namespace WebApplication2.Controllers
 
         public ActionResult OrderEdit(int? id)
         {
-            FrogJumpEntities db = new FrogJumpEntities();
+            Frog_JumpEntities db = new Frog_JumpEntities();
             Order q = db.Order.FirstOrDefault(p => p.OrderID == id);
             var qd = db.Order_Details.Where(p=>p.OrderID==id).Select(p => p);
 
@@ -116,21 +116,21 @@ namespace WebApplication2.Controllers
 
         public ActionResult StockEnterQuery(int id, int pid, int wid, int mid, int sid, DateTime stockenterdate)
         {
-            StockEnter stock = new StockEnter() { StockEnterID = id, ProductID = pid, WineryID = wid, MilliliterID = mid,
-                ShelfID = sid, StockEnterDate = stockenterdate };
-            var query=fas.getStockEnter(stock).Select(p=>new
-            {
-                p.StockEnterID,
-                p.WineryID, p.Winery.WineryName,
-                p.ProductID, p.Product.ProductName,
-                p.MilliliterID, p.Milliliter.Milliliter1,
-                p.ShelfID, p.Shelf.ShelfPosition,
-                p.Quantity,
-                p.Note,
-                p.StockEnterDate
-            });
+            //StockEnter stock = new StockEnter() { StockEnterID = id, ProductID = pid, WineryID = wid, MilliliterID = mid,
+            //    ShelfID = sid, StockEnterDate = stockenterdate.ToShortDateString() };
+            //var query=fas.getStockEnter(stock).Select(p=>new
+            //{
+            //    p.StockEnterID,
+            //    p.WineryID, p.Winery.WineryName,
+            //    p.ProductID, p.Product.ProductName,
+            //    p.MilliliterID, p.m.Milliliter1,
+            //    p.ShelfID, p.Shelf.ShelfPosition,
+            //    p.Quantity,
+            //    p.Note,
+            //    p.StockEnterDate
+            //});
 
-            return View(query);
+            return View();
         }
 
         public ActionResult StockEnterEdit(int id)

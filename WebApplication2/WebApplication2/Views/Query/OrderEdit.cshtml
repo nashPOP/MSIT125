@@ -12,16 +12,6 @@
         }
     };
 
-    if ((List<Order_Details>)Session["OrderDetail"] != Model.Order_details)
-    {
-        Session.Remove("OrderDetailList");
-        Session["OrderDetailList"] = Model.Order_details;
-    }
-    else
-    {
-        Session["OrderDetailList"] = Model.Order_details;
-    }
-
 }
 
 <div>
@@ -128,7 +118,7 @@
             </thead>
             <tbody>
                 @{int count = 0; }
-                @foreach (var item in (Session["OrderDetailList"] as List<Order_Details>))
+                @foreach (var item in Model.Order_details)
                 {
 
                 <tr id="@count" data-item="@item">
