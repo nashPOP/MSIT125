@@ -202,9 +202,8 @@
 
         //}
     </script>
-
     <script>
-        $('#tbody_For_Order').on('click', '.btn_orderDetail', function () {
+        function Order_detail_Creat() {
             var id = $(this).attr('data-orderId');
             $('#table_orderDetail').children().remove();
             $('#Add').remove();
@@ -238,7 +237,10 @@
             var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success" data-OrderID ="' + $(this).attr('data-OrderID') + '" />')
 
             $('#dialog').append(newButton);
-        })
+        }
+    </script>
+    <script>
+        $('#tbody_For_Order').on('click', '.btn_orderDetail', Order_detail_Creat)
     </script>
 
 
@@ -279,7 +281,7 @@
     <script>
 
         $('#tbody_For_Order').on("click", '.orderPick', function () {
-            alert("123")
+            alert("123","123")
         })
     </script>
 
@@ -325,14 +327,16 @@
             // console.log((this));
             //  console.log($(this).parent().prevAll().eq(2).text());
             // console.log($(this).attr('data-OrderDetailID'))
-            //console.log($(this).parent().prevAll().eq(0).children().eq(0).val())
+            console.log($(this).parent().prevAll().eq(0).children().eq(0).val())
 
             $.post('/Pick/order_Detail_Update', {
                 Orderdetail_ID: $(this).attr('data-OrderDetailID'),
                 Quantity: $(this).parent().prevAll().eq(0).children().eq(0).val()
             }, function (data) {
                 alert("更新成功!")
-            })
+                
+                })
+            
 
         })
 
