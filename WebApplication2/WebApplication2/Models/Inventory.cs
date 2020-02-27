@@ -7,25 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication2
+namespace WebApplication2.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class StockEnter
+    public partial class Inventory
     {
-        public int StockEnterID { get; set; }
-        public int ProductID { get; set; }
-        public int WineryID { get; set; }
-        public int ShelfID { get; set; }
-        public int MilliliterID { get; set; }
-        public int Quantity { get; set; }
-        public string Note { get; set; }
-        public Nullable<System.DateTime> StockEnterDate { get; set; }
+        public int InventoryID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public Nullable<int> CategoryID { get; set; }
+        public Nullable<int> MilliliterID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<int> ShelfID { get; set; }
     
+        public virtual Category Category { get; set; }
         public virtual Milliliter Milliliter { get; set; }
-        public virtual Product Product { get; set; }
         public virtual Shelf Shelf { get; set; }
-        public virtual Winery Winery { get; set; }
     }
 }

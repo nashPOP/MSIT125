@@ -179,10 +179,55 @@
     <Compile Include="Milliliter.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DDLFastory.cs" />
     <Compile Include="Models\EnterStockFactory.cs" />
+    <Compile Include="Models\FrogJumpModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FrogJumpModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FrogJumpModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FrogJumpModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FrogJumpModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Milliliter.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order_Details.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QueryFastory.cs" />
     <Compile Include="Models\SelectClick.cs" />
+    <Compile Include="Models\Shelf.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockEnter.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Winery.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ModelViews\CEnterStock.cs" />
     <Compile Include="ModelViews\FJWinery.cs" />
     <Compile Include="ModelViews\QInventory.cs" />
@@ -1871,6 +1916,16 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\FrogJumpModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FrogJumpModel.edmx</DependentUpon>
+      <LastGenOutput>FrogJumpModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FrogJumpModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FrogJumpModel.edmx</DependentUpon>
+      <LastGenOutput>FrogJumpModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\vendor\bootstrap\js\bootstrap.bundle.js.map" />
@@ -2022,6 +2077,13 @@
       <LastGenOutput>FrogJumpModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="FrogJumpModel.edmx.diagram">
+      <DependentUpon>FrogJumpModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\FrogJumpModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FrogJumpModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FrogJumpModel.edmx.diagram">
       <DependentUpon>FrogJumpModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

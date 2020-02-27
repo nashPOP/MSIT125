@@ -267,3 +267,7 @@ C:\Users\User\Desktop\git\MSIT125\WebApplication2\WebApplication2\bin\System.Web
 C:\Users\User\Desktop\git\MSIT125\WebApplication2\WebApplication2\bin\System.Web.Http.Cors.xml
 C:\Users\User\Desktop\git\MSIT125\WebApplication2\WebApplication2\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
 C:\Users\User\Desktop\git\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
+C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
+C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
+C:\Users\User\Desktop\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb

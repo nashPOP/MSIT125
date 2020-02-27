@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f3a5bd226e64a89a91f064edddaf382" Name="Diagram1">
+        <EntityTypeShape EntityType="Model1.Account" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Category" Width="1.5" PointX="6" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Inventory" Width="1.5" PointX="11.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Milliliter" Width="1.5" PointX="9" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Order_Details" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Product" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Shelf" Width="1.5" PointX="6" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.StockEnter" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Winery" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="Model1.FK_Account_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Milliliter" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Shelf" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Order_Details_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Order_Winery" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Order_Details_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Product_Winery" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Shelf" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Winery" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

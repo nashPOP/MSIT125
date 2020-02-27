@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Frog_JumpEntities">
+    <EntitySetMapping Name="Account">
+      <EntityTypeMapping TypeName="Model1.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="Account1" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="Model1.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Inventory">
+      <EntityTypeMapping TypeName="Model1.Inventory">
+        <MappingFragment StoreEntitySet="Inventory">
+          <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Milliliter">
+      <EntityTypeMapping TypeName="Model1.Milliliter">
+        <MappingFragment StoreEntitySet="Milliliter">
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="capacity" ColumnName="capacity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="Model1.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+          <ScalarProperty Name="ShippedDate" ColumnName="ShippedDate" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order_Details">
+      <EntityTypeMapping TypeName="Model1.Order_Details">
+        <MappingFragment StoreEntitySet="Order_Details">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Order_Detail_ID" ColumnName="Order_Detail_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="Model1.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shelf">
+      <EntityTypeMapping TypeName="Model1.Shelf">
+        <MappingFragment StoreEntitySet="Shelf">
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+          <ScalarProperty Name="ShelfPosition" ColumnName="ShelfPosition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StockEnter">
+      <EntityTypeMapping TypeName="Model1.StockEnter">
+        <MappingFragment StoreEntitySet="StockEnter">
+          <ScalarProperty Name="StockEnterID" ColumnName="StockEnterID" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="StockEnterDate" ColumnName="StockEnterDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Winery">
+      <EntityTypeMapping TypeName="Model1.Winery">
+        <MappingFragment StoreEntitySet="Winery">
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="WineryName" ColumnName="WineryName" />
+          <ScalarProperty Name="WineryPhone" ColumnName="WineryPhone" />
+          <ScalarProperty Name="WineryAddress" ColumnName="WineryAddress" />
+          <ScalarProperty Name="WineryEmail" ColumnName="WineryEmail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

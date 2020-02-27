@@ -11,7 +11,7 @@ namespace WebApplication2.Controllers
 {
     public class PickController : Controller
     {
-        DELogisticsEntities dbcontext = new DELogisticsEntities();
+        Frog_JumpEntities dbcontext = new Frog_JumpEntities();
         
         //Load
         public ActionResult pick()
