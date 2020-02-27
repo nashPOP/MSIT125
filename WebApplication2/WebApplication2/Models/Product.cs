@@ -19,17 +19,22 @@ namespace WebApplication2.Models
         {
             this.Order_Details = new HashSet<Order_Details>();
             this.StockEnter = new HashSet<StockEnter>();
+            this.Inventory = new HashSet<Inventory>();
         }
     
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public Nullable<int> WineryID { get; set; }
         public int Quantity { get; set; }
+        public Nullable<int> CategoryID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Details> Order_Details { get; set; }
         public virtual Winery Winery { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockEnter> StockEnter { get; set; }
+        public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inventory> Inventory { get; set; }
     }
 }

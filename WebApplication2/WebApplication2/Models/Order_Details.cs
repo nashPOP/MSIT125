@@ -19,7 +19,7 @@ namespace WebApplication2.Models
         public int Quantity { get; set; }
         public int Order_Detail_ID { get; set; }
     
-        public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

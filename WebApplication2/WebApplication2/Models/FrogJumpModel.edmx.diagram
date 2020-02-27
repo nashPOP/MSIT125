@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="Model1.Category" Width="1.5" PointX="6" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Inventory" Width="1.5" PointX="11.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Milliliter" Width="1.5" PointX="9" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Order_Details" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Product" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Shelf" Width="1.5" PointX="6" PointY="10.125" IsExpanded="true" />
@@ -20,13 +19,16 @@
         <AssociationConnector Association="Model1.FK_StockEnter_Category" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_Inventory_Milliliter" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_Inventory_Shelf" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.FK_Order_Details_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="Model1.FK_Order_Winery" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_Order_Details_Product" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_Product_Winery" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_StockEnter_Product" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_StockEnter_Shelf" ManuallyRouted="false" />
         <AssociationConnector Association="Model1.FK_StockEnter_Winery" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Product_Category" />
+        <AssociationConnector Association="Model1.FK_Inventory_Product" />
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="12.75" />
+        <AssociationConnector Association="Model1.FK_Order_Details_Order" />
+        <AssociationConnector Association="Model1.FK_Order_Winery" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -9,7 +9,7 @@ namespace WebApplication2.Models
 {
     public class DDLFastory
     {
-        FrogJumpEntities fj = new FrogJumpEntities();
+        Frog_JumpEntities fj = new Frog_JumpEntities();
 
         /// <summary>
         /// DropDownList Data By Winery
@@ -71,7 +71,7 @@ namespace WebApplication2.Models
 
         public IQueryable getMillilter()
         {
-            var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.Milliliter1 });
+            var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.capacity });
             return millilter;
         }
 
