@@ -146,6 +146,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\EnterStockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PickController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\SelectorCreateController.cs" />
