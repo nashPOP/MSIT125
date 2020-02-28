@@ -1,0 +1,160 @@
+﻿@model WebApplication4.ViewModel.OrderInputViewModel
+@{
+   
+
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width , initial-scale=1.0" />
+    <title>OrderInputPage</title>
+    @*@section style{
+            @System.Web.Optimization.Styles.Render("~/Content/css")
+        }*@
+
+
+</head>
+<body>
+    <div class="container">
+
+        @*輸入列*@
+        <div class="inputOptions">
+            @*酒莊欄位行*@
+            <div class="row">
+                <label id="Winery" class="">酒莊</label>
+                <select class="" id="WineryData">
+                    @foreach (var i in Model.Winerys)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+
+            @*產品分類 品名*@
+            <div class=" row">
+                <div class="">
+                    <label id="category" class="">分類</label>
+                    <select id="CategoryData" class="">
+                        @foreach (var i in Model.Categoerys)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label id="productName">品名</label>
+                    <select id="ProductNameData"></select>
+                </div>
+
+
+            </div>
+            @*數量容量*@
+            <div class="row">
+                <div>
+                    <label id="Quantity">數量</label>
+                    <input type="number" id="QuantityData" />
+                </div>
+                @*
+                    <div>
+                        <label id="Millilters">容量</label>
+                        <select id="MilliltersSelect">
+                            @foreach (var i in Model.Millilters)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select><label>ml</label>
+                    </div>
+                *@
+
+            </div>
+
+            @*客戶姓名電話*@
+            <div class="row">
+                <div>
+                    <label id="CustomerName">客戶姓名</label>
+                    <input type="text" id="CustomerNameData" placeholder="客戶姓名" />
+                </div>
+
+                <div>
+                    <label id="Telphone">電話</label>
+                    <input type="text" id="TelphoneData" placeholder="電話" />
+                </div>
+            </div>
+            @*客戶地址*@
+            <div class="row">
+                <div>
+                    <label id="Address">地址</label>
+                    <input type="text" id="AddressData" placeholder="地址" />
+                </div>
+            </div>
+            @*日期*@
+            <div class="row">
+                <label>出貨日期</label>
+                <input type="date" id="ShippedDateData" />
+            </div>
+
+            @*NOTE行*@
+            <div class="row">
+                <div>
+                    <label id="Note">備註</label>
+                    <input type="text" id="NoteData" />
+                </div>
+            </div>
+
+            @*ADD和確認修改*@
+            <div class="row">
+                <button id="AddButton" class="btn btn-info">加入</button>
+                <button id="ConfirmButton" class="btn btn-warning" data-row="">確認修改</button>
+            </div>
+        </div>
+
+        @*顯示已輸入區*@
+        <div class="row inputResult">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">酒莊</th>
+                        <th scope="col">分類</th>
+                        <th scope="col">品名</th>
+                        <th scope="col">數量</th>
+                        <th scope="col">客戶姓名</th>
+                        <th scope="col">客戶電話</th>
+                        <th scope="col">客戶地址</th>
+                        <th scope="col">運送日期</th>
+                        <th scope="col">備註</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="AppendTarget"></tbody>
+            </table>
+        </div>
+        @*送出按紐*@
+        <div class="row">
+            <button id="sendButton"> SEND ORDER</button>
+        </div>
+    </div>
+
+    <div id="testArea">
+
+    </div>
+
+    @section scripts{
+        @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+        @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
+        @*Read model to js*@
+        <script type="text/javascript">
+        var data = @Html.Raw(Json.Encode(Model.ProductsDatas));
+        var urlToPost = "@Url.Action("InputPagePost")";
+        </script>
+        <script src="~/Scripts/OrderInput.js"></script>
+    }
+
+
+
+</body>
+</html>

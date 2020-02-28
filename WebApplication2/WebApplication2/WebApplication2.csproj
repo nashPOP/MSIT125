@@ -147,6 +147,7 @@
     <Compile Include="Controllers\EnterStockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrderInputController.cs" />
     <Compile Include="Controllers\PickController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\SelectorCreateController.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Models\Order.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderInput.cs" />
     <Compile Include="Models\Order_Details.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
@@ -204,6 +206,7 @@
     </Compile>
     <Compile Include="ModelViews\CEnterStock.cs" />
     <Compile Include="ModelViews\FJWinery.cs" />
+    <Compile Include="ModelViews\OrderInputViewModel.cs" />
     <Compile Include="ModelViews\QInventory.cs" />
     <Compile Include="ModelViews\QOrder.cs" />
     <Compile Include="ModelViews\QStockEnter.cs" />
@@ -2039,6 +2042,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\OrderInput.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2061,6 +2065,7 @@
     <Content Include="Views\Query\StockEnterEdit.cshtml" />
     <Content Include="Views\EnterStock\EnterStock.cshtml" />
     <Content Include="Views\Pick\pick.cshtml" />
+    <Content Include="Views\OrderInput\InputPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
