@@ -27,9 +27,9 @@ namespace WebApplication2.Controllers
         {
             QueryModelByView qv = new QueryModelByView()
             {
-                Orderlist = fas.getAllOrder()
+                Orderlist = fas.getAllOrder(),
             };
-            
+
             return View(qv);
         }
 
@@ -45,24 +45,24 @@ namespace WebApplication2.Controllers
 
         public ActionResult OrderEdit(int? id)
         {
-            Frog_JumpEntities db = new Frog_JumpEntities();
-            Order q = db.Order.FirstOrDefault(p => p.OrderID == id);
-            var qd = db.Order_Details.Where(p=>p.OrderID==id).Select(p => p);
-
-            QueryModelByView qv = new QueryModelByView()
+            if (id != null)
             {
-                Order = q,
-                Order_details = qd.ToList()
-            };
+                Order q = fas.getOrderByID((int)id);
+                var qd = fas.getOrder_DetailsByID((int)id).ToList();
 
-            if (q != null)
-            {
-                return View(qv);
+                QueryModelByView model = new QueryModelByView()
+                {
+                    Order = q,
+                    Order_details = qd
+                };
+                return View(model);
             }
-            return View();
-
-            //return RedirectToAction("OrderQuery");
+            else
+            {
+                return RedirectToAction("OrderQuery");
+            }
         }
+
         [HttpPost]
         public ActionResult OrderEdit(Order order)
         {
@@ -70,37 +70,60 @@ namespace WebApplication2.Controllers
             return RedirectToAction("OrderEdit", order.OrderID);
         }
 
-        public ActionResult Order_DetailEdit(Order_Details item,int oid,int pid,int qty)
+        public ActionResult OrderDelete(int id)
         {
-            if(Session["OrderDetailList"]!=null)
+            string message = fas.OrdersDelete(id);
+            if (message != "0")
             {
-                List<Order_Details> details = Session["OrderDetailList"] as List<Order_Details>;
-                Order_Details order_Details = new Order_Details() { OrderID = oid, ProductID = pid, Quantity = qty };
-                details.Add(order_Details);
-
-                Session["OrderDetailList"] = details;
-                return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
+                return Json(message, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                List<Order_Details> details = new List<Order_Details>();
-                Order_Details order_Details = new Order_Details() { OrderID = oid, ProductID = pid, Quantity = qty };
-                details.Add(order_Details);
-
-                Session["OrderDetailList"] = details;
-                return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("OrderQuery");
             }
-            //string message = fas.EditOrderDetail(oid,pid,qty);
-            //if (!string.IsNullOrEmpty(message))
-            //{
-            //    return Json("{'message':" + message + "}", JsonRequestBehavior.AllowGet);
-            //}
-            //return Json("{'message':"+message+"}", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult OrderDelete()
+        public ActionResult Order_DetailEdit(string item, int? oid, int? pid, int? qty)
         {
-            return RedirectToAction("OrderQuery");
+
+            string[] od1 = item.Split(',');
+            int.TryParse(od1[1], out int pdid);
+            int.TryParse(od1[2], out int q);
+            Order_Details od = new Order_Details()
+            {
+                OrderID = (int)oid,
+                ProductID = pdid,
+                Quantity = q
+            };
+            Order_Details New_od = new Order_Details()
+            {
+                OrderID = (int)oid,
+                ProductID = (int)pid,
+                Quantity = (int)qty
+            };
+            string message = fas.EditOrderDetail(od, New_od);
+
+            return RedirectToAction("OrderEdit", new { id = oid });
+            //return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult OrderDetailDelete(string item)
+        {
+            string[] OD_item = item.Split(',');
+            int.TryParse(OD_item[0], out int orderid);
+            int.TryParse(OD_item[1], out int productid);
+            int.TryParse(OD_item[2], out int qty);
+            Order_Details od = new Order_Details() { OrderID = orderid, ProductID = productid, Quantity = qty };
+
+            string message = fas.OrderDetailDelete(od);
+            if (message != "0")
+            {
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return RedirectToAction("OrderEdit", new { id = orderid });
+            }
         }
 
         #endregion
@@ -113,24 +136,11 @@ namespace WebApplication2.Controllers
             return View(StockQuery);
         }
 
-
-        public ActionResult StockEnterQuery(int id, int pid, int wid, int mid, int sid, DateTime stockenterdate)
+        [HttpPost]
+        public ActionResult InStockQuery(QStockEnter qStockEnter)
         {
-            //StockEnter stock = new StockEnter() { StockEnterID = id, ProductID = pid, WineryID = wid, MilliliterID = mid,
-            //    ShelfID = sid, StockEnterDate = stockenterdate.ToShortDateString() };
-            //var query=fas.getStockEnter(stock).Select(p=>new
-            //{
-            //    p.StockEnterID,
-            //    p.WineryID, p.Winery.WineryName,
-            //    p.ProductID, p.Product.ProductName,
-            //    p.MilliliterID, p.m.Milliliter1,
-            //    p.ShelfID, p.Shelf.ShelfPosition,
-            //    p.Quantity,
-            //    p.Note,
-            //    p.StockEnterDate
-            //});
-
-            return View();
+            var StockQuery = fas.getStockEnter(qStockEnter);
+            return View(StockQuery);
         }
 
         public ActionResult StockEnterEdit(int id)
@@ -177,7 +187,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult InventoryEdit(Inventory inventory)
         {
-            bool edit =fas.InventoryEdit(inventory);
+            bool edit = fas.InventoryEdit(inventory);
             return RedirectToAction("InventoryQuery");
         }
 
@@ -236,7 +246,7 @@ namespace WebApplication2.Controllers
         public ActionResult Dialog_OrderDetail(int id, int? pid = null)
         {
             QueryFastory fas = new QueryFastory();
-            IQueryable dialog_orderdetail = fas.getOrderDetail(id,pid);
+            IQueryable dialog_orderdetail = fas.getOrderDetail(id, pid);
 
             return Json(dialog_orderdetail, JsonRequestBehavior.AllowGet);
         }

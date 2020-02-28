@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication2.ModelViews;
 
 namespace WebApplication2.Models
 {
@@ -9,6 +10,7 @@ namespace WebApplication2.Models
     {
         Frog_JumpEntities db = new Frog_JumpEntities();
 
+        #region Order
         public IQueryable<Order> getAllOrder()
         {
             var OrderTable = from n in db.Order
@@ -22,9 +24,9 @@ namespace WebApplication2.Models
 
             if (!string.IsNullOrEmpty(qOrder.TB_OrderID))
             {
-                table = table.Where(p => p.OrderID.ToString() ==qOrder.TB_OrderID.Trim() );
+                table = table.Where(p => p.OrderID.ToString() == qOrder.TB_OrderID.Trim());
             }
-            if (!string.IsNullOrEmpty(qOrder.DDL_Winery) && qOrder.DDL_Winery !="0")
+            if (!string.IsNullOrEmpty(qOrder.DDL_Winery) && qOrder.DDL_Winery != "0")
             {
                 table = table.Where(p => p.WineryID.ToString() == qOrder.DDL_Winery.Trim());
             }
@@ -48,6 +50,12 @@ namespace WebApplication2.Models
             return table;
         }
 
+        public Order getOrderByID(int id)
+        {
+            Order order = db.Order.FirstOrDefault(p => p.OrderID == id);
+            return order;
+        }
+
         public bool EditOrder(Order order)
         {
             try
@@ -66,21 +74,57 @@ namespace WebApplication2.Models
                     return true;
                 }
                 return false;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return false;
             }
         }
 
-        public string EditOrderDetail(int oid,int pid,int qty)
+
+        public string OrdersDelete(int id)
         {
             try
             {
-                Order_Details order_Details = db.Order_Details.FirstOrDefault(p => p.OrderID == oid && p.ProductID == pid);
+                var order = db.Order.FirstOrDefault(p => p.OrderID == id);
+                db.Order.Remove(order);
+                db.SaveChanges();
+
+                return "0";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+        #endregion
+
+        #region Order_Detail
+        public IEnumerable<Order_Details> getOrder_DetailsByID(int id)
+        {
+            var order_details = db.Order_Details.Where(p => p.OrderID == id);
+            return order_details;
+        }
+
+        public string EditOrderDetail(Order_Details old_od, Order_Details new_od)
+        {
+            try
+            {
+                Order_Details order_Details = db.Order_Details.
+                    FirstOrDefault(p =>
+                    p.OrderID == old_od.OrderID &&
+                    p.ProductID == old_od.ProductID &&
+                    p.Quantity == old_od.Quantity);
+
                 if (order_Details != null)
                 {
-                    order_Details.ProductID = pid;
-                    order_Details.Quantity = qty;
+                    db.Order_Details.Remove(order_Details);
+                    db.Order_Details.Add(new Order_Details()
+                    {
+                        OrderID = new_od.OrderID,
+                        ProductID = new_od.ProductID,
+                        Quantity = new_od.Quantity
+                    });
 
                     db.SaveChanges();
                     return "";
@@ -93,10 +137,33 @@ namespace WebApplication2.Models
             }
         }
 
+        public string OrderDetailDelete(Order_Details od)
+        {
+            try
+            {
+                var order_detail = db.Order_Details.FirstOrDefault(p =>
+                  p.OrderID == od.OrderID &&
+                  p.ProductID == od.ProductID &&
+                  p.Quantity == od.Quantity);
+                db.Order_Details.Remove(order_detail);
+                db.SaveChanges();
+                return "0";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        #endregion
+
+        #region StockEnter
+
         public IQueryable<StockEnter> getAllStockEnter()
         {
             var StockEnterTable = db.StockEnter.Select(p => p);
-            
+
             return StockEnterTable;
         }
 
@@ -126,7 +193,7 @@ namespace WebApplication2.Models
                 db.SaveChanges();
                 return "刪除成功";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -138,47 +205,52 @@ namespace WebApplication2.Models
             return table;
         }
 
-        public IEnumerable<StockEnter> getStockEnter(StockEnter stockEnter)
+        public IEnumerable<StockEnter> getStockEnter(QStockEnter qStockEnter)
         {
             var table = getAllStockEnter().Select(p => p);
 
-            if (!string.IsNullOrEmpty(stockEnter.StockEnterID.ToString()))
+            if (!string.IsNullOrEmpty(qStockEnter.TB_StockEnterID))
             {
-                table = table.Where(p=>p.StockEnterID==stockEnter.StockEnterID);
+                table = table.Where(p => p.StockEnterID.ToString() == qStockEnter.TB_StockEnterID);
             }
-            if (stockEnter.WineryID!=0)
+            if (!string.IsNullOrEmpty(qStockEnter.TB_ProductID))
             {
-                table = table.Where(p => p.WineryID == stockEnter.WineryID);
+                table = table.Where(p => p.ProductID.ToString() == qStockEnter.TB_ProductID);
             }
-            if (stockEnter.ProductID!=0)
+            if (!string.IsNullOrEmpty(qStockEnter.DDL_Winery) && qStockEnter.DDL_Winery != "0")
             {
-                table = table.Where(p => p.ProductID == stockEnter.ProductID);
+                table = table.Where(p => p.WineryID.ToString() == qStockEnter.DDL_Winery);
             }
-            if (stockEnter.MilliliterID!=0)
+            if (!string.IsNullOrEmpty(qStockEnter.DDL_Product) && qStockEnter.DDL_Product != "0")
             {
-                table = table.Where(p => p.MilliliterID == stockEnter.MilliliterID);
+                table = table.Where(p => p.ProductID.ToString() == qStockEnter.DDL_Product);
             }
-            if (stockEnter.ShelfID!=0)
+            if (!string.IsNullOrEmpty(qStockEnter.DDL_Millilter) && qStockEnter.DDL_Millilter != "0")
             {
-                table = table.Where(p => p.ShelfID == stockEnter.ShelfID);
+                table = table.Where(p => p.MilliliterID.ToString() == qStockEnter.DDL_Millilter);
             }
-            if(stockEnter.StockEnterDate!=null)
+            if (!string.IsNullOrEmpty(qStockEnter.DDL_Shelf) && qStockEnter.DDL_Shelf != "0")
             {
-                table = table.Where(p => p.StockEnterDate == stockEnter.StockEnterDate);
+                table = table.Where(p => p.ShelfID.ToString() == qStockEnter.DDL_Shelf);
+            }
+            if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
+            {
+                table = table.Where(p => p.StockEnterDate.ToString() == qStockEnter.D_StockEnterDate);
             }
 
             return table;
         }
 
-        
+        #endregion
 
+        #region Inventory
         public IEnumerable<Inventory> getInventoryQuery()
         {
             var table = from n in db.Inventory
                         select n;
             return table.ToList();
         }
-        
+
         public IEnumerable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
         {
             var table = db.Inventory.Select(p => p);
@@ -233,7 +305,7 @@ namespace WebApplication2.Models
                 db.SaveChanges();
                 return "刪除成功";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -242,52 +314,52 @@ namespace WebApplication2.Models
         public IQueryable getOrderdialog(int id)
         {
             var order = from n in db.Order
-                              where n.OrderID == id
-                              select new
-                              {
-                                  n.OrderID,
-                                  n.Winery.WineryName,
-                                  n.CustomerName,
-                                  n.OrderDate,
-                                  n.RequiredDate,
-                                  n.ShippedDate
-                              };
+                        where n.OrderID == id
+                        select new
+                        {
+                            n.OrderID,
+                            n.Winery.WineryName,
+                            n.CustomerName,
+                            n.OrderDate,
+                            n.RequiredDate,
+                            n.ShippedDate
+                        };
 
             return order;
         }
 
-        public IQueryable getOrderDetail(int? OrderID ,int? ProductID)
+        public IQueryable getOrderDetail(int? OrderID, int? ProductID)
         {
 
             IQueryable orderdetail;
-                
+
             if (ProductID != null)
             {
                 orderdetail = from n in db.Order_Details
-                                  where n.OrderID == OrderID && n.ProductID == ProductID
-                                  select new
-                                  {
-                                      n.OrderID,
-                                      n.ProductID,
-                                      n.Product.ProductName,
-                                      n.Quantity
-                                  };
+                              where n.OrderID == OrderID && n.ProductID == ProductID
+                              select new
+                              {
+                                  n.OrderID,
+                                  n.ProductID,
+                                  n.Product.ProductName,
+                                  n.Quantity
+                              };
             }
             else
             {
                 orderdetail = from n in db.Order_Details
-                                  where n.OrderID == OrderID
-                                  select new
-                                  {
-                                      n.OrderID,
-                                      n.ProductID,
-                                      n.Product.ProductName,
-                                      n.Quantity
-                                  };
+                              where n.OrderID == OrderID
+                              select new
+                              {
+                                  n.OrderID,
+                                  n.ProductID,
+                                  n.Product.ProductName,
+                                  n.Quantity
+                              };
             }
 
             return orderdetail;
         }
-
+        #endregion
     }
 }
