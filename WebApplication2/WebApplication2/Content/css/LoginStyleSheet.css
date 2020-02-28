@@ -2,7 +2,7 @@
 /* BASIC */
 
 html {
-    background-color: #56baed;
+    background-color: #f6f6f6;
 }
 
 body {
@@ -39,6 +39,7 @@ h2 {
     width: 100%;
     min-height: 100%;
     padding: 20px;
+    background:#f6f6f6
 }
 
 #formContent {
