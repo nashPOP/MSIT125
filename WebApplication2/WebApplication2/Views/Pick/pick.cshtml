@@ -113,7 +113,7 @@
                     duration: 1000
                 },
                 height: 600,
-                width:800
+                width:880
                 
             });
 
@@ -173,11 +173,16 @@
                         textstatus = "可揀貨"
                     }
                     else { textstatus = "揀貨中" }
-
-                    console.log(value.OrderID);
+                    var date = new Date(parseInt((value.RequiredDate).substr(6)));
+                    var day = date.getDate();
+                    var month = date.getMonth();
+                    month += 1;
+                    var year = date.getFullYear();
+                    
+                    
                     var tr = $('<tr></tr>')
                     var td1 = $('<td>' + value.OrderID + '</td>')
-                    var td2 = $('<td>' + value.RequiredDate + '</td>')
+                    var td2 = $('<td>' + year + "/" + month + "/" + day + '</td>')
                     var td3 = $('<td>' + textstatus + '</td>')
                     var td4 = $('<td><input type="button" class="btn btn-success orderPick" value="揀貨" data-orderPick="' + value.OrderID + '" /><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID + '" /></td>')
 
@@ -205,7 +210,7 @@
                         var tr = $('<tr></tr>')
                         var td1 = $('<td></td>')
                         var td2 = $('<td></td>')
-                        var td3 = $('<td> <input textbox type="number"  class = "form-control" value="' + value.Quantity + '" /></td>')
+                        var td3 = $('<td> <input textbox type="number"  class = "form-control fix_Qty" value="' + value.Quantity + '" /></td>')
                         var td4 = $('<td class="td_Fix"></td>')
                         var button_commint = $('<input type="button"class="btn btn-success btn-confirm"  value="確認"  data-OrderID = "' + value.OrderID + '" data-OrderDetailID="' + value.Order_Detail_ID + '"/><input type="button" class="btn btn-secondary btn-cancle" value="取消" data-OrderID = "' + value.OrderID + '" data-OrderDetailID="' + value.Order_Detail_ID + '"/>')
 
@@ -229,17 +234,26 @@
             // console.log((this));
             //  console.log($(this).parent().prevAll().eq(2).text());
             // console.log($(this).attr('data-OrderDetailID'))
-            console.log($(this).parent().prevAll().eq(0).children().eq(0).val())
+            //console.log($(this).parent().prevAll().eq(0).children().eq(0).val())
+            console.log($(this).parent().prevAll().children('.fix_Qty').val);
 
-            $.post('/Pick/order_Detail_Update', {
-                Orderdetail_ID: $(this).attr('data-OrderDetailID'),
-                Quantity: $(this).parent().prevAll().eq(0).children().eq(0).val()
-            }, function (data) {
-                alert("更新成功!")
+           var Qty = $(this).parent().prevAll().children('.fix_Qty').val();
 
-            })
+            //console.log(Qty);
 
-
+                if (window.confirm('你確定要更新嗎？') == true) {
+                    console.log(Qty);
+                    $.post('/Pick/order_Detail_Update', {
+                        Orderdetail_ID: $(this).attr('data-OrderDetailID'),
+                        Quantity: Qty
+                    }, function (data) {
+                        alert("更新成功");
+                    })                 
+                }
+                else
+                {                    
+                    return false;
+                }    
         })
 
         //取消按鈕
@@ -303,8 +317,6 @@
 
 
 
-
-    </script>
 
 
 }

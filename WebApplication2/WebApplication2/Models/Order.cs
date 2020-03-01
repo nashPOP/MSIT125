@@ -22,7 +22,7 @@ namespace WebApplication2.Models
     
         public int OrderID { get; set; }
         public System.DateTime OrderDate { get; set; }
-        public Nullable<System.DateTime> RequiredDate { get; set; }
+        public System.DateTime RequiredDate { get; set; }
         public Nullable<System.DateTime> ShippedDate { get; set; }
         public string CustomerName { get; set; }
         public int WineryID { get; set; }

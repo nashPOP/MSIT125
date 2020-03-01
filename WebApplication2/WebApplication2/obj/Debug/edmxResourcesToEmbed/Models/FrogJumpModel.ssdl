@@ -41,7 +41,7 @@
     </Key>
     <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderDate" Type="datetime" Nullable="false" />
-    <Property Name="RequiredDate" Type="datetime" />
+    <Property Name="RequiredDate" Type="datetime" Nullable="false" />
     <Property Name="ShippedDate" Type="datetime" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="WineryID" Type="int" Nullable="false" />

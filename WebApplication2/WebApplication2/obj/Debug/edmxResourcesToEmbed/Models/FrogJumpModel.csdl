@@ -331,7 +331,7 @@
     </Key>
     <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+    <Property Name="RequiredDate" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="ShippedDate" Type="DateTime" Precision="3" />
     <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="WineryID" Type="Int32" Nullable="false" />

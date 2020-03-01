@@ -74,6 +74,7 @@ namespace WebApplication2.Controllers
                         //把變數容器顯示出來
              */
             #endregion
+
             var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity ).Select(p => p.Order);
 
             return View(q);
@@ -91,7 +92,7 @@ namespace WebApplication2.Controllers
         {
 
 
-            var orders = dbcontext.Order.Select(p => new { p.OrderID, p.RequiredDate, p.Status });
+            var orders = dbcontext.Order.Select(p => new { p.OrderID,  p.RequiredDate, p.Status });
 
             return Json(orders, JsonRequestBehavior.AllowGet);
         }
