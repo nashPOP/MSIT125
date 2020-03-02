@@ -99,5 +99,34 @@ namespace WebApplication2.Controllers
             var shelf = data.getShelf();
             return Json(shelf, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult InsertStock()
+        {
+            List<StockEnter> x = Session["xxx"] as List<StockEnter>;
+            if (Session["delid"] != null)
+            {
+                List<int> i = Session["delid"] as List<int>;
+                i.Sort();
+                i.Reverse();
+
+                foreach (int d in i)
+                {
+                    x.RemoveAt(d - 1);
+                }
+            }
+            EnterStockFactory enterStockFactory = new EnterStockFactory();
+            string message = enterStockFactory.Insert(x);
+            if(message!="0")
+            {
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                Session.Remove("xxx");
+                Session.Remove("delid");
+                return Json("0",JsonRequestBehavior.AllowGet);
+            }
+            
+        }
     }
 }

@@ -40,5 +40,24 @@ namespace WebApplication2.Models
             }
             return list;
         }
+
+        public string Insert(List<StockEnter> x)
+        {
+            try
+            {
+                string datetime = DateTime.Now.ToString();
+                foreach (var d in x)
+                {
+                    d.StockEnterDate = datetime;
+                    db.StockEnter.Add(d);
+                }
+                db.SaveChanges();
+                return "0";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }
