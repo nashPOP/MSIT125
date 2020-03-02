@@ -59,5 +59,30 @@ namespace WebApplication2.Models
                 return ex.Message;
             }
         }
+
+        //public string InsertInventory(List<StockEnter> x)
+        //{
+        //    foreach(var i in x)
+        //    {
+        //        var inventory = db.Inventory.FirstOrDefault
+        //            (
+        //            p => p.ProductID == i.ProductID &&
+        //            p.CategoryID == i.CategoryID &&
+        //            p.MilliliterID == i.MilliliterID &&
+        //            p.ShelfID == i.ShelfID 
+        //            );
+        //        if(inventory != null)
+        //        {
+        //            inventory.Quantity += i.Quantity;
+        //            db.SaveChanges();
+        //        }
+        //        else
+        //        {
+
+        //            db.Inventory.Add();
+        //        }
+        //    }
+            
+        //}
     }
 }
