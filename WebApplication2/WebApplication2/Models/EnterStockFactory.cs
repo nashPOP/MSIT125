@@ -51,8 +51,16 @@ namespace WebApplication2.Models
                     d.StockEnterDate = datetime;
                     db.StockEnter.Add(d);
                 }
-                db.SaveChanges();
-                return "0";
+                string message = InsertInventory(x);
+                if (message == "0")
+                {
+                    db.SaveChanges();
+                    return "0";
+                }
+                else
+                {
+                    return message;
+                }
             }
             catch(Exception ex)
             {
@@ -60,29 +68,43 @@ namespace WebApplication2.Models
             }
         }
 
-        //public string InsertInventory(List<StockEnter> x)
-        //{
-        //    foreach(var i in x)
-        //    {
-        //        var inventory = db.Inventory.FirstOrDefault
-        //            (
-        //            p => p.ProductID == i.ProductID &&
-        //            p.CategoryID == i.CategoryID &&
-        //            p.MilliliterID == i.MilliliterID &&
-        //            p.ShelfID == i.ShelfID 
-        //            );
-        //        if(inventory != null)
-        //        {
-        //            inventory.Quantity += i.Quantity;
-        //            db.SaveChanges();
-        //        }
-        //        else
-        //        {
-
-        //            db.Inventory.Add();
-        //        }
-        //    }
-            
-        //}
+        public string InsertInventory(List<StockEnter> x)
+        {
+            try
+            {
+                foreach (var i in x)
+                {
+                    var inventory = db.Inventory.FirstOrDefault
+                        (
+                        p => p.ProductID == i.ProductID &&
+                        p.CategoryID == i.CategoryID &&
+                        p.MilliliterID == i.MilliliterID &&
+                        p.ShelfID == i.ShelfID
+                        );
+                    if (inventory != null)
+                    {
+                        inventory.Quantity += i.Quantity;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.Inventory.Add(new Inventory()
+                        {
+                            ProductID = i.ProductID,
+                            CategoryID = i.CategoryID,
+                            MilliliterID = i.MilliliterID,
+                            Quantity = i.Quantity,
+                            ShelfID = i.ShelfID
+                        });
+                        db.SaveChanges();
+                    }
+                }
+                return "0";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }
