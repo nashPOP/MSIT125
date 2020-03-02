@@ -28,5 +28,6 @@ namespace WebApplication2.Models
         public virtual Product Product { get; set; }
         public virtual Shelf Shelf { get; set; }
         public virtual Winery Winery { get; set; }
+        public virtual Milliliter Milliliter { get; set; }
     }
 }

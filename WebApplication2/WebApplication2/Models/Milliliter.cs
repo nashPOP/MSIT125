@@ -18,6 +18,7 @@ namespace WebApplication2.Models
         public Milliliter()
         {
             this.Inventory = new HashSet<Inventory>();
+            this.StockEnter = new HashSet<StockEnter>();
         }
     
         public int MilliliterID { get; set; }
@@ -25,5 +26,7 @@ namespace WebApplication2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventory> Inventory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockEnter> StockEnter { get; set; }
     }
 }

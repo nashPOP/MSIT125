@@ -1,4 +1,4 @@
-﻿@model IQueryable<WebApplication2.StockEnter>
+﻿@model IQueryable<WebApplication2.Models.StockEnter>
 @{
     ViewBag.Title = "存貨查詢";
 
@@ -125,7 +125,7 @@
                                     @Html.DisplayFor(modelItem => item.Winery.WineryName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Milliliter.Milliliter1)
+                                    @Html.DisplayFor(modelItem => item.Milliliter.capacity)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Quantity)
@@ -276,7 +276,6 @@
             MillilterData();
             ShelfData();
 
-            console.log("");
             $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
         })
     </script>

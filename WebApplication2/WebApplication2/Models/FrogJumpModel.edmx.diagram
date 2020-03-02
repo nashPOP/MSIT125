@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="12.75" />
         <AssociationConnector Association="Model1.FK_Order_Details_Order" />
         <AssociationConnector Association="Model1.FK_Order_Winery" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Milliliter" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
