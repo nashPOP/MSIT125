@@ -29,8 +29,8 @@
                     <label for="tborderid" id="lborderid">訂單編號：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control" })
-                    @*<input type="text" id="tborderid" name="tborderid" class="form-control" />*@
+                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control",@autocomplete = "off" })
+                    
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
@@ -38,10 +38,6 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
-                    @*<select id="DDL_Winery" name="DDL_Winery" class="form-control">
-                            <option value="1">酒莊1</option>
-                            <option value="2">酒莊2</option>
-                        </select>*@
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -50,9 +46,7 @@
                     <label for="tbCustomer" id="lbw">客戶名稱：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control" })
-
-                    @*<input type="text" id="tbCustomer" name="tbCustomer" class="form-control" />*@
+                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control" , @autocomplete = "off" })
                 </div>
                 <div class="col-sm-8"></div>
             </div>
@@ -62,10 +56,6 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
-                    @*<select id="tbCategory" name="tbCategory" class="form-control">
-                            <option>酒類</option>
-                            <option>其他</option>
-                        </select>*@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
@@ -73,10 +63,6 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
-                    @*<select id="tbProduct" name="tbProduct" class="form-control">
-                            <option>葡萄酒</option>
-                            <option>白葡萄酒</option>
-                        </select>*@
                 </div>
                 <div class="col-sm-4"></div>
             </div>
@@ -85,7 +71,7 @@
                     <label for="tbOutTimeStart" id="lbOutTime">出貨時間：</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="date" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" />
+                    <input type="text" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" />
                 </div>
                 <div class="col-sm-8"></div>
             </div>
@@ -291,6 +277,7 @@
         WineryData();
         CategoryData();
         ProductData();
+        $('#D_OrderDate').datepicker({ dateFormat: "yy/mm/dd" });
 
         $("#dialog").dialog({
             autoOpen: false,

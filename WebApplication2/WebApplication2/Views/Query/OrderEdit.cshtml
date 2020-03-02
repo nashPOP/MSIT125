@@ -24,13 +24,12 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Order.OrderID)
-
                 <div class="form-group row">
                     <div class="col-sm-1">
                         @Html.LabelFor(model => model.Order.WineryID, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @Html.TextBoxFor(model => model.Order.Winery.WineryName, htmlAttributes: new { @class = "form-control", @ReadOnly = "true" })
+                        @Html.TextBoxFor(model => model.Order.Winery.WineryName, htmlAttributes: new { @class = "form-control", @ReadOnly = "true" , @autocomplete = "off" })
                         @Html.ValidationMessageFor(model => model.Order.WineryID, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
@@ -38,7 +37,7 @@
                         @Html.LabelFor(model => model.Order.CustomerName, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                         @Html.ValidationMessageFor(model => model.Order.CustomerName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -64,7 +63,6 @@
                         @Html.LabelFor(model => model.Order.ShippedDate, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @*<input type="datetime" value=""/>*@
                         @Html.EditorFor(model => model.Order.ShippedDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = "text-danger" })
                     </div>
@@ -106,7 +104,7 @@
                         訂購數量
                     </th>
                     <th>
-
+                        <button id="Btn_Add" class="btn btn-primary"><span class="fa fa-plus"></span>&nbsp;新增</button>
                     </th>
                 </tr>
             </thead>
@@ -127,7 +125,7 @@
                         </td>
                         <td class="text-center">
                             <button id="btnEdit" data-count="@count" data-Orderid="@item.OrderID" data-Prodcutid="@item.ProductID" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
-                            <button id="btnDelete" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                            <button id="btnDelete" data-count="@count" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                         </td>
                         @{count++;
                         }
@@ -169,7 +167,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <button id="Btn_Sava" class="btn btn-primary"><span class="fa fa-save"></span>&nbsp;儲存</button>
-                <button id="Btn_Not" class="btn btn-danger"><span class="fa fa-cross"></span>&nbsp;取消</button>
+                <button id="Btn_Not" class="btn btn-danger"><span class="fa fa-times"></span>&nbsp;取消</button>
             </div>
         </div>
     </div>
@@ -181,7 +179,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+<script>
 
     function ProductData() {
         $.post("@Url.Action("GetProduct", "Query")", { 'id': null}, function (datas) {
@@ -220,6 +218,9 @@
         $(function () {
             WineryData();
             ProductData();
+            $('#Order_OrderDate').datepicker({ dateFormat: "yy/mm/dd" });
+            $('#Order_ShippedDate').datepicker({ dateFormat: "yy/mm/dd" });
+            $('#Order_RequiredDate').datepicker({ dateFormat: "yy/mm/dd" });
 
             $('[id="btnEdit"]').on('click', function () {
                 $('#EditDialog').dialog("open");
@@ -232,29 +233,53 @@
                     function (datas) {
                             $('#Dlog_ProductName').val(datas[0].ProductID);
                         $('#Dlog_Quantity').val(datas[0].Quantity);
+                        $('#Btn_Sava').attr('data-model', 'Edit');
                         $('#Btn_Sava').attr('data-td', titem);
                     })
             });
 
             $('[id="Btn_Sava"]').on('click', function () {
+                let model = $(this).attr('data-model');
                 var oid ='@Model.Order.OrderID';
                 var pid = $('#Dlog_ProductName :selected').val();
-                var pname = $('#Dlog_ProductName :selected').text();
                 var qty = $('#Dlog_Quantity').val();
                 var tdid = $(this).attr('data-td');
-                $.post("@Url.Action("Order_DetailEdit","Query")", { 'item':tdid,'oid': oid, 'pid': pid, 'qty': qty },
-                    function (datas) {
-                        console.log(datas[0].message)
-                        if (datas[0] != '0') {
-                            alert("錯誤");
-                            $('#EditDialog').dialog("close");
-                        }
-                    })
-                //tr.children('#productid').text(pid);
-                //tr.children('#productname').text(pname);
-                //tr.children('#quantity').text(qty);
-
+                
+                Dodialog(model, oid, pid, qty, tdid);
             });
+
+            function Dodialog(model, oid, pid, qty, tdid) {
+                if (model == 'Insert') {
+                    $.post("@Url.Action("Order_DetailInsert","Query")", { 'oid': oid, 'pid': pid, 'qty': qty },
+                        function (datas) {
+                            console.log(datas)
+                            if (datas != null) {
+                                alert("錯誤"); 
+                            }
+                            $('#EditDialog').dialog("close");
+                            location.reload();
+                        })
+                }
+                else if (model == 'Edit') {
+                    $.post("@Url.Action("Order_DetailEdit","Query")", { 'item': tdid, 'oid': oid, 'pid': pid, 'qty': qty },
+                        function (datas) {
+                            console.log(datas[0].message)
+                            if (datas[0] != '0') {
+                                alert("錯誤");
+                                $('#EditDialog').dialog("close");
+                            }
+                        })
+                }
+            }
+
+            $('[id="Btn_Add"]').on('click', function () {
+                $('#Dlog_ProductName option[value=1]').attr('selected', true);
+                $('#Dlog_Quantity').val("");
+                $('#Dlog_Quantity').text("");
+                $('#Btn_Sava').attr('data-model', 'Insert');
+                
+                $('#EditDialog').dialog("open");
+            })
 
             $('[id="Btn_Not"]').on('click', function () {
                 $('#EditDialog').dialog("close");
@@ -263,13 +288,18 @@
             $('[id="btnDelete"]').on('click', function () {
                 var tid = $(this).attr('data-count');
                 var titem = $('#' + tid).attr('data-item');
-                $.post("@Url.Action("","Query")", { 'item': titem },
+                $.post("@Url.Action("OrderDetailDelete", "Query")", { 'item': titem },
                     function (datas) {
+                        if (datas != null) {
 
+                        }
+                        $('#EditDialog').dialog("close");
+                        alert('刪除完成');
+                        location.reload();
                     })
             });
         })
 
 
-    </script>
+</script>
 }

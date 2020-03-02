@@ -83,6 +83,24 @@ namespace WebApplication2.Controllers
             }
         }
 
+        public ActionResult Order_DetailInsert(int? oid, int? pid, int? qty)
+        {
+            Order_Details od = new Order_Details()
+            {
+                OrderID = (int)oid,
+                ProductID = (int)pid,
+                Quantity = (int)qty
+            };
+
+            string message = fas.Order_DetailInsert(od);
+            if(message != "0")
+            {
+                return Json(new { datas=message}, JsonRequestBehavior.AllowGet);
+            }
+
+            return RedirectToAction("OrderEdit", oid);
+        }
+
         public ActionResult Order_DetailEdit(string item, int? oid, int? pid, int? qty)
         {
 

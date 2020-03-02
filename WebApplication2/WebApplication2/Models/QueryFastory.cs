@@ -81,6 +81,20 @@ namespace WebApplication2.Models
             }
         }
 
+        public string Order_DetailInsert(Order_Details od)
+        {
+            try
+            {
+                db.Order_Details.Add(od);
+                db.SaveChanges();
+
+                return "0";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
 
         public string OrdersDelete(int id)
         {
