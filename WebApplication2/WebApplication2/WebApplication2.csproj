@@ -2066,6 +2066,7 @@
     <Content Include="Views\EnterStock\EnterStock.cshtml" />
     <Content Include="Views\Pick\pick.cshtml" />
     <Content Include="Views\OrderInput\InputPage.cshtml" />
+    <Content Include="Views\SelectorCreate\SelectorCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
