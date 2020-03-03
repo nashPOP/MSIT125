@@ -204,6 +204,7 @@
     <Compile Include="Models\Winery.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ModelViews\AAccount.cs" />
     <Compile Include="ModelViews\CEnterStock.cs" />
     <Compile Include="ModelViews\FJWinery.cs" />
     <Compile Include="ModelViews\OrderInputViewModel.cs" />
@@ -2068,6 +2069,10 @@
     <Content Include="Views\Pick\pick.cshtml" />
     <Content Include="Views\OrderInput\InputPage.cshtml" />
     <Content Include="Views\SelectorCreate\SelectorCreate.cshtml" />
+    <Content Include="Views\Login\Delete.cshtml" />
+    <Content Include="Views\Login\EditPassWord.cshtml" />
+    <Content Include="Views\Login\LoginPage.cshtml" />
+    <Content Include="Views\Login\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
