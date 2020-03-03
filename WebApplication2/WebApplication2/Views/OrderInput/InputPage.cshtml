@@ -1,6 +1,6 @@
 ﻿@model WebApplication4.ViewModel.OrderInputViewModel
 @{
-   
+
 
 
 }
@@ -16,127 +16,171 @@
             @System.Web.Optimization.Styles.Render("~/Content/css")
         }*@
 
+    @section style{
+        <style>
+            * {
+                font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+            }
+
+            #wineryspan {
+                font-size: 26px;
+                color: black;
+                background-color: #ACD6FF;
+                margin-right: 15px;
+                border-radius: 3px;
+                padding: 5px;
+            }
+        </style>
+    }
 
 </head>
 <body>
-    <div class="container">
-
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4>訂單輸入</h4>
+        </div>
         @*輸入列*@
-        <div class="inputOptions">
+        <div class="card-body">
             @*酒莊欄位行*@
-            <div class="row">
-                <label id="Winery" class="">酒莊</label>
-                <select class="" id="WineryData">
-                    @foreach (var i in Model.Winerys)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label id="Winery">酒莊：</label>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control" id="WineryData">
+                        @foreach (var i in Model.Winerys)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
             </div>
 
-            @*產品分類 品名*@
-            <div class=" row">
-                <div class="">
-                    <label id="category" class="">分類</label>
-                    <select id="CategoryData" class="">
+            @*產品分類*@
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label id="category">分類：</label>
+                </div>
+                <div class="col-sm-4">
+                    <select id="CategoryData" class="form-control">
                         @foreach (var i in Model.Categoerys)
                         {
                             <option value="@i">@i</option>
                         }
                     </select>
                 </div>
-
-                <div>
-                    <label id="productName">品名</label>
-                    <select id="ProductNameData"></select>
-                </div>
-
-
             </div>
-            @*數量容量*@
-            <div class="row">
-                <div>
-                    <label id="Quantity">數量</label>
-                    <input type="number" id="QuantityData" />
-                </div>
-                @*
-                    <div>
-                        <label id="Millilters">容量</label>
-                        <select id="MilliltersSelect">
-                            @foreach (var i in Model.Millilters)
-                            {
-                                <option value="@i">@i</option>
-                            }
-                        </select><label>ml</label>
-                    </div>
-                *@
 
+            @*品名 數量 容量*@
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label id="productName">品名：</label>
+                </div>
+                <div class="col-sm-3">
+                    <select id="ProductNameData" class="form-control"></select>
+                </div>
+                <div class="col-sm-1">
+                    <label id="Quantity">數量：</label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="number" id="QuantityData" class="form-control" />
+                </div>
             </div>
+
+            @*<div class="form-group row">*@
+
+            @*
+            <div>
+                <label id="Millilters">容量</label>
+                <select id="MilliltersSelect">
+                  @foreach (var i in Model.Millilters)
+                    {
+                       <option value="@i">@i</option>
+                    }
+                </select><label>ml</label>
+            </div>
+            *@
 
             @*客戶姓名電話*@
-            <div class="row">
-                <div>
-                    <label id="CustomerName">客戶姓名</label>
-                    <input type="text" id="CustomerNameData" placeholder="客戶姓名" />
+            <div class="form-group row">
+                <div class="col-xs-3" style="margin-left:10px;">
+                    <label id="CustomerName">客戶姓名：</label>
                 </div>
+                <div class="col-sm-3" style="padding-left:7px;">
+                    <input type="text" id="CustomerNameData" placeholder="請輸入姓名" class="form-control"/>
+                </div>
+                <div class="col-sm-1">
+                    <label id="Telphone">電話：</label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="TelphoneData" placeholder="請輸入電話" class="form-control"/>
+                </div>
+            </div>
 
-                <div>
-                    <label id="Telphone">電話</label>
-                    <input type="text" id="TelphoneData" placeholder="電話" />
-                </div>
-            </div>
             @*客戶地址*@
-            <div class="row">
-                <div>
-                    <label id="Address">地址</label>
-                    <input type="text" id="AddressData" placeholder="地址" />
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label id="Address">地址：</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" id="AddressData" placeholder="請輸入地址" class="form-control"/>
                 </div>
             </div>
+
             @*日期*@
-            <div class="row">
-                <label>出貨日期</label>
-                <input type="date" id="ShippedDateData" />
+            <div class="form-group row">
+                <div class="col-xs-3" style="margin-left:10px;">
+                    <label>出貨日期：</label>
+                </div>
+                <div class="col-sm-3" style="padding-left:7px;">
+                    <input type="date" id="ShippedDateData" class="form-control"/>
+                </div>
             </div>
 
             @*NOTE行*@
-            <div class="row">
-                <div>
-                    <label id="Note">備註</label>
-                    <input type="text" id="NoteData" />
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label id="Note">備註：</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" id="NoteData" class="form-control"/>
                 </div>
             </div>
 
             @*ADD和確認修改*@
-            <div class="row">
-                <button id="AddButton" class="btn btn-info">加入</button>
-                <button id="ConfirmButton" class="btn btn-warning" data-row="">確認修改</button>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <button id="AddButton" class="btn btn-primary">加入</button>
+                    <button id="ConfirmButton" class="btn btn-warning" data-row="">確認修改</button>
+                </div>
             </div>
         </div>
+    </div>
 
-        @*顯示已輸入區*@
-        <div class="row inputResult">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">酒莊</th>
-                        <th scope="col">分類</th>
-                        <th scope="col">品名</th>
-                        <th scope="col">數量</th>
-                        <th scope="col">客戶姓名</th>
-                        <th scope="col">客戶電話</th>
-                        <th scope="col">客戶地址</th>
-                        <th scope="col">運送日期</th>
-                        <th scope="col">備註</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="AppendTarget"></tbody>
-            </table>
-        </div>
-        @*送出按紐*@
-        <div class="row">
-            <button id="sendButton"> SEND ORDER</button>
-        </div>
+    @*顯示已輸入區*@
+    <div class="row inputResult">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">酒莊</th>
+                    <th scope="col">分類</th>
+                    <th scope="col">品名</th>
+                    <th scope="col">數量</th>
+                    <th scope="col">客戶姓名</th>
+                    <th scope="col">客戶電話</th>
+                    <th scope="col">客戶地址</th>
+                    <th scope="col">運送日期</th>
+                    <th scope="col">備註</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="AppendTarget"></tbody>
+        </table>
+    </div>
+    @*送出按紐*@
+    <div class="row">
+        <button id="sendButton"> SEND ORDER</button>
+    </div>
     </div>
 
     <div id="testArea">
