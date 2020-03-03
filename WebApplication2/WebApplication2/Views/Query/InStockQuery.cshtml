@@ -3,15 +3,93 @@
     ViewBag.Title = "存貨查詢";
 
     List<SelectListItem> list = new List<SelectListItem>()
-       {
-            new SelectListItem()
-            {
-                Text="--請選擇--",
-                Value="0"
-                }
-    };
+{
+    new SelectListItem()
+    {
+        Text="--請選擇--",
+        Value="0"
+        }
+};
 }
+@section style{
+    <style>
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
 
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /*#StockEnterTable_paginate li {
+            margin-left: -2px;
+            padding: 0px;
+            text-align: right;
+        }*/
+
+            #StockEnterTable_paginate li a {
+                position: relative;
+                display: block;
+                padding: 0.5rem 0.75rem;
+                margin-left: -1px;
+                line-height: 1.25;
+                color: #4e73df;
+                background-color: #fff;
+                border: 1px solid #dddfeb;
+                text-align: right;
+            }
+
+                #StockEnterTable_paginate li a:hover {
+                    z-index: 2;
+                    color: #224abe;
+                    text-decoration: none;
+                    background-color: #eaecf4;
+                    border-color: #dddfeb;
+                }
+
+                #StockEnterTable_paginate li a:focus {
+                    z-index: 2;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+                }
+
+            #StockEnterTable_paginate li:first-child a {
+                margin-left: 0;
+                border-top-left-radius: 0.35rem;
+                border-bottom-left-radius: 0.35rem;
+            }
+
+            #StockEnterTable_paginate li:last-child a {
+                border-top-right-radius: 0.35rem;
+                border-bottom-right-radius: 0.35rem;
+            }
+
+            #StockEnterTable_paginate li.active a {
+                z-index: 1;
+                color: #fff;
+                background-color: #4e73df;
+                border-color: #4e73df;
+            }
+
+            #StockEnterTable_paginate li.disabled a {
+                color: #858796;
+                pointer-events: none;
+                cursor: auto;
+                background-color: #fff;
+                border-color: #dddfeb;
+            }
+    </style>
+}
 <div class="card shadow mb-4">
     <div class="card-header py-2  d-flex flex-row">
         <h2>存貨查詢</h2>
@@ -24,7 +102,7 @@
                     <label for="TB_ProductID" id="LB_ProductID">商品編號：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBox("TB_ProductID","",new {@class="form-control" })
+                    @Html.TextBox("TB_ProductID", "", new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group row">
@@ -32,7 +110,7 @@
                     <label for="DDL_Category" id="LB_Category">分類：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Category", list, new { @class="form-control"})
+                    @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
@@ -40,7 +118,7 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
-                    
+
                 </div>
             </div>
             <div class="form-group row">
@@ -68,7 +146,7 @@
                     <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Shelf", list, htmlAttributes:new { @class= "form-control" })
+                    @Html.DropDownList("DDL_Shelf", list, htmlAttributes: new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
@@ -93,7 +171,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-bordered">
+                <table id="StockEnterTable" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>編號</th>
@@ -153,7 +231,7 @@
 </div>
 
 @section scripts{
-    
+
     <script>
         $('#DDL_Category').change(function () {
         let categoryid = $(this).val();
@@ -164,12 +242,12 @@
             $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
                 function (datas) {
                     $('#DDL_Product').empty();
-                    
+
                     var allop = $('<option></option>');
                     allop.text("--請選擇--");
                     allop.val('0');
                     $('#DDL_Product').append(allop);
-                    
+
                     $.each(datas, function (Idx, data) {
                         var op = $('<option></option>');
                         op.text(data.ProductName);
@@ -231,7 +309,7 @@
                 console.log(datas);
                 location.reload();
                 alert(datas);
-                
+
             })
         })
 
@@ -242,8 +320,32 @@
             MillilterData();
             ShelfData();
 
+            $('#StockEnterTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: false,
+                language: {
+
+                    lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+
+                },
+                pagingType: "full_numbers"
+            });
+            $('#StockEnterTable_wrapper').removeClass('form-inline');
             $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
         })
     </script>
-    
-    }
+
+}

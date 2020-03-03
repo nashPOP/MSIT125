@@ -3,15 +3,87 @@
 @{
     ViewBag.Title = "訂單查詢";
 
-    List<SelectListItem> list = new List<SelectListItem>()
-       {
-            new SelectListItem()
-            {
-                Text="--請選擇--",
-                Value="0"
-                }
-    };
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 
+}
+@section style{
+    <style>
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #OrderTable_paginate li {
+            margin-left: -2px;
+            padding: 0px;
+            text-align: right;
+        }
+
+            #OrderTable_paginate li a {
+                position: relative;
+                display: block;
+                padding: 0.5rem 0.75rem;
+                margin-left: -1px;
+                line-height: 1.25;
+                color: #4e73df;
+                background-color: #fff;
+                border: 1px solid #dddfeb;
+                text-align: right;
+            }
+
+                #OrderTable_paginate li a:hover {
+                    z-index: 2;
+                    color: #224abe;
+                    text-decoration: none;
+                    background-color: #eaecf4;
+                    border-color: #dddfeb;
+                }
+
+                #OrderTable_paginate li a:focus {
+                    z-index: 2;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+                }
+
+            #OrderTable_paginate li:first-child a {
+                margin-left: 0;
+                border-top-left-radius: 0.35rem;
+                border-bottom-left-radius: 0.35rem;
+            }
+
+            #OrderTable_paginate li:last-child a {
+                border-top-right-radius: 0.35rem;
+                border-bottom-right-radius: 0.35rem;
+            }
+
+            #OrderTable_paginate li.active a {
+                z-index: 1;
+                color: #fff;
+                background-color: #4e73df;
+                border-color: #4e73df;
+            }
+
+            #OrderTable_paginate li.disabled a {
+                color: #858796;
+                pointer-events: none;
+                cursor: auto;
+                background-color: #fff;
+                border-color: #dddfeb;
+            }
+    </style>
 }
 <div class="card shadow mb-4">
     <div class="card-header py-2 d-flex flex-row">
@@ -103,7 +175,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-bordered">
+                        <table id="OrderTable" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>
@@ -127,47 +199,47 @@
                                     <th>
                                         備註
                                     </th>
-                                    
+
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.Orderlist)
                                 {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OrderID)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Winery.WineryName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CustomerName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OrderDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.RequiredDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ShippedDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Note)
-                                    </td>
-                                    <td class="text-center">
-                                        <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit","Query",new { id = item.OrderID })">
-                                            <span class="fa fa-edit"></span>&nbsp;編輯
-                                        </a>
-                                        <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
-                                            <span class="fa fa-sticky-note"></span>&nbsp;明細
-                                        </button>
-                                        <a id="btnDelete" class="btn btn-danger" href="@Url.Action("OrderDelete","Query",new { id = item.OrderID })">
-                                            <span class="fa fa-trash"></span>&nbsp;刪除
-                                        </a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RequiredDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShippedDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Note)
+                                        </td>
+                                        <td class="text-center">
+                                            <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit","Query",new { id = item.OrderID })">
+                                                <span class="fa fa-edit"></span>&nbsp;編輯
+                                            </a>
+                                            <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                <span class="fa fa-sticky-note"></span>&nbsp;明細
+                                            </button>
+                                            <a id="btnDelete" class="btn btn-danger" href="@Url.Action("OrderDelete","Query",new { id = item.OrderID })">
+                                                <span class="fa fa-trash"></span>&nbsp;刪除
+                                            </a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -247,7 +319,7 @@
 </div>
 
 @section scripts{
-<script>
+    <script>
 
     $('#DDL_Category').change(function () {
         let categoryid = $(this).val();
@@ -313,6 +385,31 @@
             }
         });
 
+        $('#OrderTable').DataTable({
+            paging: true,
+            searching: false,
+            ordering: true,
+            lengthChange: false,
+            language: {
+
+                lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+
+                paginate: {
+                    previous: "上一頁",
+                    next: "下一頁",
+                    first: "第一頁",
+                    last: "最後一頁"
+                },
+                zeroRecords: "無資料",
+                info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                infoEmpty: "無紀錄",
+                infoFiltered: "",
+
+            },
+            pagingType: "full_numbers"
+        });
+        $('#OrderTable_wrapper').removeClass('form-inline');
+
         $('[id = "Details"]').on("click", function () {
             $("#dialog").dialog("open");
             let orderid = $(this).attr('data-OrderID');
@@ -369,6 +466,6 @@
         });
     })
 
-</script>
+    </script>
 
 }

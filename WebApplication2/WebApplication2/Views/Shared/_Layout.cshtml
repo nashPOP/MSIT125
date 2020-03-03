@@ -18,7 +18,8 @@
     <!-- Custom styles for this template-->
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-
+    <link href="~/Content/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.css" rel="stylesheet" />
+    @RenderSection("style", required: false)
     @section scripts
         {
 
@@ -361,9 +362,11 @@
     <!-- Page level custom scripts -->
     <script src="~/Content/js/demo/chart-area-demo.js"></script>
     <script src="~/Content/js/demo/chart-pie-demo.js"></script>
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/Content/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
- 
+
 </body>
 </html>
