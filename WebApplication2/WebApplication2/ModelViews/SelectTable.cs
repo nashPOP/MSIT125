@@ -8,6 +8,7 @@ namespace WebApplication2.ModelViews
 {
     public class SelectTable
     {
+        public string status { get; set; }
         public IEnumerable<Winery> wineryTable { get; set; }
         public IEnumerable<Category> categoryTable { get; set; }
         public IEnumerable<Product> productTable { get; set; }

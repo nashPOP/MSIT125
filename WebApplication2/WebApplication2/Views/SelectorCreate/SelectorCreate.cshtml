@@ -13,7 +13,7 @@
 
 <div>
     <div>
-        <h2 class="py-3">下拉式選單管理</h2>
+        <h2 class="py-3">資料管理</h2>
     </div><br />
     <div class="form-group" row>
         <div class="col-sm-4">
@@ -33,27 +33,111 @@
     <table class="table">
         <thead>
             <tr>
-                <th>序號</th>
-                <th>酒莊</th>                
-                <th>編輯/刪除</th>
+                @if (Model.status == "Winery")
+                {
+                    <th>編號</th>
+                    <th>酒莊名稱</th>
+                    <th>連絡電話</th>
+                    <th>地址</th>
+                    <th>電子信箱</th>
+                    <th></th>
+                }
+                @if (Model.status == "Category")
+                {
+                    <th>編號</th>
+                    <th>產品種類</th>
+                    <th></th>
+                }
+                @if (Model.status == "Product")
+                {
+                    <th>編號</th>
+                    <th>產品名稱</th>
+                    <th>數量</th>
+                    <th>所屬酒莊</th>
+                    <th>產品種類</th>
+                    <th></th>
+                }
+                @if (Model.status == "Milliliter")
+                {
+                    <th>編號</th>
+                    <th>容量(ml)</th>
+                    <th></th>
+                }
+                @if (Model.status == "Shelf")
+                {
+                    <th>編號</th>
+                    <th>貨架位子</th>
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody id="tb">
-            @*<tr>
-                <td>1</td>
-                <td>酒莊1</td>
-                <td><button class="btn btn-danger">刪除</button></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>酒莊2</td>
-                <td><button class="btn btn-danger">刪除</button></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>酒莊3</td>
-                <td><button class="btn btn-danger">刪除</button></td>
-            </tr>*@
+            @*酒莊資料表*@
+            @if (Model.status == "Winery")
+            {
+                foreach (var item in Model.wineryTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.WineryID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryPhone)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryAddress)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryEmail)</td>
+                        <td><button class="btn btn-warning">編輯</button> <button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
+            @*類別資料表*@
+            @if (Model.status == "Category")
+            {
+                foreach (var item in Model.categoryTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.CategoryID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.CategoryName)</td>
+                        <td><button class="btn btn-warning">編輯</button> <button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
+            @*產品資料表*@
+            @if (Model.status == "Product")
+            {
+                foreach (var item in Model.productTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.ProductName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Winery.WineryName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Category.CategoryName)</td>
+                        <td><button class="btn btn-warning">編輯</button> <button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
+            @*容量資料表*@
+            @if (Model.status == "Milliliter")
+            {
+                foreach (var item in Model.milliliterTabel)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.MilliliterID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.capacity)</td>
+                        <td><button class="btn btn-warning">編輯</button> <button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
+            @*貨架資料表*@
+            @if (Model.status == "Shelf")
+            {
+                foreach (var item in Model.shelfTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.ShelfID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.ShelfPosition)</td>
+                        <td><button class="btn btn-warning">編輯</button> <button class="btn btn-danger">刪除</button></td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
@@ -111,8 +195,14 @@
             modal.find('.modal-body input').val(recipient)
         })
 
-
-
+        $('#sl').change(function () {
+            var v1 = $('#sl option:selected').val();
+            console.log(v1);
+            $.post("@Url.Action("change","SelectorCreate")", { 'value': v1 }, function (data) {
+                window.location.href = data;
+            })
+        })
+        
 
     </script>
 }
