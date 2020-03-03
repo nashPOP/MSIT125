@@ -1,4 +1,4 @@
-﻿
+﻿@model WebApplication2.ModelViews.SelectTable
 @{
     ViewBag.Title = "SelectorCreate";
 }
@@ -10,45 +10,53 @@
         }
     </style>
 }
-<h2 style="font-family:標楷體;">下拉式選單管理</h2>
-<br />
 
-<form>
+<div>
+    <div>
+        <h2 class="py-3">下拉式選單管理</h2>
+    </div><br />
     <div class="form-group" row>
         <div class="col-sm-4">
-            <select class="form-control">
-                <option>酒莊</option>
-                <option>產品種類</option>
-                <option>產品名稱</option>
-                <option>產品容量</option>
-                <option>貨架</option>
+            <select id="sl" class="form-control">
+                <option value="0">--請選擇--</option>
+                <option value="1">酒莊</option>
+                <option value="2">產品種類</option>
+                <option value="3">產品名稱</option>
+                <option value="4">產品容量</option>
+                <option value="5">貨架</option>
             </select>
         </div>
     </div>
-</form>
+</div>
 
-<table class="table">
-    <tr>
-        <th>序號</th>
-        <th>酒莊</th>
-        <th>刪除</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>酒莊1</td>
-        <td><button class="btn btn-danger">刪除</button></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>酒莊2</td>
-        <td><button class="btn btn-danger">刪除</button></td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>酒莊3</td>
-        <td><button class="btn btn-danger">刪除</button></td>
-    </tr>
-</table>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序號</th>
+                <th>酒莊</th>                
+                <th>編輯/刪除</th>
+            </tr>
+        </thead>
+        <tbody id="tb">
+            @*<tr>
+                <td>1</td>
+                <td>酒莊1</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>酒莊2</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>酒莊3</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>*@
+        </tbody>
+    </table>
+</div>
 
 <div>
     <button type="button" id="bt1" class="btn btn-primary" data-toggle="modal" data-target="#window1" data-whatever="mdo">新增</button>
@@ -102,6 +110,10 @@
             modal.find('.modal-title').text('New message to ' + recipient)
             modal.find('.modal-body input').val(recipient)
         })
+
+
+
+
     </script>
 }
 

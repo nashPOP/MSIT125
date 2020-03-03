@@ -9,58 +9,33 @@ namespace WebApplication2.ModelView
     {
         Frog_JumpEntities db = new Frog_JumpEntities();
 
-        public IQueryable getWinery()
+        public IEnumerable<Winery> getWinery()
         {
-            var winery = db.Winery.Select(w => new
-            {
-                w.WineryName,
-                w.WineryID
-            });
-
+            var winery = db.Winery.ToList();
             return winery;
         }
 
-        public IQueryable getProductName()
+        public IEnumerable<Product> getProductName()
         {
-            var product = db.Product.Select(p => new
-            {
-                p.ProductName,
-                p.ProductID
-            });
-
+            var product = db.Product.ToList();
             return product;
         }
 
-        public IQueryable getCategory()
+        public IEnumerable<Category> getCategory()
         {
-            var category = db.Category.Select(c => new
-            {
-                c.CategoryID,
-                c.CategoryName
-            });
-
+            var category = db.Category.ToList();
             return category;
         }
 
-        public IQueryable getMilliliter()
+        public IEnumerable<Milliliter> getMilliliter()
         {
-            var milliliter = db.Milliliter.Select(m => new
-            {
-                m.MilliliterID,
-                m.capacity
-            });
-
+            var milliliter = db.Milliliter.ToList();
             return milliliter;
         }
 
-        public IQueryable getShelf()
+        public IEnumerable<Shelf> getShelf()
         {
-            var shelf = db.Shelf.Select(s => new
-            {
-                s.ShelfID,
-                s.ShelfPosition
-            });
-
+            var shelf = db.Shelf.ToList();
             return shelf;
         }
     }

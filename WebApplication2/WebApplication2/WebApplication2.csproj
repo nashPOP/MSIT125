@@ -211,6 +211,7 @@
     <Compile Include="ModelViews\QOrder.cs" />
     <Compile Include="ModelViews\QStockEnter.cs" />
     <Compile Include="ModelViews\QueryModelByView.cs" />
+    <Compile Include="ModelViews\SelectTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

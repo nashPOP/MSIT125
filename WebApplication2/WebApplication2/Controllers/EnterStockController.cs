@@ -10,6 +10,7 @@ namespace WebApplication2.Controllers
 {
     public class EnterStockController : Controller
     {
+        DDLFastory db = new DDLFastory();
         // GET: EnterStock
         public ActionResult Index()
         {
@@ -67,36 +68,31 @@ namespace WebApplication2.Controllers
 
         public ActionResult SelectWinery ()
         {
-            SelectClick data = new SelectClick();
-            var winery = data.getWinery();
+            var winery = db.getWinery();
             return Json(winery, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SelectProduct()
+        public ActionResult SelectProduct(int category)
         {
-            SelectClick data = new SelectClick();
-            var product = data.getProductName();
+            var product = db.getProduct(category);
             return Json(product, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SelectMilliliter()
         {
-            SelectClick data = new SelectClick();
-            var milliliter = data.getMilliliter();
+            var milliliter = db.getMillilter();
             return Json(milliliter, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SelectCategory()
         {
-            SelectClick data = new SelectClick();
-            var category = data.getCategory();
+            var category = db.getCategory();
             return Json(category, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SelectShelf()
         {
-            SelectClick data = new SelectClick();
-            var shelf = data.getShelf();
+            var shelf = db.getShelf();
             return Json(shelf, JsonRequestBehavior.AllowGet);
         }
 
