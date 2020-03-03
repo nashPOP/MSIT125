@@ -35,6 +35,7 @@
 
 </head>
 <body>
+    @*訂單輸入欄位*@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h4>訂單輸入</h4>
@@ -106,7 +107,7 @@
                 <div class="col-xs-3" style="margin-left:10px;">
                     <label id="CustomerName">客戶姓名：</label>
                 </div>
-                <div class="col-sm-3" style="padding-left:7px;">
+                <div class="col-sm-3" style="margin-left:12px;">
                     <input type="text" id="CustomerNameData" placeholder="請輸入姓名" class="form-control"/>
                 </div>
                 <div class="col-sm-1">
@@ -132,7 +133,7 @@
                 <div class="col-xs-3" style="margin-left:10px;">
                     <label>出貨日期：</label>
                 </div>
-                <div class="col-sm-3" style="padding-left:7px;">
+                <div class="col-sm-3" style="margin-left:12px;">
                     <input type="date" id="ShippedDateData" class="form-control"/>
                 </div>
             </div>
@@ -158,35 +159,41 @@
     </div>
 
     @*顯示已輸入區*@
-    <div class="row inputResult">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">酒莊</th>
-                    <th scope="col">分類</th>
-                    <th scope="col">品名</th>
-                    <th scope="col">數量</th>
-                    <th scope="col">客戶姓名</th>
-                    <th scope="col">客戶電話</th>
-                    <th scope="col">客戶地址</th>
-                    <th scope="col">運送日期</th>
-                    <th scope="col">備註</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="AppendTarget"></tbody>
-        </table>
-    </div>
-    @*送出按紐*@
-    <div class="row">
-        <button id="sendButton"> SEND ORDER</button>
-    </div>
-    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4>新增列表</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">酒莊</th>
+                        <th scope="col">分類</th>
+                        <th scope="col">品名</th>
+                        <th scope="col">數量</th>
+                        <th scope="col">客戶姓名</th>
+                        <th scope="col">客戶電話</th>
+                        <th scope="col">客戶地址</th>
+                        <th scope="col">運送日期</th>
+                        <th scope="col">備註</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="AppendTarget"></tbody>
+            </table>
 
-    <div id="testArea">
+            @*送出按紐*@
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <button id="sendButton" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </div>
 
+        <div id="testArea">
+
+        </div>
     </div>
-
     @section scripts{
         @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
         @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
