@@ -75,10 +75,10 @@
                     <label for="D_StockEnterDate" id="LB_StockEnterDate">入庫時間：</label>
                 </div>
                 <div class="col-sm-3">
-                    <input type="text" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" />
+                    <input type="text" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" autocomplete="off" />
                 </div>
             </div>
-            <button id="Btn_StockEnterQuery" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+            <button type="submit" id="Btn_StockEnterQuery" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
         }
     </div>
 </div>
@@ -225,48 +225,14 @@
         }
 
         $('[id="Btn_Delete"]').click(function () {
-            var invid = $(this).attr("data-StockEnterId");
-        $.post("@Url.Action("StockEnterDelete", "Query")", { 'stockenterid': stid },
+            var stid = $(this).attr("data-StockEnterId");
+            $.post("@Url.Action("StockEnterDelete", "Query")", { 'stid': stid },
             function (datas) {
                 console.log(datas);
-                alert(datas.Message);
                 location.reload();
+                alert(datas);
+                
             })
-        })
-
-        function btn_edit(sid) {
-            window.location.href = "@Url.Action("StockEnterEdit","Query")";
-        })
-
-        $('#Btn_StockEnterQuery').click(function () {
-            $.post("@Url.Action("StockEnter","Query")",
-                {
-                    'id': $('#TB_ProductID').val(),
-                    'pid': $('#DDL_Product').val(),
-                    'wid': $('#DDL_Winery').val(),
-                    'mid': $('#DDL_Millilter').val(),
-                    'sid': $('#DDL_Shelf').val(),
-                    'stockenterdate': $('#D_StockEnterDate').val()
-                }, function (datas) {
-                    $.each(datas,function (i,data) {
-                        var tr = $('<tr></tr>');
-                        var productid = $('<td></td>').text(data.ProductID);
-                        var productname = $('<td></td>').text(data.ProductName);
-                        var winery = $('<td></td>').text(data.Winery);
-                        var milliliter = $('<td></td>').text(data.Milliliter);
-                        var quantity = $('<td></td>').text(data.Quantity);
-                        var shelf = $('<td></td>').text(data.Shelf);
-                        var note = $('<td></td>').text(data.Note);
-                        var Date = $('<td></td>').text(data.StockEnterDate);
-                        var btn = $('<td id="btntd"></td>');
-                        var sid = data.StockEnterID;
-                        btn.append($('<a id="Btn_Edit" href="" class="btn btn-success">&nbsp;編輯</a>').append($('<span class="fa fa-edit" ></span>')));
-                        btn.append($('<button id="Btn_Delete" class="btn btn-danger">&nbsp;刪除</button>').attr('data').append($('<span class="fa fa-trash" ></span>')));
-                        tr.append(productid).append(productname).append(winery).append(milliliter).
-                            append(quantity).append(shelf).append(note).append(Date).append(btn);
-                    })
-                    
-                })
         })
 
         $(function () {

@@ -34,17 +34,20 @@ namespace WebApplication2.Models
             {
                 table = table.Where(p => p.CustomerName.ToString() == qOrder.TB_CustomerName.Trim());
             }
-            if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
+            if (qOrder.D_OrderDate!=null)
             {
-                table = table.Where(p => p.OrderDate == qOrder.D_OrderDate);
+                DateTime lasttime = qOrder.D_OrderDate.Value.AddDays(1);
+                table = table.Where(p => p.OrderDate >= qOrder.D_OrderDate && p.OrderDate < lasttime);
             }
-            if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
+            if (qOrder.D_RequiredDate != null)
             {
-                table = table.Where(p => p.RequiredDate == qOrder.D_RequiredDate);
+                DateTime lasttime = qOrder.D_RequiredDate.Value.AddDays(1);
+                table = table.Where(p => p.RequiredDate >= qOrder.D_RequiredDate && p.RequiredDate < lasttime);
             }
-            if (!string.IsNullOrEmpty(qOrder.D_OrderDate.ToString()))
+            if (qOrder.D_ShippedDate != null)
             {
-                table = table.Where(p => p.ShippedDate == qOrder.D_ShippedDate);
+                DateTime lasttime = qOrder.D_ShippedDate.Value.AddDays(1);
+                table = table.Where(p => p.ShippedDate >= qOrder.D_ShippedDate && p.ShippedDate < lasttime);
             }
 
             return table;
@@ -67,9 +70,9 @@ namespace WebApplication2.Models
                     Edit.CustomerName = order.CustomerName;
                     Edit.OrderDate = order.OrderDate;
                     Edit.RequiredDate = order.RequiredDate;
-                    Edit.ShippedDate = order.ShippedDate;
+                    Edit.ShippedDate = (DateTime)order.ShippedDate;
                     Edit.Note = order.Note;
-
+                    Edit.Status = "";
                     db.SaveChanges();
                     return true;
                 }
@@ -221,38 +224,45 @@ namespace WebApplication2.Models
 
         public IEnumerable<StockEnter> getStockEnter(QStockEnter qStockEnter)
         {
-            var table = getAllStockEnter().Select(p => p);
+            try
+            {
+                var table = getAllStockEnter().Select(p => p);
 
-            if (!string.IsNullOrEmpty(qStockEnter.TB_StockEnterID))
-            {
-                table = table.Where(p => p.StockEnterID.ToString() == qStockEnter.TB_StockEnterID);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.TB_ProductID))
-            {
-                table = table.Where(p => p.ProductID.ToString() == qStockEnter.TB_ProductID);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.DDL_Winery) && qStockEnter.DDL_Winery != "0")
-            {
-                table = table.Where(p => p.WineryID.ToString() == qStockEnter.DDL_Winery);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.DDL_Product) && qStockEnter.DDL_Product != "0")
-            {
-                table = table.Where(p => p.ProductID.ToString() == qStockEnter.DDL_Product);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.DDL_Millilter) && qStockEnter.DDL_Millilter != "0")
-            {
-                table = table.Where(p => p.MilliliterID.ToString() == qStockEnter.DDL_Millilter);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.DDL_Shelf) && qStockEnter.DDL_Shelf != "0")
-            {
-                table = table.Where(p => p.ShelfID.ToString() == qStockEnter.DDL_Shelf);
-            }
-            if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
-            {
-                table = table.Where(p => p.StockEnterDate.ToString() == qStockEnter.D_StockEnterDate);
-            }
+                if (!string.IsNullOrEmpty(qStockEnter.TB_StockEnterID))
+                {
+                    table = table.Where(p => p.StockEnterID.ToString() == qStockEnter.TB_StockEnterID);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.TB_ProductID))
+                {
+                    table = table.Where(p => p.ProductID.ToString() == qStockEnter.TB_ProductID);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.DDL_Winery) && qStockEnter.DDL_Winery != "0")
+                {
+                    table = table.Where(p => p.WineryID.ToString() == qStockEnter.DDL_Winery);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.DDL_Product) && qStockEnter.DDL_Product != "0")
+                {
+                    table = table.Where(p => p.ProductID.ToString() == qStockEnter.DDL_Product);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.DDL_Millilter) && qStockEnter.DDL_Millilter != "0")
+                {
+                    table = table.Where(p => p.MilliliterID.ToString() == qStockEnter.DDL_Millilter);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.DDL_Shelf) && qStockEnter.DDL_Shelf != "0")
+                {
+                    table = table.Where(p => p.ShelfID.ToString() == qStockEnter.DDL_Shelf);
+                }
+                if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
+                {
+                    table = table.Where(p => p.StockEnterDate.StartsWith(qStockEnter.D_StockEnterDate));
+                }
 
-            return table;
+                return table;
+            }
+            catch (Exception ex)
+            {
+                return getAllStockEnter().Select(p => p);
+            }
         }
 
         #endregion
@@ -265,22 +275,22 @@ namespace WebApplication2.Models
             return table.ToList();
         }
 
-        public IEnumerable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
+        public IQueryable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
         {
             var table = db.Inventory.Select(p => p);
             if (!string.IsNullOrEmpty(qinv.TB_ProductID))
             {
                 table = table.Where(p => p.ProductID.ToString() == qinv.TB_ProductID.Trim());
             }
-            if (!string.IsNullOrEmpty(qinv.DDL_Product))
+            if (!string.IsNullOrEmpty(qinv.DDL_Product.ToString()) && qinv.DDL_Product != 0)
             {
-                table = table.Where(p => p.Product.ProductName == qinv.DDL_Product);
+                table = table.Where(p => p.ProductID == qinv.DDL_Product);
             }
-            if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()))
+            if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()) && qinv.DDL_Millilter != 0)
             {
                 table = table.Where(p => p.MilliliterID == qinv.DDL_Millilter);
             }
-            if (!string.IsNullOrEmpty(qinv.DDL_Shelf.ToString()))
+            if (!string.IsNullOrEmpty(qinv.DDL_Shelf.ToString()) && qinv.DDL_Shelf != 0)
             {
                 table = table.Where(p => p.ShelfID == qinv.DDL_Shelf);
             }

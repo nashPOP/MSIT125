@@ -1,15 +1,8 @@
-﻿@model IEnumerable<WebApplication2.Inventory>
+﻿@model IEnumerable<WebApplication2.Models.Inventory>
 @{
     ViewBag.Title = "Index";
 
-    List<SelectListItem> list = new List<SelectListItem>()
-    {
-            new SelectListItem()
-            {
-                Text="--請選擇--",
-                Value="0"
-            }
-    };
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 
     int count = 0;
 }
@@ -95,7 +88,7 @@
                         <td>@count</td>
                         <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
                         <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Milliliter.Milliliter1)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
                         <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                         <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
                         <td class="text-center">
@@ -172,8 +165,7 @@
         var invid = $(this).attr("data-InventoryId");
         $.post("@Url.Action("InventoryDelete","Query")", { 'inventoryid': invid },
             function (datas) {
-                console.log(datas);
-                alert(datas.Message);
+                alert(datas);
                 location.reload();
             })
     })
