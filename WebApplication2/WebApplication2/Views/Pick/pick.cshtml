@@ -367,7 +367,7 @@
                         alert("新增成功");
                         $('#table_orderDetail').children().remove();
                         $('#Add').remove();
-                        $.get("/Pick/order_Detail", { orderID: id },
+                        $.get("/Pick/order_Detail", { orderID: data },
                             function (datas) {
 
                                 $(datas).each(function (idx, value) {
