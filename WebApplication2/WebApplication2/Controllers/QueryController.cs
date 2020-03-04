@@ -79,7 +79,7 @@ namespace WebApplication2.Controllers
             }
             else
             {
-                return RedirectToAction("OrderQuery");
+                return Json("刪除成功", JsonRequestBehavior.AllowGet);
             }
         }
 
