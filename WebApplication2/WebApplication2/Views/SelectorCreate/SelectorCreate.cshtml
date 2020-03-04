@@ -8,6 +8,82 @@
         * {
             font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
         }
+
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /*#myTable_paginate li {
+            margin-left: -2px;
+            padding: 0px;
+            text-align: right;
+        }*/
+
+        #myTable_paginate li a {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #4e73df;
+            background-color: #fff;
+            border: 1px solid #dddfeb;
+            text-align: right;
+        }
+
+            #myTable_paginate li a:hover {
+                z-index: 2;
+                color: #224abe;
+                text-decoration: none;
+                background-color: #eaecf4;
+                border-color: #dddfeb;
+            }
+
+            #myTable_paginate li a:focus {
+                z-index: 2;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+            }
+
+        #myTable_paginate li:first-child a {
+            margin-left: 0;
+            border-top-left-radius: 0.35rem;
+            border-bottom-left-radius: 0.35rem;
+        }
+
+        #myTable_paginate li:last-child a {
+            border-top-right-radius: 0.35rem;
+            border-bottom-right-radius: 0.35rem;
+        }
+
+        #myTable_paginate li.active a {
+            z-index: 1;
+            color: #fff;
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        #myTable_paginate li.disabled a {
+            color: #858796;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dddfeb;
+        }
     </style>
 }
 
@@ -30,7 +106,7 @@
 </div>
 
 <div>
-    <table class="table">
+    <table id="myTable" class="table">
         <thead>
             <tr>
                 @if (Model.status == "Winery")
@@ -202,8 +278,33 @@
                 window.location.href = data;
             })
         })
-        
 
+        $(function () {
+            $('#myTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: false,
+                language: {
+
+                    //lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+
+                },
+                pagingType: "full_numbers"
+            });
+            $('#myTable_wrapper').removeClass('form-inline');
+        })
     </script>
 }
 

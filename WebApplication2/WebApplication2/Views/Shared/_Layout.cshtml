@@ -20,6 +20,7 @@
     <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.css" rel="stylesheet" />
     @RenderSection("style", required: false)
+
     @section scripts
         {
 
@@ -27,16 +28,8 @@
             $("#logout").click(function () {
                 var data = $("#span1").val(@Session["account1"]);
                 $("#span1").hide();
-
-
-
             })
-
-
-
         </script>
-
-
     }
 </head>
 
@@ -84,32 +77,42 @@
 
             <!-- Nav Item -存貨輸入 -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="~/EnterStock/EnterStock">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>存貨輸入</span>
                 </a>
             </li>
             <!-- Nav Item - 訂單輸入 -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="~/OrderInput/InputPage">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>訂單輸入</span>
                 </a>
             </li>
 
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - 揀貨處理 -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="~/Pick/pick">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>揀貨處理</span>
                 </a>
             </li>
+
+            <!-- Nav Item - 資料管理 -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="~/SelectorCreate/SelectorCreate">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>資料管理</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - 會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link" href="#"  data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>會員系統</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseMember" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         @Html.ActionLink("註冊新會員", "Register", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
                         @Html.ActionLink("修改密碼", "EditPassWord", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
@@ -117,6 +120,7 @@
                     </div>
                 </div>
             </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

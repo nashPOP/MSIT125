@@ -48,7 +48,7 @@ namespace WebApplication2.Controllers
             }
             else
             {
-
+                sT.status = null;
             }
 
             return View(sT);
