@@ -91,12 +91,10 @@ namespace WebApplication2.Controllers
 
         public ActionResult Ajax_Pick()
         {
-
-
             // var orders = dbcontext.Order.OrderBy(p=>p.RequiredDate).Select(p => new { p.OrderID,  p.RequiredDate, p.Status });
-            var orders = dbcontext.Order_Details.OrderBy(p => p.Order.RequiredDate).Where(p => p.Quantity < p.Product.Quantity).Select(p => p.Order);
+            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity && p.Order.Status == "C").Select(p => new { p.Order.OrderID,p.Order.RequiredDate,p.Order.Status});
 
-            return Json(orders, JsonRequestBehavior.AllowGet);
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Ajax_NotAllowPick()
