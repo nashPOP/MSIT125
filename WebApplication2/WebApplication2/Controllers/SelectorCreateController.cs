@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication2.Models;
 using WebApplication2.ModelView;
 using WebApplication2.ModelViews;
 
@@ -10,6 +11,7 @@ namespace WebApplication2.Controllers
 {
     public class SelectorCreateController : Controller
     {
+        SelectClick sC = new SelectClick();
         // GET: SelectorCreate
         public ActionResult Index()
         {
@@ -18,7 +20,7 @@ namespace WebApplication2.Controllers
 
         public ActionResult SelectorCreate(int table = 0)
         {
-            SelectClick sC = new SelectClick();
+            
             SelectTable sT = new SelectTable();
             sT.wineryTable = sC.getWinery();
             sT.productTable = sC.getProductName();
@@ -70,6 +72,35 @@ namespace WebApplication2.Controllers
             {
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult Warning(int? id, string status)
+        {
+            if (id != null)
+            {
+                switch (status)
+                {
+                    case "Winery":
+                        var w = sC.warning((int)id, status);
+                        return Json((Winery)w, JsonRequestBehavior.AllowGet);
+                    case "Category":
+                        var c = sC.warning((int)id, status);
+                        return Json((Category)c, JsonRequestBehavior.AllowGet);
+                    case "Product":
+                        var p = sC.warning((int)id, status);
+                        return Json((Product)p, JsonRequestBehavior.AllowGet);
+                    case "Milliliter":
+                        var m = sC.warning((int)id, status);
+                        return Json((Milliliter)m, JsonRequestBehavior.AllowGet);
+                    case "Shelf":
+                        var s = sC.warning((int)id, status);
+                        return Json((Shelf)s, JsonRequestBehavior.AllowGet);
+                    default:
+                        return Json("錯誤", JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            return Json("錯誤", JsonRequestBehavior.AllowGet);
         }
 
     }

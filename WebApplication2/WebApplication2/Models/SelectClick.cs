@@ -94,5 +94,36 @@ namespace WebApplication2.ModelView
             }
         }
 
+        public object warning(int id, string status)
+        {
+            try
+            {
+                switch (status)
+                {
+                    case "Winery":
+                        var wineryWarning = db.Winery.FirstOrDefault(p => p.WineryID == id);
+                        return wineryWarning;
+                        
+                    case "Category":
+                        var categoryWarning = db.Category.FirstOrDefault(p => p.CategoryID == id);
+                        return categoryWarning;
+                    case "Product":
+                        var productWarning = db.Product.FirstOrDefault(p => p.ProductID == id);
+                        return productWarning;
+                    case "Milliliter":
+                        var milliliterWarning = db.Milliliter.FirstOrDefault(p => p.MilliliterID == id);
+                        return milliliterWarning;
+                    case "Shelf":
+                        var shelfWarning = db.Shelf.FirstOrDefault(p => p.ShelfID == id);
+                        return shelfWarning;
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

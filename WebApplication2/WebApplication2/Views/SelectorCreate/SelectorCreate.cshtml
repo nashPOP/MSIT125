@@ -159,7 +159,7 @@
                         <td>@Html.DisplayFor(modelitem => item.WineryPhone)</td>
                         <td>@Html.DisplayFor(modelitem => item.WineryAddress)</td>
                         <td>@Html.DisplayFor(modelitem => item.WineryEmail)</td>
-                        <td><button class="btn btn-warning" data-edit="@item.WineryID">編輯</button> <button class="btn btn-danger" data-delete="@item.WineryID">刪除</button></td>
+                        <td><button class="btn btn-warning" data-edit="@item.WineryID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.WineryID">刪除</button>*@</td>
                     </tr>
                 }
             }
@@ -171,7 +171,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelitem => item.CategoryID)</td>
                         <td>@Html.DisplayFor(modelitem => item.CategoryName)</td>
-                        <td><button class="btn btn-warning" data-edit="@item.CategoryID">編輯</button> <button class="btn btn-danger" data-delete="@item.CategoryID">刪除</button></td>
+                        <td><button class="btn btn-warning" data-edit="@item.CategoryID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.CategoryID">刪除</button>*@</td>
                     </tr>
                 }
             }
@@ -186,7 +186,7 @@
                         <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                         <td>@Html.DisplayFor(modelitem => item.Winery.WineryName)</td>
                         <td>@Html.DisplayFor(modelitem => item.Category.CategoryName)</td>
-                        <td><button class="btn btn-warning" data-edit="@item.ProductID">編輯</button> <button class="btn btn-danger" data-delete="@item.ProductID">刪除</button></td>
+                        <td><button class="btn btn-warning" data-edit="@item.ProductID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.ProductID">刪除</button>*@</td>
                     </tr>
                 }
             }
@@ -198,7 +198,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelitem => item.MilliliterID)</td>
                         <td>@Html.DisplayFor(modelitem => item.capacity)</td>
-                        <td><button class="btn btn-warning" data-edit="@item.MilliliterID">編輯</button> <button class="btn btn-danger" data-delete="@item.MilliliterID">刪除</button></td>
+                        <td><button class="btn btn-warning" data-edit="@item.MilliliterID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.MilliliterID">刪除</button>*@</td>
                     </tr>
                 }
             }
@@ -210,7 +210,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelitem => item.ShelfID)</td>
                         <td>@Html.DisplayFor(modelitem => item.ShelfPosition)</td>
-                        <td><button class="btn btn-warning" data-edit="@item.ShelfID">編輯</button> <button class="btn btn-danger" data-delete="@item.ShelfID">刪除</button></td>
+                        <td><button class="btn btn-warning" data-edit="@item.ShelfID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.ShelfID">刪除</button>*@</td>
                     </tr>
                 }
             }
@@ -227,28 +227,48 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">新增</h5>
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form>
-                    <div>
-                        <div>
-                            <select class="form-control" style="font-weight:800;font-family:標楷體;">
-                                <option>酒莊</option>
-                                <option>產品種類</option>
-                                <option>產品名稱</option>
-                                <option>產品容量</option>
-                                <option>貨架</option>
-                            </select>
+                    @*<div>
+            <div>
+                <select class="form-control" style="font-weight:800;font-family:標楷體;">
+                    <option>酒莊</option>
+                    <option>產品種類</option>
+                    <option>產品名稱</option>
+                    <option>產品容量</option>
+                    <option>貨架</option>
+                </select>
+            </div>
+        </div>*@
+                    @if (Model.status == "Winery")
+                    {
+                        <div class="form-group" style="display:none">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryId" placeholder="輸入新增選單名稱" value="">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label"><span></span></label>
-                        <input type="text" class="form-control" id="message-text" placeholder="輸入新增選單名稱">
-                    </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryName" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryPhone" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryAddress" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryEmail" placeholder="輸入新增選單名稱">
+                        </div>
+                    }
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -286,6 +306,21 @@
             $.post("@Url.Action("Delete","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
                 alert(data);
                 location.reload();
+            })
+        })
+
+        $('.btn-warning').on('click', function () {
+            var x = $(this).attr('data-edit');
+            var status = $(this).parents('tr').attr('data-status');
+
+            $.post("@Url.Action("Warning","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
+                console.log(data);
+                //$('#wineryId').val(data.WineryID);
+                //$('#wineryName').val(data.WineryName);
+                //$('#wineryPhone').val(data.WineryPhone);
+                //$('#wineryAddress').val(data.WineryAddress);
+                //$('#wineryEmail').val(data[0].WineryEmail);
+                //$('#window1').modal('show');
             })
         })
 
