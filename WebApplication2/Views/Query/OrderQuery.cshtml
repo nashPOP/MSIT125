@@ -1,0 +1,329 @@
+﻿@model WebApplication2.ModelViews.QueryModelByView
+
+@{
+    ViewBag.Title = "訂單查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>()
+       {
+            new SelectListItem()
+            {
+                Text="--請選擇--",
+                Value="0"
+                }
+    };
+
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-2 d-flex flex-row">
+        <h3>訂單查詢</h3>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tborderid" id="lborderid">訂單編號：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control",@autocomplete = "off" })
+                    
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="selw" id="lbw">酒莊：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tbCustomer" id="lbw">客戶名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control" , @autocomplete = "off" })
+                </div>
+                <div class="col-sm-8"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tbCategory" id="lbCategory">分類：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="tbProduct" id="lbProduct">商品名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tbOutTimeStart" id="lbOutTime">出貨時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" />
+                </div>
+                <div class="col-sm-8"></div>
+            </div>
+            <button type="submit" id="" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+        }
+    </div>
+</div>
+<br />
+<div class="card shadow mb-4">
+    <div class="card-header py-3 ">
+        <h3>訂單列表</h3>
+    </div>
+    <div class="card-body">
+        <div class="">
+            <div class="dataTables_wrapper">
+                <div class="row">
+                    <div></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Order.OrderID)
+                                        @*訂單編號*@
+                                    </th>
+                                    <th>
+                                        酒莊
+                                    </th>
+                                    <th>
+                                        客戶名稱
+                                    </th>
+                                    <th>
+                                        訂購時間
+                                    </th>
+                                    <th>
+                                        時間
+                                    </th>
+                                    <th>
+                                        出貨時間
+                                    </th>
+                                    <th>
+                                        備註
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Orderlist)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RequiredDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ShippedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Note)
+                                    </td>
+                                    <td class="text-center">
+                                        <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit","Query",new { id = item.OrderID })">
+                                            <span class="fa fa-edit"></span>&nbsp;編輯
+                                        </a>
+                                        <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                            <span class="fa fa-sticky-note"></span>&nbsp;明細
+                                        </button>
+                                        <a id="btnDelete" class="btn btn-danger" href="@Url.Action("OrderDelete","Query",new { id = item.OrderID })">
+                                            <span class="fa fa-trash"></span>&nbsp;刪除
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog" title="訂單明細">
+    <div class="form-group row">
+        <div class="col-lg-2">
+            @Html.DisplayNameFor(model => model.Order.OrderID)
+        </div>
+        <div class="col-lg-4">
+            <label id="Dlog_OrderID"></label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-2">
+            @Html.DisplayNameFor(model => model.Order.WineryID)
+        </div>
+        <div class="col-lg-4">
+            <label id="Dlog_Winery"></label>
+        </div>
+        <div class="col-lg-2">
+            @Html.DisplayNameFor(model => model.Order.CustomerName)
+        </div>
+        <div class="col-lg-4">
+            <label id="Dlog_Customer"></label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-2">
+            @Html.DisplayNameFor(model=>model.Order.OrderDate)
+        </div>
+        <div class="col-lg-4">
+            <label id="Dlog_OrderData"></label>
+        </div>
+        <div class="col-lg-2">
+            <label>@Html.DisplayNameFor(model => model.Order.ShippedDate)</label>
+        </div>
+        <div class="col-lg-4">
+            <label id="Dlog_ShipperData"></label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>編號</th>
+                    <th>產品編號</th>
+                    <th>產品名稱</th>
+                    <th>數量</th>
+                </tr>
+            </thead>
+            <tbody id="Dlog_Product_tbody">
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+<script>
+
+    $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+                    //if ($('#DDL_Product').html == null) {
+                    //    var op = $('<option></option>');
+                    //    op.text("--請選擇--");
+                    //    op.val('0');
+                    //    $('#DDL_Product').append(op);
+                    //}
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ProductName);
+                        op.val(data.ProductID);
+                        $('#DDL_Product').append(op);
+                    })
+                })
+            }
+
+    function WineryData() {
+        $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.WineryName);
+                op.val(data.WineryID);
+                $('#DDL_Winery').append(op);
+            })
+        })
+    }
+
+    function CategoryData() {
+        $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.CategoryName);
+                op.val(data.CategoryID);
+                $('#DDL_Category').append(op);
+            })
+        })
+    }
+
+
+    $(function () {
+        WineryData();
+        CategoryData();
+        ProductData();
+        $('#D_OrderDate').datepicker({ dateFormat: "yy/mm/dd" });
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 1000,
+            height: 800,
+            show: {
+            },
+            hide: {
+            }
+        });
+
+        $('[id = "Details"]').on("click", function () {
+            $("#dialog").dialog("open");
+            let orderid = $(this).attr('data-OrderID');
+            $.post("@Url.Action("Dialog_Order", "Query")",// "/Query/Dialog_Order"
+                { 'id': orderid },
+                function (datas) {
+                    //console.log(datas);
+                    $.each(datas, function (idx, data) {
+                        var orderdata = new Date(parseInt(data.OrderDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                        var shipperData = new Date(parseInt(data.ShippedDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                        $('#Dlog_OrderID').text(data.OrderID);
+                        $('#Dlog_Winery').text(data.WineryName);
+                        $('#Dlog_Customer').text(data.CustomerName);
+                        $('#Dlog_OrderData').text(orderdata.toLocaleDateString());
+                        $('#Dlog_ShipperData').text(shipperData.toLocaleDateString());
+                    })
+                }
+            )
+            $.post("@Url.Action("Dialog_OrderDetail", "Query")", // "/Query/Dialog_OrderDetail"
+                { 'id': orderid ,'pid':null},
+                function (datas) {
+                    $('#Dlog_Product_tbody').empty();
+                    let count = 0;
+                    $.each(datas, function (idx, data) {
+                        count = count+1;
+                        var tr = $('<tr></tr>')
+                        var counts = $('<td></td>').text(count);
+                        var pid = $('<td></td>').text(data.ProductID);
+                        var pname = $('<td></td>').text(data.ProductName);
+                        var pq = $('<td></td>').text(data.Quantity);
+                        tr.append(counts).append(pid).append(pname).append(pq);
+                        $('#Dlog_Product_tbody').append(tr);
+                    })
+                }
+            )
+        });
+    })
+
+</script>
+
+}

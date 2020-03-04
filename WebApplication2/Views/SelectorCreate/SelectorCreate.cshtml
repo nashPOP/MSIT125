@@ -1,0 +1,119 @@
+﻿@model WebApplication2.ModelViews.SelectTable
+@{
+    ViewBag.Title = "SelectorCreate";
+}
+
+@section style{
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+    </style>
+}
+
+<div>
+    <div>
+        <h2 class="py-3">下拉式選單管理</h2>
+    </div><br />
+    <div class="form-group" row>
+        <div class="col-sm-4">
+            <select id="sl" class="form-control">
+                <option value="0">--請選擇--</option>
+                <option value="1">酒莊</option>
+                <option value="2">產品種類</option>
+                <option value="3">產品名稱</option>
+                <option value="4">產品容量</option>
+                <option value="5">貨架</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序號</th>
+                <th>酒莊</th>                
+                <th>編輯/刪除</th>
+            </tr>
+        </thead>
+        <tbody id="tb">
+            @*<tr>
+                <td>1</td>
+                <td>酒莊1</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>酒莊2</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>酒莊3</td>
+                <td><button class="btn btn-danger">刪除</button></td>
+            </tr>*@
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <button type="button" id="bt1" class="btn btn-primary" data-toggle="modal" data-target="#window1" data-whatever="mdo">新增</button>
+    <p>PS:點選新增按鈕跳出輸入視窗(alert.text)以新增下拉選單內容</p>
+</div>
+
+<div class="modal fade" id="window1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">新增</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div>
+                        <div>
+                            <select class="form-control" style="font-weight:800;font-family:標楷體;">
+                                <option>酒莊</option>
+                                <option>產品種類</option>
+                                <option>產品名稱</option>
+                                <option>產品容量</option>
+                                <option>貨架</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"><span></span></label>
+                        <input type="text" class="form-control" id="message-text" placeholder="輸入新增選單名稱">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">新增</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#bt1').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+
+
+
+
+    </script>
+}
+
