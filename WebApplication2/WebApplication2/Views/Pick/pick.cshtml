@@ -6,10 +6,6 @@
 @section style
     {
     <style>
-        * {
-            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
-        }
-
         #CanDrive, #Can_not_Drive {
             cursor: pointer
         }
@@ -27,10 +23,8 @@
         }
 
         .Add {
-            text-align:right;
+            text-align: right;
         }
-
-
     </style>
 }
 <div class="container">
@@ -73,7 +67,7 @@
                                 <td>@status</td>
                                 <td>
                                     <input type="button" class="btn btn-success orderPick" value="揀貨" data-orderpick="@item.OrderID" />
-                                    <input type="button" class="btn btn-danger btn_orderDetail"  id="opener" value="詳細資料..." data-orderId="@item.OrderID " />
+                                    <input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="@item.OrderID " />
                                 </td>
                             </tr>
                         }
@@ -115,15 +109,15 @@
                     duration: 1000
                 },
                 hide: {
-                    effect: "explode",
+                    effect: "drop",
                     duration: 1000
                 },
                 height: 600,
-                width:880
-                
+                width: 880
+
             });
 
-            $("#opener").on("click", function () {
+            $("#tbody_For_Order").on("click", '.btn_orderDetail', function () {
                 $("#dialog").dialog("open");
             });
         });
@@ -168,10 +162,13 @@
         $('#tbody_For_Order').on('click', '.btn_orderDetail', Order_detail_Creat);
 
         let textstatus
+        //可出貨頁籤
         $('#CanDrive').click(function () {
             $('#tbody_For_Order').children().remove();
             $.get("/Pick/Ajax_Pick", function (datas) {
                 console.log(datas);
+                $('#CanDrive').addClass("active");
+                $('#Can_not_Drive').removeClass("active");
 
                 $(datas).each(function (idx, value) {
                     console.log(value.Status);
@@ -184,8 +181,8 @@
                     var month = date.getMonth();
                     month += 1;
                     var year = date.getFullYear();
-                    
-                    
+
+
                     var tr = $('<tr></tr>')
                     var td1 = $('<td>' + value.OrderID + '</td>')
                     var td2 = $('<td>' + year + "/" + month + "/" + day + '</td>')
@@ -200,6 +197,37 @@
             })
         })
 
+        //缺貨頁籤
+        $('#Can_not_Drive').click(function () {
+            $('#tbody_For_Order').children().remove();
+            $('#Can_not_Drive').addClass("active");
+            $('#CanDrive').removeClass("active");
+            $.get("/Pick/Ajax_NotAllowPick", function (datas) {
+                console.log(datas);
+
+                $(datas).each(function (idx, value) {
+
+
+                    var date = new Date(parseInt((value.RequiredDate).substr(6)));
+                    var day = date.getDate();
+                    var month = date.getMonth();
+                    month += 1;
+                    var year = date.getFullYear();
+
+
+                    var tr = $('<tr></tr>')
+                    var td1 = $('<td>' + value.OrderID + '</td>')
+                    var td2 = $('<td>' + year + "/" + month + "/" + day + '</td>')
+                    var td3 = $('<td>缺貨</td>')
+                    var td4 = $('<td><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID + '" /></td>')
+
+
+
+                    tr.append(td1).append(td2).append(td3).append(td4)
+                    $('#tbody_For_Order').append(tr)
+                })
+            })
+        })
 
         $('#dialog').on("click", '.btn_Fix', function () {
             console.log($(this).attr('data-OrderID'));
@@ -243,23 +271,22 @@
             //console.log($(this).parent().prevAll().eq(0).children().eq(0).val())
             console.log($(this).parent().prevAll().children('.fix_Qty').val);
 
-           var Qty = $(this).parent().prevAll().children('.fix_Qty').val();
+            var Qty = $(this).parent().prevAll().children('.fix_Qty').val();
 
             //console.log(Qty);
 
-                if (window.confirm('你確定要更新嗎？') == true) {
-                    console.log(Qty);
-                    $.post('/Pick/order_Detail_Update', {
-                        Orderdetail_ID: $(this).attr('data-OrderDetailID'),
-                        Quantity: Qty
-                    }, function (data) {
-                        alert("更新成功");
-                    })                 
-                }
-                else
-                {                    
-                    return false;
-                }    
+            if (window.confirm('你確定要更新嗎？') == true) {
+                console.log(Qty);
+                $.post('/Pick/order_Detail_Update', {
+                    Orderdetail_ID: $(this).attr('data-OrderDetailID'),
+                    Quantity: Qty
+                }, function (data) {
+                    alert("更新成功");
+                })
+            }
+            else {
+                return false;
+            }
         })
 
         //取消按鈕
@@ -298,26 +325,88 @@
 
                 })
         })
+        //新增按鈕
         $('#dialog').on('click', '#Add', function () {
+
             var tr = $('<tr></tr>');
             var td1 = $('<td></td>');
             var td2 = $('<td></td>');
             var select = $('<select class="custom-select"><option selected>請選擇品項</option></select>')
-            $.get(("/Pick/order_Detail_Add"), function (datas) {
+            $.get(("/Pick/order_Detail_option_Add"), function (datas) {
                 $(datas).each(function (idx, values) {
                     var options = $(' <option value="' + values.ProductID + '">' + values.ProductName + '</option>')
                     $(select).append(options);
                 })
 
             })
-            var td3 = $('<td><input type = "number" class = "form-control"></td>')
-            var td4 = $('<td><input type = "button" class = "btn btn-primary" value ="確定"><input type = "button" class = "btn btn-danger" value ="取消"></td>')
+            var td3 = $('<td><input type = "number" class = "form-control data-Qty"></td>')
+            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger" value ="取消"></td>')
 
             td1.text($(this).attr('data-OrderID'))
             $(td2).append(select);
             $(tr).append(td1).append(td2).append(td3).append(td4);
             $('#table_orderDetail').append(tr);
         })
+        //新增品項的確認按鈕
+        $('#dialog').on('click', '.btn_confrim_for_orderdetail', function () {
+            if ($(this).parentsUntil('#table_orderDetail').find('.data-Qty').val() == "" || $(this).parentsUntil('#table_orderDetail').find('.custom-select').val() == "請選擇品項") {
+                alert("請輸入品名及數量")
+            }
+            else {
+                if (window.confirm('你確定要新增嗎？') == true) {
+                    var Qty = $(this).parentsUntil('#table_orderDetail').find('.data-Qty').val();
+                    var PID = $(this).parentsUntil('#table_orderDetail').find('.custom-select').val();
+                    console.log($(this).attr('data-OrderID'));
+                    console.log(PID);
+                    console.log(Qty);
+                    $.post('/Pick/order_Detail_Insert', {
+                        OrderID: $(this).attr('data-OrderID'),
+                        ProductID: PID,
+                        Quantity: Qty
+                    }, function (data) {
+                        alert("新增成功");
+                        $('#table_orderDetail').children().remove();
+                        $('#Add').remove();
+                        $.get("/Pick/order_Detail", { orderID: id },
+                            function (datas) {
+
+                                $(datas).each(function (idx, value) {
+
+
+                                    var tr = $('<tr></tr>')
+                                    var td1 = $('<td></td>')
+                                    var td2 = $('<td></td>')
+                                    var td3 = $('<td><input type="number" value="" /></td>')
+                                    var td4 = $('<td class="td_Fix"></td>')
+                                    var button = $('<input type="button"class="btn btn-danger btn_Fix"  value="修改"  data-OrderID="' + value.OrderID + '" data-OrderDetailID ="' + value.Order_Detail_ID + '"/>')
+
+                                    td1.text(value.OrderID)
+                                    td2.text(value.ProductName)
+                                    td3.text(value.Quantity)
+                                    td4.append(button)
+
+                                    tr.append(td1).append(td2).append(td3).append(td4)
+
+                                    $('#table_orderDetail').append(tr)
+
+                                })
+
+                            })
+                        console.log($(this).attr('data-OrderDetailID'))
+
+                        var newButton = $('<input id="Add" type="button" value="新增" class="btn btn-success Add" data-OrderID ="' + $(this).attr('data-OrderID') + '" />')
+
+                        $('#dialog').append(newButton);
+                    }
+                        )
+                    }
+                   else
+                 {
+                    return;
+                 }
+                 }
+            })
+
     </script>
 
 
