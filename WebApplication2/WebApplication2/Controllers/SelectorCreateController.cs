@@ -12,6 +12,7 @@ namespace WebApplication2.Controllers
     public class SelectorCreateController : Controller
     {
         SelectClick sC = new SelectClick();
+        DDLFastory ddl = new DDLFastory();
         // GET: SelectorCreate
         public ActionResult Index()
         {
@@ -78,30 +79,61 @@ namespace WebApplication2.Controllers
         {
             if (id != null)
             {
-                switch (status)
+                if (status == "Winery")
                 {
-                    case "Winery":
-                        var w = sC.warning((int)id, status);
-                        return Json((Winery)w, JsonRequestBehavior.AllowGet);
-                    case "Category":
-                        var c = sC.warning((int)id, status);
-                        return Json((Category)c, JsonRequestBehavior.AllowGet);
-                    case "Product":
-                        var p = sC.warning((int)id, status);
-                        return Json((Product)p, JsonRequestBehavior.AllowGet);
-                    case "Milliliter":
-                        var m = sC.warning((int)id, status);
-                        return Json((Milliliter)m, JsonRequestBehavior.AllowGet);
-                    case "Shelf":
-                        var s = sC.warning((int)id, status);
-                        return Json((Shelf)s, JsonRequestBehavior.AllowGet);
-                    default:
-                        return Json("錯誤", JsonRequestBehavior.AllowGet);
+                    var w = sC.warning((int)id, status);
+                    return Json(w, JsonRequestBehavior.AllowGet);
                 }
-
+                else if (status == "Category")
+                {
+                    var c = sC.warning((int)id, status);
+                    return Json(c, JsonRequestBehavior.AllowGet);
+                }
+                else if (status == "Product")
+                {
+                    var p = sC.warning((int)id, status);
+                    return Json(p, JsonRequestBehavior.AllowGet);
+                }
+                else if (status == "Milliliter")
+                {
+                    var m = sC.warning((int)id, status);
+                    return Json(m, JsonRequestBehavior.AllowGet);
+                }
+                else if (status == "Shelf")
+                {
+                    var s = sC.warning((int)id, status);
+                    return Json(s, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("錯誤default", JsonRequestBehavior.AllowGet);
+                }
             }
-            return Json("錯誤", JsonRequestBehavior.AllowGet);
+            else
+            {
+                return Json("錯誤", JsonRequestBehavior.AllowGet);
+            } 
         }
 
+        public ActionResult Edit(string kk,string status)
+        {
+            string[] k = kk.Split(',');
+            string s = sC.Edit(k,status);
+            return Json(s, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCategory()
+        {
+            var ddlCategory = ddl.getCategory();
+
+            return Json(ddlCategory, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetWinery()
+        {
+            var ddlWinery = ddl.getWinery();
+
+            return Json(ddlWinery, JsonRequestBehavior.AllowGet);
+        }
     }
 }
