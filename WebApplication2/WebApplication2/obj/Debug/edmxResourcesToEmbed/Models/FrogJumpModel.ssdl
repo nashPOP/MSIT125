@@ -32,7 +32,7 @@
     <Key>
       <PropertyRef Name="MilliliterID" />
     </Key>
-    <Property Name="MilliliterID" Type="int" Nullable="false" />
+    <Property Name="MilliliterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="capacity" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Order">
@@ -196,6 +196,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_StockEnter_Milliliter">
+    <End Role="Milliliter" Type="Self.Milliliter" Multiplicity="1" />
+    <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Milliliter">
+        <PropertyRef Name="MilliliterID" />
+      </Principal>
+      <Dependent Role="StockEnter">
+        <PropertyRef Name="MilliliterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_StockEnter_Product">
     <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
@@ -274,6 +286,10 @@
     <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
       <End Role="Category" EntitySet="Category" />
       <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StockEnter_Milliliter" Association="Self.FK_StockEnter_Milliliter">
+      <End Role="Milliliter" EntitySet="Milliliter" />
+      <End Role="StockEnter" EntitySet="StockEnter" />
     </AssociationSet>
     <AssociationSet Name="FK_StockEnter_Product" Association="Self.FK_StockEnter_Product">
       <End Role="Product" EntitySet="Product" />

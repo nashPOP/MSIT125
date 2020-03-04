@@ -176,8 +176,8 @@ namespace WebApplication2.Controllers
 
         public ActionResult StockEnterDelete(int stid)
         {
-            var StockDelete = fas.StockEnterDelete(stid);
-            return View(StockDelete);
+            string StockDelete = fas.StockEnterDelete(stid);
+            return Json(StockDelete,JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -192,7 +192,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult InventoryQuery(QInventory inventory)
         {
-            var Inventory = fas.getInventoryQuery(inventory);
+            var Inventory = fas.getInventoryQuery(inventory).ToList();
             return View(Inventory);
         }
 
@@ -213,7 +213,7 @@ namespace WebApplication2.Controllers
         {
             string message = fas.InventoryDelete(inventoryid);
 
-            return Json("{'Message':" + message + "}", JsonRequestBehavior.AllowGet);
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

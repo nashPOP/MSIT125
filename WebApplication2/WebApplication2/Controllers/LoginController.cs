@@ -6,13 +6,17 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
 using System.Data.SqlClient;
+using WebApplication2.ModelViews;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace WebApplication2.Controllers
 {
     public class LoginController : Controller
     {
         Frog_JumpEntities db = new Frog_JumpEntities();
-
+        AAccount ac = new AAccount();
+        
         // GET: Login
         public ActionResult Index()
         {
@@ -20,11 +24,11 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-
+        
         [HttpPost]
         public ActionResult Delete(string account1)
         {
-            Frog_JumpEntities db = new Frog_JumpEntities();
+
             var mems = db.Account.Where(p => p.Account1 == account1).FirstOrDefault();
             if (mems != null)
             {
@@ -42,119 +46,169 @@ namespace WebApplication2.Controllers
 
         }
 
-
+     
         [HttpPost]
-        public ActionResult EditPassWord(string account1, string Password)
+        public ActionResult EditPassWord(string Account1, string Password,string Password1)
         {
-
-            Frog_JumpEntities db = new Frog_JumpEntities();
-            var mem = db.Account.FirstOrDefault(t => t.Password != Password);
-            if (mem == null)
+            var q = db.Account.FirstOrDefault(p => p.Account1 == Account1 && p.Password == Password);
+            
+            if (Account1 == q.Account1&&Password==q.Password)
             {
 
-                mem.Password = Password;
-
-
+                 q.Password=Password1 ;
+            
                 db.SaveChanges();
+                return RedirectToAction("LoginPage");
+            
             }
-            return RedirectToAction("");
-
+            else
+            {
+                ViewBag.Message("帳號與密碼不相同,請重新輸入!");
+                return RedirectToAction("EditPassWord");
+            }
+            
 
         }
 
         public ActionResult EditPassWord()
         {
-            //var MEMBERS = (new DELogisticsEntities1()).Accounts.FirstOrDefault(p => p.PassWord == Password);
-            //if (MEMBERS == null)
-            //    return RedirectToAction("LoginPage");
-            return View();
+            //接受輸入進表單的值,並做修改:
+            string account = Session["account1"] as string;
+            var q = db.Account.FirstOrDefault(p => p.Account1 == account);
+            return View(q);
 
 
         }
 
-        //        [ValidateAntiForgeryToken]
-        //        [HttpPost]
-        //        public ActionResult Register(string WineryName, string WineryPhone,string WineryAddress, string WineryEmail)
-        //        {
-        //            DELogisticsEntities1 db = new DELogisticsEntities1();
-        //            if (!db.Wineries.All(P=>P.WineryName==WineryName&& P.WineryPhone ==             if (!db.Wineries.All(P => P.WineryName == WineryName && P.WineryPhone == WineryName && P.WineryName == WineryName && P.WineryName == WineryName,)
-        //&& P.WineryName == WineryName &&P.WineryName == WineryName,)
-        //            {
-        //                db.Accounts.Add(new Account { Account1 = account1, PassWord = password,IdentityCode="A",});
-        //                db.SaveChanges();
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Register(string wineryname, string wineryphone, string wineryaddress, string wineryemail)
+        {
 
-        //                return RedirectToAction("LoginPage");
+            if (!db.Winery.All(P => P.WineryName == wineryname && P.WineryPhone == wineryphone && P.WineryAddress == wineryaddress && P.WineryEmail == wineryemail))
+            {
 
-        //            }
-        //            else
-        //            {
+                db.Winery.Add(new Winery() { WineryName = wineryname, WineryPhone = wineryphone, WineryAddress = wineryaddress, WineryEmail = wineryemail });
+                db.SaveChanges();
+                //如果split有錯,把值由0改成1:
 
-        //                return View();
-
-        //            }
+                string s= db.Account.OrderByDescending(P => P.Account1).Select(P => P.Account1).FirstOrDefault().Substring(1);
+                int.TryParse(s, out int a);
 
 
-        //      }
+                var k = db.Winery.FirstOrDefault(P => P.WineryName == wineryname && P.WineryPhone == wineryphone && P.WineryAddress == wineryaddress && P.WineryEmail == wineryemail).WineryID;
+                db.Account.Add(new Account() { Account1 = "A" + (a + 1),IdentityCode="A",Password="123456000".Trim(),WineryID=k });
+                db.SaveChanges();
+                return RedirectToAction("LoginPage");
 
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
+            }
+            else
+            {
+
+                return View();
+
+                //}
 
 
+            }
+        }
+            //註解可拿掉
+            public ActionResult Register()
+            {
+                return View();
+            }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult LoginPage(string Account1, string PassWord)
-        //{
+            //註解可拿掉
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LoginPage(string account1, string PassWord)
+        {
+            var q = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
+           
 
-        //    DELogisticsEntities1 db = new DELogisticsEntities1();
-        //    var q = db.Accounts.FirstOrDefault(p => p.Account1 == Account1 && p.PassWord == PassWord);
-        //    //這邊未來可能要改action位置
-        //    if (q != null && q.IdentityCode.Trim() == "A")
-        //    {
-        //        Session["Account"] = q.Account1.ToString();
-        //        Session["IdentityCode"] = q.IdentityCode.ToString();
-        //        return RedirectToAction("EditPassWord", "Login");
+            //輸入之帳號與db相同,但密碼不同時:
+            if (account1 == q.Account1&& PassWord != q.Password)
+            {
+                ViewBag.Message = "密碼錯誤,請重新輸入!";
+                return View("LoginPage");
+            }
+            //輸入之帳號與密碼和db不同時:
+            else if (account1 != q.Account1 && PassWord != q.Password)
+            {
+                ViewBag.Message = "帳號與密碼皆錯誤,請重新輸入!";
+                return View("LoginPage");
 
-        //    }
-        //    //這邊未來可能要改action位置
-        //    else if (q != null && q.IdentityCode.Trim() == "B")
-        //    {
-        //        Session["Account"] = q.Account1.ToString();
-        //        Session["IdentityCode"] = q.IdentityCode.ToString();
-        //        return RedirectToAction("EditPassWord", "Login");
-        //    }
-        //    else if (string.IsNullOrEmpty(Account1) && string.IsNullOrEmpty(PassWord) && q == null)
-        //    {
-        //        ViewBag.message = "未檢查到帳號,轉至註冊頁面";
-        //        return RedirectToAction("Register", "Login");
-        //    }
-        //    else 
-        //    {
-        //        return View();
-        //    }
-        //    //var q = db.Accounts.FirstOrDefault(p => p.Account1 == p.Account1 && p.PassWord == p.PassWord);
+            }
+            //輸入之帳號和db不同,但密碼相同時:
+            else if (account1 != q.Account1 && PassWord == q.Password)
+            {
+                ViewBag.Message = "帳號錯誤,請重新輸入!";
+                return View();
 
-        //    //if (q != null)
-        //    //{
-        //    //    Session["Account"] = q.Account1.ToString();
-        //    //    Session["IdentityCode"] = q.IdentityCode.ToString();
-        //    //    return RedirectToAction("Index");
-        //    //}
-        //    //else
-        //    //{
-        //    //    return View();
+            }
+            //輸入之帳號和密碼與db相同,且識別碼為A時:
+           if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "A")
+            {
+                ViewBag.Message = "歡迎進入本網站!";
+                Session["account1"] = q.Account1.ToString();
+                Session["IdentityCode"] = q.IdentityCode.ToString();
+                return RedirectToAction("EditPassWord", "Login");
+            }
+            //如果帳號密碼皆與DB相同,但識別碼為B者:
+            else if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "B")
+            {
+                ViewBag.Message = "歡迎進入本網站!";
+                Session["account1"] =q.Account1.ToString();
+                Session["IdentityCode"] = q.IdentityCode.ToString();
+                return RedirectToAction("EnterStock", "EnterStock");
+            }
+            //當帳密為空值或null時:
+            else if (account1 == "" && PassWord == "")
+            {
+                ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
+                return RedirectToAction("LoginPage", "Login");
+            }
+            else if (account1 == q.Account1 && PassWord == "")
+            {
+                ViewBag.message = "請輸入密碼,密碼不可為空值!";
+                return RedirectToAction("LoginPage", "Login");
+            }
+            else if (account1 == q.Account1 && PassWord == null)
+            {
+                ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
+                return RedirectToAction("LoginPage", "Login");
+            }
+            else if (account1 != "" && account1 != null && PassWord != "" && PassWord != null)
+            {
+                if (account1 == q.Account1 && PassWord != q.Password)
+                {
+                    ViewBag.message = "請輸入正確帳號跟密碼,帳號密碼不可隨便填寫!";
+                    return RedirectToAction("LoginPage", "Login");
+                }
+                else
+                {
+                    ViewBag.message = "請輸入正確帳號跟密碼,帳號密碼不可隨便填寫!";
+                    return RedirectToAction("LoginPage", "Login");
+                }
 
-        //    //}
+            }
+            else
+            {
+                return View();
+            }
 
-        //}
+        }
 
-        //public ActionResult LoginPage()
-        //{
-        //    return View();
-        //}
+        public ActionResult LoginPage()
+        {
+          
+            return View();
+        }
+
     }
 }
+
+
 
 

@@ -16,7 +16,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="card">
+    <div class="card shadow">
         <div class="card-header py-3">
             <h3>訂單編輯</h3>
         </div>
@@ -46,7 +46,8 @@
                         @Html.LabelFor(model => model.Order.OrderDate, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @Html.EditorFor(model => model.Order.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                        <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 OrderDate 必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
+                        @*@Html.EditorFor(model => model.Order.OrderDate, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
@@ -54,6 +55,7 @@
                         @Html.LabelFor(model => model.Order.RequiredDate, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
+                        
                         @Html.EditorFor(model => model.Order.RequiredDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = "text-danger" })
                     </div>
@@ -63,6 +65,7 @@
                         @Html.LabelFor(model => model.Order.ShippedDate, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
+                        
                         @Html.EditorFor(model => model.Order.ShippedDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = "text-danger" })
                     </div>
@@ -88,7 +91,7 @@
     </div>
 }
 <br />
-<div class="card">
+<div class="card shadow">
     <div class="card-header py-3"></div>
     <div class="card-body">
         <table class="table table-bordered">
@@ -103,7 +106,7 @@
                     <th>
                         訂購數量
                     </th>
-                    <th>
+                    <th class="text-center">
                         <button id="Btn_Add" class="btn btn-primary"><span class="fa fa-plus"></span>&nbsp;新增</button>
                     </th>
                 </tr>

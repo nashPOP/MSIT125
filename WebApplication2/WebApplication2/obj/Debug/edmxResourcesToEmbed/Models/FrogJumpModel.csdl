@@ -43,6 +43,7 @@
     <Property Name="MilliliterID" Type="Int32" Nullable="false" />
     <Property Name="capacity" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Inventory" Relationship="Self.FK_Inventory_Milliliter" FromRole="Milliliter" ToRole="Inventory" />
+    <NavigationProperty Name="StockEnter" Relationship="Model1.FK_StockEnter_Milliliter" FromRole="Milliliter" ToRole="StockEnter" />
   </EntityType>
   <EntityType Name="Order_Details">
     <Key>
@@ -98,6 +99,7 @@
     <NavigationProperty Name="Product" Relationship="Self.FK_StockEnter_Product" FromRole="StockEnter" ToRole="Product" />
     <NavigationProperty Name="Shelf" Relationship="Self.FK_StockEnter_Shelf" FromRole="StockEnter" ToRole="Shelf" />
     <NavigationProperty Name="Winery" Relationship="Self.FK_StockEnter_Winery" FromRole="StockEnter" ToRole="Winery" />
+    <NavigationProperty Name="Milliliter" Relationship="Model1.FK_StockEnter_Milliliter" FromRole="StockEnter" ToRole="Milliliter" />
   </EntityType>
   <EntityType Name="Winery">
     <Key>
@@ -300,6 +302,10 @@
       <End Role="Winery" EntitySet="Winery" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
+    <AssociationSet Name="FK_StockEnter_Milliliter" Association="Model1.FK_StockEnter_Milliliter">
+      <End Role="Milliliter" EntitySet="Milliliter" />
+      <End Role="StockEnter" EntitySet="StockEnter" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK_Product_Category">
     <End Type="Model1.Category" Role="Category" Multiplicity="0..1" />
@@ -361,6 +367,18 @@
       </Principal>
       <Dependent Role="Order">
         <PropertyRef Name="WineryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StockEnter_Milliliter">
+    <End Type="Model1.Milliliter" Role="Milliliter" Multiplicity="1" />
+    <End Type="Model1.StockEnter" Role="StockEnter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Milliliter">
+        <PropertyRef Name="MilliliterID" />
+      </Principal>
+      <Dependent Role="StockEnter">
+        <PropertyRef Name="MilliliterID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
