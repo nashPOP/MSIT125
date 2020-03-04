@@ -1,0 +1,355 @@
+﻿@model WebApplication2.ModelViews.SelectTable
+@{
+    ViewBag.Title = "SelectorCreate";
+}
+
+@section style{
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /*#myTable_paginate li {
+            margin-left: -2px;
+            padding: 0px;
+            text-align: right;
+        }*/
+
+        #myTable_paginate li a {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #4e73df;
+            background-color: #fff;
+            border: 1px solid #dddfeb;
+            text-align: right;
+        }
+
+            #myTable_paginate li a:hover {
+                z-index: 2;
+                color: #224abe;
+                text-decoration: none;
+                background-color: #eaecf4;
+                border-color: #dddfeb;
+            }
+
+            #myTable_paginate li a:focus {
+                z-index: 2;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+            }
+
+        #myTable_paginate li:first-child a {
+            margin-left: 0;
+            border-top-left-radius: 0.35rem;
+            border-bottom-left-radius: 0.35rem;
+        }
+
+        #myTable_paginate li:last-child a {
+            border-top-right-radius: 0.35rem;
+            border-bottom-right-radius: 0.35rem;
+        }
+
+        #myTable_paginate li.active a {
+            z-index: 1;
+            color: #fff;
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        #myTable_paginate li.disabled a {
+            color: #858796;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dddfeb;
+        }
+    </style>
+}
+
+<div>
+    <div>
+        <h2 class="py-3">資料管理</h2>
+    </div><br />
+    <div class="form-group" row>
+        <div class="col-sm-4">
+            <select id="sl" class="form-control">
+                <option value="0">--請選擇--</option>
+                <option value="1">酒莊</option>
+                <option value="2">產品種類</option>
+                <option value="3">產品名稱</option>
+                <option value="4">產品容量</option>
+                <option value="5">貨架</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                @if (Model.status == "Winery")
+                {
+                    <th>編號</th>
+                    <th>酒莊名稱</th>
+                    <th>連絡電話</th>
+                    <th>地址</th>
+                    <th>電子信箱</th>
+                    <th></th>
+                }
+                @if (Model.status == "Category")
+                {
+                    <th>編號</th>
+                    <th>產品種類</th>
+                    <th></th>
+                }
+                @if (Model.status == "Product")
+                {
+                    <th>編號</th>
+                    <th>產品名稱</th>
+                    <th>數量</th>
+                    <th>所屬酒莊</th>
+                    <th>產品種類</th>
+                    <th></th>
+                }
+                @if (Model.status == "Milliliter")
+                {
+                    <th>編號</th>
+                    <th>容量(ml)</th>
+                    <th></th>
+                }
+                @if (Model.status == "Shelf")
+                {
+                    <th>編號</th>
+                    <th>貨架位子</th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody id="tb">
+            @*酒莊資料表*@
+            @if (Model.status == "Winery")
+            {
+                foreach (var item in Model.wineryTable)
+                {
+                    <tr data-status="@Model.status">
+                        <td>@Html.DisplayFor(modelitem => item.WineryID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryPhone)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryAddress)</td>
+                        <td>@Html.DisplayFor(modelitem => item.WineryEmail)</td>
+                        <td><button class="btn btn-warning" data-edit="@item.WineryID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.WineryID">刪除</button>*@</td>
+                    </tr>
+                }
+            }
+            @*類別資料表*@
+            @if (Model.status == "Category")
+            {
+                foreach (var item in Model.categoryTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.CategoryID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.CategoryName)</td>
+                        <td><button class="btn btn-warning" data-edit="@item.CategoryID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.CategoryID">刪除</button>*@</td>
+                    </tr>
+                }
+            }
+            @*產品資料表*@
+            @if (Model.status == "Product")
+            {
+                foreach (var item in Model.productTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.ProductName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Winery.WineryName)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Category.CategoryName)</td>
+                        <td><button class="btn btn-warning" data-edit="@item.ProductID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.ProductID">刪除</button>*@</td>
+                    </tr>
+                }
+            }
+            @*容量資料表*@
+            @if (Model.status == "Milliliter")
+            {
+                foreach (var item in Model.milliliterTabel)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.MilliliterID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.capacity)</td>
+                        <td><button class="btn btn-warning" data-edit="@item.MilliliterID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.MilliliterID">刪除</button>*@</td>
+                    </tr>
+                }
+            }
+            @*貨架資料表*@
+            @if (Model.status == "Shelf")
+            {
+                foreach (var item in Model.shelfTable)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.ShelfID)</td>
+                        <td>@Html.DisplayFor(modelitem => item.ShelfPosition)</td>
+                        <td><button class="btn btn-warning" data-edit="@item.ShelfID">編輯</button> @*<button class="btn btn-danger" data-delete="@item.ShelfID">刪除</button>*@</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <button type="button" id="bt1" class="btn btn-primary" data-toggle="modal" data-target="#window1" data-whatever="mdo">新增</button>
+    <p>PS:點選新增按鈕跳出輸入視窗(alert.text)以新增下拉選單內容</p>
+</div>
+
+<div class="modal fade" id="window1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*<div>
+            <div>
+                <select class="form-control" style="font-weight:800;font-family:標楷體;">
+                    <option>酒莊</option>
+                    <option>產品種類</option>
+                    <option>產品名稱</option>
+                    <option>產品容量</option>
+                    <option>貨架</option>
+                </select>
+            </div>
+        </div>*@
+                    @if (Model.status == "Winery")
+                    {
+                        <div class="form-group" style="display:none">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryId" placeholder="輸入新增選單名稱" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryName" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryPhone" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryAddress" placeholder="輸入新增選單名稱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label"><span></span></label>
+                            <input type="text" class="form-control" id="wineryEmail" placeholder="輸入新增選單名稱">
+                        </div>
+                    }
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">新增</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#bt1').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+
+        $('#sl').change(function () {
+            var v1 = $('#sl option:selected').val();
+            console.log(v1);
+            $.post("@Url.Action("change","SelectorCreate")", { 'value': v1 }, function (data) {
+                window.location.href = data;
+            })
+        })
+
+        $('.btn-danger').on('click', function () {
+            var x = $(this).attr('data-delete');
+            var status = $(this).parents('tr').attr('data-status');
+
+            $.post("@Url.Action("Delete","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
+                alert(data);
+                location.reload();
+            })
+        })
+
+        $('.btn-warning').on('click', function () {
+            var x = $(this).attr('data-edit');
+            var status = $(this).parents('tr').attr('data-status');
+
+            $.post("@Url.Action("Warning","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
+                console.log(data);
+                //$('#wineryId').val(data.WineryID);
+                //$('#wineryName').val(data.WineryName);
+                //$('#wineryPhone').val(data.WineryPhone);
+                //$('#wineryAddress').val(data.WineryAddress);
+                //$('#wineryEmail').val(data[0].WineryEmail);
+                //$('#window1').modal('show');
+            })
+        })
+
+        $(function () {
+            $('#myTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: false,
+                language: {
+
+                    //lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+
+                },
+                pagingType: "full_numbers"
+            });
+            $('#myTable_wrapper').removeClass('form-inline');
+        })
+    </script>
+}
+
