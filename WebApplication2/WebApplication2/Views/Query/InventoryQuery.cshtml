@@ -160,24 +160,47 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @if (Model != null)
                 {
-                    count++;
-                    <tr>
-                        <td>@count</td>
-                        <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
-                        <td class="text-center">
-                            <a id="Btn_Edit" href="@Url.Action("InventoryEdit","Query",new { id=item.InventoryID})" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                            <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                        </td>
-                    </tr>
+                    foreach (var item in Model)
+                    {
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                            <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
+                            <td class="text-center">
+                                <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash" ></span>&nbsp;刪除</button>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">刪除訊息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>是否確認刪除?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="dialogclick">確認</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -242,14 +265,21 @@
         }
 
 
-    $('[id="Btn_Delete"]').click(function () {
-        var invid = $(this).attr("data-InventoryId");
-        $.post("@Url.Action("InventoryDelete","Query")", { 'inventoryid': invid },
-            function (datas) {
-                alert(datas);
-                location.reload();
-            })
-    })
+        $('[id="Btn_Delete"]').click(function () {
+            var invid = $(this).attr("data-InventoryId");
+            $('#dialogclick').attr('data-InventoryId', invid);
+            $('#DeleteDialog').modal('show');
+        })
+
+        $('#dialogclick').on('click', function () {
+            var id = $(this).attr('data-InventoryId');
+            $.post("@Url.Action("InventoryDelete","Query")", { 'inventoryid': id },
+                function (datas) {
+                    alert(datas);
+                    location.reload();
+                })
+        });
+
         $(function () {
             CategoryData();
             ProductData();

@@ -187,44 +187,67 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @if (Model != null)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StockEnterID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ProductID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.ProductName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Winery.WineryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Milliliter.capacity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Shelf.ShelfPosition)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Note)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StockEnterDate)
-                                </td>
-                                <td class="text-center">
-                                    <a id="Btn_Edit" href="@Url.Action("StockEnterEdit","Query",new { id=item.StockEnterID})" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                                    <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                                </td>
-                            </tr>
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StockEnterID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProductID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Milliliter.capacity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Shelf.ShelfPosition)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Note)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StockEnterDate)
+                                    </td>
+                                    <td class="text-center">
+                                        <a id="Btn_Edit" href="@Url.Action("StockEnterEdit", "Query", new { id = item.StockEnterID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                        <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">刪除訊息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>是否確認刪除?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="dialogclick">確認</button>
             </div>
         </div>
     </div>
@@ -303,13 +326,19 @@
         }
 
         $('[id="Btn_Delete"]').click(function () {
-            var stid = $(this).attr("data-StockEnterId");
-            $.post("@Url.Action("StockEnterDelete", "Query")", { 'stid': stid },
-            function (datas) {
-                console.log(datas);
-                location.reload();
-                alert(datas);
+            var id = $(this).attr('data-StockEnterId');
+            $('#dialogclick').attr('data-id', id);
+            $('#DeleteDialog').modal('show');
+            
+        })
 
+        $('#dialogclick').click(function () {
+            var id = $(this).attr('data-id');
+            $('#DeleteDialog').modal('hide');
+            $.post("@Url.Action("StockEnterDelete", "Query")", { 'stid': id },
+                function (datas) {
+                    alert(datas);
+                    location.reload(); 
             })
         })
 
