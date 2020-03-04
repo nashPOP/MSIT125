@@ -144,7 +144,7 @@ namespace WebApplication2.Models
                     });
 
                     db.SaveChanges();
-                    return "";
+                    return "0";
                 }
                 return "儲存錯誤";
             }
@@ -186,19 +186,27 @@ namespace WebApplication2.Models
 
         public string StockEnterEdit(StockEnter stock)
         {
-            var stockenter = db.StockEnter.FirstOrDefault(p => p.StockEnterID == stock.StockEnterID);
-            stockenter = new StockEnter()
+            try
             {
-                WineryID = stock.WineryID,
-                ProductID = stock.ProductID,
-                MilliliterID = stock.MilliliterID,
-                ShelfID = stock.ShelfID,
-                Quantity = stock.Quantity,
-                Note = stock.Note,
-                StockEnterDate = stock.StockEnterDate
-            };
-            db.SaveChanges();
-            return "編輯成功";
+                var stockenter = db.StockEnter.FirstOrDefault(p => p.StockEnterID == stock.StockEnterID);
+                stockenter = new StockEnter()
+                {
+                    WineryID = stock.WineryID,
+                    ProductID = stock.ProductID,
+                    MilliliterID = stock.MilliliterID,
+                    ShelfID = stock.ShelfID,
+                    Quantity = stock.Quantity,
+                    Note = stock.Note,
+                    StockEnterDate = stock.StockEnterDate
+                };
+                db.SaveChanges();
+                return "編輯成功";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
         public string StockEnterDelete(int stid)
@@ -277,25 +285,32 @@ namespace WebApplication2.Models
 
         public IQueryable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
         {
-            var table = db.Inventory.Select(p => p);
-            if (!string.IsNullOrEmpty(qinv.TB_ProductID))
+            try
             {
-                table = table.Where(p => p.ProductID.ToString() == qinv.TB_ProductID.Trim());
+                var table = db.Inventory.Select(p => p);
+                if (!string.IsNullOrEmpty(qinv.TB_ProductID))
+                {
+                    table = table.Where(p => p.ProductID.ToString() == qinv.TB_ProductID.Trim());
+                }
+                if (!string.IsNullOrEmpty(qinv.DDL_Product.ToString()) && qinv.DDL_Product != 0)
+                {
+                    table = table.Where(p => p.ProductID == qinv.DDL_Product);
+                }
+                if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()) && qinv.DDL_Millilter != 0)
+                {
+                    table = table.Where(p => p.MilliliterID == qinv.DDL_Millilter);
+                }
+                if (!string.IsNullOrEmpty(qinv.DDL_Shelf.ToString()) && qinv.DDL_Shelf != 0)
+                {
+                    table = table.Where(p => p.ShelfID == qinv.DDL_Shelf);
+                }
+                return table;
             }
-            if (!string.IsNullOrEmpty(qinv.DDL_Product.ToString()) && qinv.DDL_Product != 0)
+            catch (Exception ex)
             {
-                table = table.Where(p => p.ProductID == qinv.DDL_Product);
-            }
-            if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()) && qinv.DDL_Millilter != 0)
-            {
-                table = table.Where(p => p.MilliliterID == qinv.DDL_Millilter);
-            }
-            if (!string.IsNullOrEmpty(qinv.DDL_Shelf.ToString()) && qinv.DDL_Shelf != 0)
-            {
-                table = table.Where(p => p.ShelfID == qinv.DDL_Shelf);
+                return db.Inventory.Select(p => p);
             }
 
-            return table;
         }
 
         public Inventory getInventoryByID(int id)
@@ -308,16 +323,24 @@ namespace WebApplication2.Models
 
         public bool InventoryEdit(Inventory inventory)
         {
-            Inventory inv = db.Inventory.FirstOrDefault(p => p.InventoryID == inventory.InventoryID);
-            if (inv != null)
+            try
             {
-                inv.ProductID = inventory.ProductID;
-                inv.MilliliterID = inventory.MilliliterID;
-                inv.ShelfID = inventory.ShelfID;
-                inv.Quantity = inventory.Quantity;
-                db.SaveChanges();
+                Inventory inv = db.Inventory.FirstOrDefault(p => p.InventoryID == inventory.InventoryID);
+                if (inv != null)
+                {
+                    inv.ProductID = inventory.ProductID;
+                    inv.MilliliterID = inventory.MilliliterID;
+                    inv.ShelfID = inventory.ShelfID;
+                    inv.Quantity = inventory.Quantity;
+                    db.SaveChanges();
+                }
+                return true;
             }
-            return true;
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
         }
 
         public string InventoryDelete(int inventoryid)

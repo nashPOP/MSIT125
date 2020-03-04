@@ -25,39 +25,61 @@ namespace WebApplication2.Controllers
         /// <returns>IEnumerable<FrogJump.Order></returns>
         public ActionResult OrderQuery()
         {
-            QueryModelByView qv = new QueryModelByView()
+            try
             {
-                Orderlist = fas.getAllOrder(),
-            };
+                QueryModelByView qv = new QueryModelByView()
+                {
+                    Orderlist = fas.getAllOrder(),
+                };
 
-            return View(qv);
+                return View(qv);
+            }
+            catch(Exception ex)
+            {
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult OrderQuery(QOrder qOrder)
         {
-            QueryModelByView qv = new QueryModelByView()
+            try
             {
-                Orderlist = fas.getOrderQuery(qOrder).ToList(),
-            };
-            return View(qv);
+                QueryModelByView qv = new QueryModelByView()
+                {
+                    Orderlist = fas.getOrderQuery(qOrder).ToList(),
+                };
+                return View(qv);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+            
         }
 
         public ActionResult OrderEdit(int? id)
         {
-            if (id != null)
+            try
             {
-                Order q = fas.getOrderByID((int)id);
-                var qd = fas.getOrder_DetailsByID((int)id).ToList();
-
-                QueryModelByView model = new QueryModelByView()
+                if (id != null)
                 {
-                    Order = q,
-                    Order_details = qd
-                };
-                return View(model);
+                    Order q = fas.getOrderByID((int)id);
+                    var qd = fas.getOrder_DetailsByID((int)id).ToList();
+
+                    QueryModelByView model = new QueryModelByView()
+                    {
+                        Order = q,
+                        Order_details = qd
+                    };
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("OrderQuery");
+                }
             }
-            else
+            catch (Exception ex)
             {
                 return RedirectToAction("OrderQuery");
             }
@@ -66,63 +88,91 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult OrderEdit(Order order)
         {
-            fas.EditOrder(order);
+            try
+            {
+                fas.EditOrder(order);
+            }
+            catch(Exception ex)
+            {
+
+            }
             return RedirectToAction("OrderEdit", order.OrderID);
         }
 
         public ActionResult OrderDelete(int id)
         {
-            string message = fas.OrdersDelete(id);
-            if (message != "0")
+            try
             {
-                return Json(message, JsonRequestBehavior.AllowGet);
+                string message = fas.OrdersDelete(id);
+                if (message != "0")
+                {
+                    return Json(message, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
         public ActionResult Order_DetailInsert(int? oid, int? pid, int? qty)
         {
-            Order_Details od = new Order_Details()
+            try
             {
-                OrderID = (int)oid,
-                ProductID = (int)pid,
-                Quantity = (int)qty
-            };
+                Order_Details od = new Order_Details()
+                {
+                    OrderID = (int)oid,
+                    ProductID = (int)pid,
+                    Quantity = (int)qty
+                };
 
-            string message = fas.Order_DetailInsert(od);
-            if(message != "0")
-            {
-                return Json(new { datas=message}, JsonRequestBehavior.AllowGet);
+                string message = fas.Order_DetailInsert(od);
+                if (message != "0")
+                {
+                    return Json("新增成功", JsonRequestBehavior.AllowGet);
+                }
+                return Json(message, JsonRequestBehavior.AllowGet);
             }
-
-            return RedirectToAction("OrderEdit", oid);
+            catch(Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Order_DetailEdit(string item, int? oid, int? pid, int? qty)
         {
-
-            string[] od1 = item.Split(',');
-            int.TryParse(od1[1], out int pdid);
-            int.TryParse(od1[2], out int q);
-            Order_Details od = new Order_Details()
+            try
             {
-                OrderID = (int)oid,
-                ProductID = pdid,
-                Quantity = q
-            };
-            Order_Details New_od = new Order_Details()
+                string[] od1 = item.Split(',');
+                int.TryParse(od1[1], out int pdid);
+                int.TryParse(od1[2], out int q);
+                Order_Details od = new Order_Details()
+                {
+                    OrderID = (int)oid,
+                    ProductID = pdid,
+                    Quantity = q
+                };
+                Order_Details New_od = new Order_Details()
+                {
+                    OrderID = (int)oid,
+                    ProductID = (int)pid,
+                    Quantity = (int)qty
+                };
+                string message = fas.EditOrderDetail(od, New_od);
+                if (message == "0")
+                {
+                    return Json("編輯成功", JsonRequestBehavior.AllowGet);
+                }
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
             {
-                OrderID = (int)oid,
-                ProductID = (int)pid,
-                Quantity = (int)qty
-            };
-            string message = fas.EditOrderDetail(od, New_od);
-
-            return RedirectToAction("OrderEdit", new { id = oid });
-            //return Json("{'message':'0'}", JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult OrderDetailDelete(string item)

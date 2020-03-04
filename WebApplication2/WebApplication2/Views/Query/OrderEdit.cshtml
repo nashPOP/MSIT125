@@ -255,10 +255,7 @@
                 if (model == 'Insert') {
                     $.post("@Url.Action("Order_DetailInsert","Query")", { 'oid': oid, 'pid': pid, 'qty': qty },
                         function (datas) {
-                            console.log(datas)
-                            if (datas != null) {
-                                alert("錯誤"); 
-                            }
+                            alert(datas); 
                             $('#EditDialog').dialog("close");
                             location.reload();
                         })
@@ -266,11 +263,9 @@
                 else if (model == 'Edit') {
                     $.post("@Url.Action("Order_DetailEdit","Query")", { 'item': tdid, 'oid': oid, 'pid': pid, 'qty': qty },
                         function (datas) {
-                            console.log(datas[0].message)
-                            if (datas[0] != '0') {
-                                alert("錯誤");
-                                $('#EditDialog').dialog("close");
-                            }
+                            alert(datas);
+                            $('#EditDialog').dialog("close");
+                            location.reload();
                         })
                 }
             }
