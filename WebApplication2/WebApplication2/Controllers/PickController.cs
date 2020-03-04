@@ -12,7 +12,7 @@ namespace WebApplication2.Controllers
     public class PickController : Controller
     {
         Frog_JumpEntities dbcontext = new Frog_JumpEntities();
-        
+
         //Load
         public ActionResult pick()
         {
@@ -75,7 +75,8 @@ namespace WebApplication2.Controllers
              */
             #endregion
 
-            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity ).Select(p => p.Order);
+            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity && p.Order.Status == "C").Select(p => p.Order);
+
 
             return View(q);
         }
@@ -92,10 +93,21 @@ namespace WebApplication2.Controllers
         {
 
 
-            var orders = dbcontext.Order.Select(p => new { p.OrderID,  p.RequiredDate, p.Status });
+            // var orders = dbcontext.Order.OrderBy(p=>p.RequiredDate).Select(p => new { p.OrderID,  p.RequiredDate, p.Status });
+            var orders = dbcontext.Order_Details.OrderBy(p => p.Order.RequiredDate).Where(p => p.Quantity < p.Product.Quantity).Select(p => p.Order);
 
             return Json(orders, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Ajax_NotAllowPick()
+        {
+            //var orders = dbcontext.Order_Details.Where(p => p.Quantity > p.Product.Quantity).Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status });
+            var orders = dbcontext.Order_Details.Where(p => p.Quantity > p.Product.Quantity).Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status }).Distinct();
+            return Json(orders, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         public ActionResult order_Detail_Fix(int order_detail_id)
         {
 
@@ -119,10 +131,26 @@ namespace WebApplication2.Controllers
             return Content(String.Format("Order_detail_ID = {0}, 數量 = {1}", Orderdetail_ID, Quantity));
         }
 
-        public ActionResult order_Detail_Add()
+        public ActionResult order_Detail_option_Add()
         {
             var product_List = dbcontext.Product.Select(p => new { p.ProductID, p.ProductName });
             return Json(product_List, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult order_Detail_Insert(int OrderID, int Quantity, int ProductID)
+        {
+            using (var context = new Frog_JumpEntities())
+            {
+                var order_details = new Order_Details
+                {
+                    OrderID = OrderID,
+                    Quantity = Quantity,
+                    ProductID = ProductID
+                };
+                context.Order_Details.Add(order_details);
+                context.SaveChanges();
+            }
+            return Content(OrderID.ToString());
         }
     }
 }
