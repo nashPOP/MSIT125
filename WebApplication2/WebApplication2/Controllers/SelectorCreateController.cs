@@ -58,5 +58,19 @@ namespace WebApplication2.Controllers
         {
             return Json(Url.Action("SelectorCreate",new { table= value }));
         }
+
+        public ActionResult Delete(int id, string status)
+        {
+            string result = sC.delete(id, status);
+            if (result == "0")
+            {
+                return Json("刪除成功", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
