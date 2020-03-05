@@ -156,6 +156,63 @@ namespace WebApplication2.ModelView
             }
         }
 
+        public string Insert(string[] k, string status)
+        {
+            try
+            {
+                switch (status)
+                {
+                    case "Winery":
+                        Winery w = new Winery();
+                        w.WineryName = k[1];
+                        w.WineryPhone = k[2];
+                        w.WineryAddress = k[3];
+                        w.WineryEmail = k[4];
+                        db.Winery.Add(w);
+                        db.SaveChanges();
+                        return "新增成功";
+
+                    case "Category":
+                        Category c = new Category();
+                        c.CategoryName = k[1];
+                        db.Category.Add(c);
+                        db.SaveChanges();
+                        return "新增成功";
+
+                    case "Product":
+                        Product p = new Product();
+                        p.ProductName = k[1];
+                        //p.Quantity = int.Parse(k[2]);
+                        p.WineryID = int.Parse(k[3]);
+                        p.CategoryID = int.Parse(k[4]);
+                        db.Product.Add(p);
+                        db.SaveChanges();
+                        return "新增成功";
+
+                    case "Milliliter":
+                        Milliliter m = new Milliliter();
+                        m.capacity = int.Parse(k[1]);
+                        db.Milliliter.Add(m);
+                        db.SaveChanges();
+                        return "新增成功";
+
+                    case "Shelf":
+                        Shelf s = new Shelf();
+                        s.ShelfPosition = k[1];
+                        db.Shelf.Add(s);
+                        db.SaveChanges();
+                        return "新增成功";
+
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public string Edit(string[] k, string status)
         {
             try

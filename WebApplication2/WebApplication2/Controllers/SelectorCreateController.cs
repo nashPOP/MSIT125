@@ -135,5 +135,12 @@ namespace WebApplication2.Controllers
 
             return Json(ddlWinery, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Insert(string kk, string status)
+        {
+            string[] k = kk.Split(',');
+            string s = sC.Insert(k, status);
+            return Json(s, JsonRequestBehavior.AllowGet);
+        }
     }
 }
