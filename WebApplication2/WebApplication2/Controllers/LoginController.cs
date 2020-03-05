@@ -124,6 +124,10 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LoginPage(string account1, string PassWord)
         {
+            //Session["lOGIN"] = true;
+            //Session["lOGIN1"] = false;
+            Session["IdentityCode"] = "A";
+            Session["IdentityCode1"] = "B";
             var q = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
            
 
@@ -153,7 +157,9 @@ namespace WebApplication2.Controllers
                 ViewBag.Message = "歡迎進入本網站!";
                 Session["account1"] = q.Account1.ToString();
                 Session["IdentityCode"] = q.IdentityCode.ToString();
+                Session["WineryID"] = q.WineryID.ToString();
                 return RedirectToAction("EditPassWord", "Login");
+                
             }
             //如果帳號密碼皆與DB相同,但識別碼為B者:
             else if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "B")
