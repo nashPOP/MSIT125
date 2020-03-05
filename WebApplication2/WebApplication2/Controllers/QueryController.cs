@@ -27,15 +27,39 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                QueryModelByView qv = new QueryModelByView()
+                if (Session["IdentityCode"] != null)
                 {
-                    Orderlist = fas.getAllOrder(),
-                };
+                    if ((string)Session["IdentityCode"] == "A")
+                    {
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getOrderByWineryID((int)Session["WineryID"])
+                        };
 
-                return View(qv);
+                        return View(qv);
+                    }
+                    else if((string)Session["IdentityCode"] == "B")
+                    {
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getAllOrder(),
+                        };
+
+                        return View(qv);
+                    }
+                    else
+                    {
+                        return RedirectToAction("LoginPage", "Login");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
             catch(Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return View();
             }
         }
@@ -53,6 +77,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return View();
             }
             
@@ -81,6 +106,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return RedirectToAction("OrderQuery");
             }
         }
@@ -94,7 +120,7 @@ namespace WebApplication2.Controllers
             }
             catch(Exception ex)
             {
-
+                string ErrorMessage = ex.Message;
             }
             return RedirectToAction("OrderEdit", order.OrderID);
         }
