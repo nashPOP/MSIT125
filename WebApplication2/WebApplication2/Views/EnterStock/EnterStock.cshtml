@@ -212,14 +212,18 @@
 
     //送出按鈕
         $('#send').on('click', function () {
-            $.post("@Url.Action("InsertStock", "EnterStock")", function (data) {
-                if (data != "0") {
-                    alert(data);
-                }
-                else {
-                    location.reload();
-                }
-            })
+            var winerytxt = $('#winery option:selected').text();
+            var r = confirm( winerytxt + "-庫存存入");
+            if (r == true) {
+                $.post("@Url.Action("InsertStock", "EnterStock")", function (data) {
+                    if (data != "0") {
+                        alert(data);
+                    }
+                    else {
+                        location.reload();
+                    }
+                })
+            }
         })
 
     //酒莊選擇，更改span文字
