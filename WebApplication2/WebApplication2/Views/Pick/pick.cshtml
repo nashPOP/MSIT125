@@ -340,7 +340,7 @@
 
             })
             var td3 = $('<td><input type = "number" class = "form-control data-Qty"></td>')
-            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger" value ="取消"></td>')
+            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger btn-Cancle-For-Add" value ="取消"></td>')
 
             td1.text($(this).attr('data-OrderID'))
             $(td2).append(select);
@@ -367,7 +367,7 @@
                         alert("新增成功");
                         $('#table_orderDetail').children().remove();
                         $('#Add').remove();
-                        $.get("/Pick/order_Detail", { orderID: id },
+                        $.get("/Pick/order_Detail", { orderID: data },
                             function (datas) {
 
                                 $(datas).each(function (idx, value) {
@@ -405,8 +405,12 @@
                     return;
                  }
                  }
-            })
+        })
 
+        //新增品項的取消按鈕
+        $('#dialog').on('click', '.btn-Cancle-For-Add', function () {
+            ($(this).parentsUntil('tr').parent()).remove();
+        })
     </script>
 
 
