@@ -227,8 +227,16 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult StockEnterEdit(StockEnter stock)
         {
-            var StockEdit = fas.StockEnterEdit(stock);
-            return View(StockEdit);
+            bool StockEdit = fas.StockEnterEdit(stock);
+            if (StockEdit)
+            {
+                return RedirectToAction("InStockQuery");
+            }
+            else
+            {
+                return RedirectToAction("StockEnterEdit",stock.StockEnterID);
+            }
+
         }
 
         public ActionResult StockEnterDelete(int stid)
@@ -263,7 +271,15 @@ namespace WebApplication2.Controllers
         public ActionResult InventoryEdit(Inventory inventory)
         {
             bool edit = fas.InventoryEdit(inventory);
-            return RedirectToAction("InventoryQuery");
+            if (edit)
+            {
+                return RedirectToAction("InventoryQuery");
+            }
+            else
+            {
+                return RedirectToAction("InventoryEdit",inventory.InventoryID);
+            }
+
         }
 
         public ActionResult InventoryDelete(int inventoryid)

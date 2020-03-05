@@ -184,7 +184,7 @@ namespace WebApplication2.Models
             return StockEnterTable;
         }
 
-        public string StockEnterEdit(StockEnter stock)
+        public bool StockEnterEdit(StockEnter stock)
         {
             try
             {
@@ -200,11 +200,11 @@ namespace WebApplication2.Models
                     StockEnterDate = stock.StockEnterDate
                 };
                 db.SaveChanges();
-                return "編輯成功";
+                return true;
             }
             catch(Exception ex)
             {
-                return ex.Message;
+                return false;
             }
             
         }
