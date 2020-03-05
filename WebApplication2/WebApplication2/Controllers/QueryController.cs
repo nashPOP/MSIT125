@@ -31,9 +31,10 @@ namespace WebApplication2.Controllers
                 {
                     if ((string)Session["IdentityCode"] == "A")
                     {
+                        int.TryParse((string)Session["WineryID"],out int wineryid);
                         QueryModelByView qv = new QueryModelByView()
                         {
-                            Orderlist = fas.getOrderByWineryID((int)Session["WineryID"])
+                            Orderlist = fas.getOrderByWineryID(wineryid)
                         };
 
                         return View(qv);
@@ -69,11 +70,35 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                QueryModelByView qv = new QueryModelByView()
+                if (Session["IdentityCode"] != null)
                 {
-                    Orderlist = fas.getOrderQuery(qOrder).ToList(),
-                };
-                return View(qv);
+                    if ((string)Session["IdentityCode"] == "A")
+                    {
+                        qOrder.DDL_Winery = (string)Session["WineryID"];
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getOrderQuery(qOrder).ToList(),
+                        };
+                        return View(qv);
+                    }
+                    else if ((string)Session["IdentityCode"] == "B")
+                    {
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getOrderQuery(qOrder).ToList(),
+                        };
+
+                        return View(qv);
+                    }
+                    else
+                    {
+                        return RedirectToAction("LoginPage", "Login");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
             catch (Exception ex)
             {
@@ -244,10 +269,17 @@ namespace WebApplication2.Controllers
             return View(StockQuery);
         }
 
-        public ActionResult StockEnterEdit(int id)
+        public ActionResult StockEnterEdit(int? id)
         {
-            StockEnter StockEdit = fas.getStockEnterByid(id);
-            return View(StockEdit);
+            if (id != null)
+            {
+                StockEnter StockEdit = fas.getStockEnterByid((int)id);
+                return View(StockEdit);
+            }
+            else
+            {
+                return RedirectToAction("InStockQuery");
+            }
         }
 
         [HttpPost]

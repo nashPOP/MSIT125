@@ -59,12 +59,12 @@ namespace WebApplication2.Models
             return order;
         }
 
-        public IQueryable<Order> getOrderByWineryID(int id)
+        public IEnumerable<Order> getOrderByWineryID(int id)
         {
             var order = from n in db.Order
                         where n.WineryID == id
                         select n;
-            return order;
+            return order.ToList();
         }
 
         public bool EditOrder(Order order)
