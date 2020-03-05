@@ -360,52 +360,65 @@ namespace WebApplication2.Models
 
         public IQueryable getOrderdialog(int id)
         {
-            var order = from n in db.Order
-                        where n.OrderID == id
-                        select new
-                        {
-                            n.OrderID,
-                            n.Winery.WineryName,
-                            n.CustomerName,
-                            n.OrderDate,
-                            n.RequiredDate,
-                            n.ShippedDate
-                        };
-
-            return order;
+            try
+            {
+                var order = from n in db.Order
+                            where n.OrderID == id
+                            select new
+                            {
+                                n.OrderID,
+                                n.Winery.WineryName,
+                                n.CustomerName,
+                                n.OrderDate,
+                                n.RequiredDate,
+                                n.ShippedDate
+                            };
+                return order;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
         }
 
         public IQueryable getOrderDetail(int? OrderID, int? ProductID)
         {
-
-            IQueryable orderdetail;
-
-            if (ProductID != null)
+            try
             {
-                orderdetail = from n in db.Order_Details
-                              where n.OrderID == OrderID && n.ProductID == ProductID
-                              select new
-                              {
-                                  n.OrderID,
-                                  n.ProductID,
-                                  n.Product.ProductName,
-                                  n.Quantity
-                              };
-            }
-            else
-            {
-                orderdetail = from n in db.Order_Details
-                              where n.OrderID == OrderID
-                              select new
-                              {
-                                  n.OrderID,
-                                  n.ProductID,
-                                  n.Product.ProductName,
-                                  n.Quantity
-                              };
-            }
+                IQueryable orderdetail;
 
-            return orderdetail;
+                if (ProductID != null)
+                {
+                    orderdetail = from n in db.Order_Details
+                                  where n.OrderID == OrderID && n.ProductID == ProductID
+                                  select new
+                                  {
+                                      n.OrderID,
+                                      n.ProductID,
+                                      n.Product.ProductName,
+                                      n.Quantity
+                                  };
+                }
+                else
+                {
+                    orderdetail = from n in db.Order_Details
+                                  where n.OrderID == OrderID
+                                  select new
+                                  {
+                                      n.OrderID,
+                                      n.ProductID,
+                                      n.Product.ProductName,
+                                      n.Quantity
+                                  };
+                }
+
+                return orderdetail;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
         #endregion
     }

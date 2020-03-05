@@ -152,23 +152,23 @@
             </div>*@
 
         <div class="form-group row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 產品名稱
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <select id="Dlog_ProductName" name="Dlog_ProductName" class="form-control"></select>
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 訂購數量
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 @Html.TextBox("Dlog_Quantity", "", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-center">
                 <button id="Btn_Sava" class="btn btn-primary"><span class="fa fa-save"></span>&nbsp;儲存</button>
                 <button id="Btn_Not" class="btn btn-danger"><span class="fa fa-times"></span>&nbsp;取消</button>
             </div>
@@ -210,7 +210,7 @@
         $("#EditDialog").dialog({
             autoOpen: false,
             modal: true,
-            width: 600,
+            width: 400,
             height: 400,
             show: {
             },
@@ -288,11 +288,7 @@
                 var titem = $('#' + tid).attr('data-item');
                 $.post("@Url.Action("OrderDetailDelete", "Query")", { 'item': titem },
                     function (datas) {
-                        if (datas != null) {
-
-                        }
-                        $('#EditDialog').dialog("close");
-                        alert('刪除完成');
+                        alert(datas);
                         location.reload();
                     })
             });

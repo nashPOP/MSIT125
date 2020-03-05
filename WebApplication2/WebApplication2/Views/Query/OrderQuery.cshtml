@@ -179,7 +179,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Order.OrderID)
+                                        編號
                                     </th>
                                     <th>
                                         酒莊
@@ -356,35 +356,41 @@
                     var allop = $('<option></option>');
                     allop.text("--請選擇--");
                     allop.val('0');
-                    $('#DDL_Product').append(allop);
-                    $.each(datas, function (Idx, data) {
-                        var op = $('<option></option>');
-                        op.text(data.ProductName);
-                        op.val(data.ProductID);
-                        $('#DDL_Product').append(op);
-                    })
+                    if (datas != null) {
+                        $('#DDL_Product').append(allop);
+                        $.each(datas, function (Idx, data) {
+                            var op = $('<option></option>');
+                            op.text(data.ProductName);
+                            op.val(data.ProductID);
+                            $('#DDL_Product').append(op);
+                        })
+                    }
                 })
-            }
+        }
 
     function WineryData() {
         $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
-            $.each(datas, function (Idx, data) {
-                var op = $('<option></option>');
-                op.text(data.WineryName);
-                op.val(data.WineryID);
-                $('#DDL_Winery').append(op);
-            })
+            if (datas != null) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.WineryName);
+                    op.val(data.WineryID);
+                    $('#DDL_Winery').append(op);
+                })
+            }
         })
     }
 
     function CategoryData() {
         $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
-            $.each(datas, function (Idx, data) {
-                var op = $('<option></option>');
-                op.text(data.CategoryName);
-                op.val(data.CategoryID);
-                $('#DDL_Category').append(op);
-            })
+            if (datas != null) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.CategoryName);
+                    op.val(data.CategoryID);
+                    $('#DDL_Category').append(op);
+                })
+            }
         })
     }
 
@@ -455,34 +461,35 @@
             $.post("@Url.Action("Dialog_Order", "Query")",// "/Query/Dialog_Order"
                 { 'id': orderid },
                 function (datas) {
-                    //console.log(datas);
-                    $.each(datas, function (idx, data) {
-                        var orderdata, shipperData,requiredDate;
-                        if (data.OrderDate != null) {
-                            orderdata = new Date(parseInt(data.OrderDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
-                        }
-                        else {
-                            orderdata = null;
-                        }
-                        if (data.ShippedDate != null) {
-                            shipperData = new Date(parseInt(data.ShippedDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
-                        }
-                        else {
-                            shipperData = null;
-                        }
-                        if (data.RequiredDate != null) {
-                            requiredDate = new Date(parseInt(data.RequiredDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
-                        }
-                        else {
-                            requiredDate = null;
-                        }
-                        $('#Dlog_OrderID').text(data.OrderID);
-                        $('#Dlog_Winery').text(data.WineryName);
-                        $('#Dlog_Customer').text(data.CustomerName);
-                        $('#Dlog_OrderData').text(orderdata);
-                        $('#Dlog_RequiredDate').text(requiredDate);
-                        $('#Dlog_ShipperData').text(shipperData);
-                    })
+                    if (datas != null) {
+                        $.each(datas, function (idx, data) {
+                            var orderdata, shipperData, requiredDate;
+                            if (data.OrderDate != null) {
+                                orderdata = new Date(parseInt(data.OrderDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                            }
+                            else {
+                                orderdata = null;
+                            }
+                            if (data.ShippedDate != null) {
+                                shipperData = new Date(parseInt(data.ShippedDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                            }
+                            else {
+                                shipperData = null;
+                            }
+                            if (data.RequiredDate != null) {
+                                requiredDate = new Date(parseInt(data.RequiredDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                            }
+                            else {
+                                requiredDate = null;
+                            }
+                            $('#Dlog_OrderID').text(data.OrderID);
+                            $('#Dlog_Winery').text(data.WineryName);
+                            $('#Dlog_Customer').text(data.CustomerName);
+                            $('#Dlog_OrderData').text(orderdata);
+                            $('#Dlog_RequiredDate').text(requiredDate);
+                            $('#Dlog_ShipperData').text(shipperData);
+                        })
+                    }
                 }
             )
             $.post("@Url.Action("Dialog_OrderDetail", "Query")", // "/Query/Dialog_OrderDetail"
@@ -490,16 +497,18 @@
                 function (datas) {
                     $('#Dlog_Product_tbody').empty();
                     let count = 0;
-                    $.each(datas, function (idx, data) {
-                        count = count+1;
-                        var tr = $('<tr></tr>')
-                        var counts = $('<td></td>').text(count);
-                        var pid = $('<td></td>').text(data.ProductID);
-                        var pname = $('<td></td>').text(data.ProductName);
-                        var pq = $('<td></td>').text(data.Quantity);
-                        tr.append(counts).append(pid).append(pname).append(pq);
-                        $('#Dlog_Product_tbody').append(tr);
-                    })
+                    if (datas != null) {
+                        $.each(datas, function (idx, data) {
+                            count = count + 1;
+                            var tr = $('<tr></tr>')
+                            var counts = $('<td></td>').text(count);
+                            var pid = $('<td></td>').text(data.ProductID);
+                            var pname = $('<td></td>').text(data.ProductName);
+                            var pq = $('<td></td>').text(data.Quantity);
+                            tr.append(counts).append(pid).append(pname).append(pq);
+                            $('#Dlog_Product_tbody').append(tr);
+                        })
+                    }
                 }
             )
         });

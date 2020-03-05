@@ -177,20 +177,27 @@ namespace WebApplication2.Controllers
 
         public ActionResult OrderDetailDelete(string item)
         {
-            string[] OD_item = item.Split(',');
-            int.TryParse(OD_item[0], out int orderid);
-            int.TryParse(OD_item[1], out int productid);
-            int.TryParse(OD_item[2], out int qty);
-            Order_Details od = new Order_Details() { OrderID = orderid, ProductID = productid, Quantity = qty };
+            try
+            {
+                string[] OD_item = item.Split(',');
+                int.TryParse(OD_item[0], out int orderid);
+                int.TryParse(OD_item[1], out int productid);
+                int.TryParse(OD_item[2], out int qty);
+                Order_Details od = new Order_Details() { OrderID = orderid, ProductID = productid, Quantity = qty };
 
-            string message = fas.OrderDetailDelete(od);
-            if (message != "0")
-            {
-                return Json(message, JsonRequestBehavior.AllowGet);
+                string message = fas.OrderDetailDelete(od);
+                if (message != "0")
+                {
+                    return Json(message, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return RedirectToAction("OrderEdit", new { id = orderid });
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -270,35 +277,70 @@ namespace WebApplication2.Controllers
         #region DropDownList
         public ActionResult GetWinery()
         {
-            var ddlWinery = ddl.getWinery();
+            try
+            {
+                var ddlWinery = ddl.getWinery();
 
-            return Json(ddlWinery, JsonRequestBehavior.AllowGet);
+                return Json(ddlWinery, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult GetCategory()
         {
-            var ddlCategory = ddl.getCategory();
+            try
+            {
+                var ddlCategory = ddl.getCategory();
 
-            return Json(ddlCategory, JsonRequestBehavior.AllowGet);
+                return Json(ddlCategory, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult GetProduct(int? id)
         {
-            var ddlProduct = ddl.getProduct(id);
+            try
+            {
+                var ddlProduct = ddl.getProduct(id);
 
-            return Json(ddlProduct, JsonRequestBehavior.AllowGet);
+                return Json(ddlProduct, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult GetMillilter()
         {
-            var ddlMillilter = ddl.getMillilter();
-            return Json(ddlMillilter, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var ddlMillilter = ddl.getMillilter();
+                return Json(ddlMillilter, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult GetShelf()
         {
-            var ddlShelf = ddl.getShelf();
-            return Json(ddlShelf, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var ddlShelf = ddl.getShelf();
+                return Json(ddlShelf, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
         }
         #endregion
 
