@@ -4,6 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section style{
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+    </style>
+}
+
 <html>
 <head>
     @section Scripts {
@@ -13,17 +21,11 @@
             var phone = $("phone").val();
             var address = $("address").val();
             var email = $("email").val();
-            if (name || phone || address || email == null)
-                alert("此項目為必填項!")
-
-
-
+            
             $("#submit").click(function () {
-                alert
-
-
-
-
+                if (name || phone || address || email == null) {
+                    alert("此項目為必填項!")
+                }
             })
 
 
@@ -76,7 +78,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-sm-4">
-                    <input id="submit" type="submit" value="送出" class="btn btn-warning" />
+                    <input id="submit" type="submit" value="送出" class="btn btn-primary" />
                 </div>
             </div>
         </div>

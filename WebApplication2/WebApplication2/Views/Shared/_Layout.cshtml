@@ -68,9 +68,9 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        @Html.ActionLink("庫存查詢", "InventoryQuery", "Query", new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">庫存查詢</a>*@
-                        @Html.ActionLink("訂單查詢", "OrderQuery", "Query", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">訂單查詢</a>*@
-                        @Html.ActionLink("進貨紀錄查詢", "InStockQuery", "Query", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">進貨紀錄查詢</a>*@
+                        @Html.ActionLink("庫存查詢", "InventoryQuery","Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">庫存查詢</a>*@
+                        @Html.ActionLink("訂單查詢", "OrderQuery", "Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">訂單查詢</a>*@
+                        @Html.ActionLink("進貨紀錄查詢", "InStockQuery", "Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">進貨紀錄查詢</a>*@
                     </div>
                 </div>
             </li>
@@ -114,7 +114,7 @@
                 </a>
                 <div id="collapseMember" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        @Html.ActionLink("註冊新會員", "Register", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
+                        @Html.ActionLink("註冊新會員", "Register", "~/Views/Login",null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
                         @Html.ActionLink("修改密碼", "EditPassWord", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
                         @Html.ActionLink("刪除會員", "Delete", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
                     </div>
@@ -278,8 +278,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>                                
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

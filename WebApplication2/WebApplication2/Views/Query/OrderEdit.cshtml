@@ -7,7 +7,13 @@
 };
 
 }
-
+@section style{
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+    </style>
+    }
 <div>
     @Html.ActionLink("回查詢頁面", "OrderQuery", null, htmlAttributes: new { @class = "btn btn-info" })
 </div>
@@ -152,23 +158,23 @@
             </div>*@
 
         <div class="form-group row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 產品名稱
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 <select id="Dlog_ProductName" name="Dlog_ProductName" class="form-control"></select>
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 訂購數量
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
                 @Html.TextBox("Dlog_Quantity", "", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 text-center">
+            <div class="col-sm-12">
                 <button id="Btn_Sava" class="btn btn-primary"><span class="fa fa-save"></span>&nbsp;儲存</button>
                 <button id="Btn_Not" class="btn btn-danger"><span class="fa fa-times"></span>&nbsp;取消</button>
             </div>
@@ -210,7 +216,7 @@
         $("#EditDialog").dialog({
             autoOpen: false,
             modal: true,
-            width: 400,
+            width: 600,
             height: 400,
             show: {
             },
@@ -288,7 +294,11 @@
                 var titem = $('#' + tid).attr('data-item');
                 $.post("@Url.Action("OrderDetailDelete", "Query")", { 'item': titem },
                     function (datas) {
-                        alert(datas);
+                        if (datas != null) {
+
+                        }
+                        $('#EditDialog').dialog("close");
+                        alert('刪除完成');
                         location.reload();
                     })
             });
