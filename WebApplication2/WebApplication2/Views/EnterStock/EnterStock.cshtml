@@ -267,7 +267,7 @@
             $("#milliliter").append($('<option></option>').text("--請選擇--").val(0));
             $.each(datas, function (i, data) {
                 var eleMilliliter = $('<option></option>');
-                eleMilliliter.text(data.capacity);
+                eleMilliliter.text(data.MilliliterName);
                 eleMilliliter.val(data.MilliliterID);
                 $("#milliliter").append(eleMilliliter);
             })

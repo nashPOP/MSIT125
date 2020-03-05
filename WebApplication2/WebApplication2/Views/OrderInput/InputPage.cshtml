@@ -87,27 +87,13 @@
                     <input type="number" id="QuantityData" class="form-control" />
                 </div>
             </div>
-
-            @*<div class="form-group row">*@
-
-            @*
-            <div>
-                <label id="Millilters">容量</label>
-                <select id="MilliltersSelect">
-                  @foreach (var i in Model.Millilters)
-                    {
-                       <option value="@i">@i</option>
-                    }
-                </select><label>ml</label>
-            </div>
-            *@
-
+             
             @*客戶姓名電話*@
             <div class="form-group row">
-                <div class="col-xs-3" style="margin-left:10px;">
+                <div class="col-sm-1" >
                     <label id="CustomerName">客戶姓名：</label>
                 </div>
-                <div class="col-sm-3" style="margin-left:12px;">
+                <div class="col-sm-3" >
                     <input type="text" id="CustomerNameData" placeholder="請輸入姓名" class="form-control"/>
                 </div>
                 <div class="col-sm-1">
@@ -130,10 +116,10 @@
 
             @*日期*@
             <div class="form-group row">
-                <div class="col-xs-3" style="margin-left:10px;">
+                <div class="col-sm-1">
                     <label>出貨日期：</label>
                 </div>
-                <div class="col-sm-3" style="margin-left:12px;">
+                <div class="col-sm-3">
                     <input type="date" id="ShippedDateData" class="form-control"/>
                 </div>
             </div>
