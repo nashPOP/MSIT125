@@ -18,6 +18,10 @@
 
     @section style{
         <style>
+            * {
+                font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+            }
+
             #wineryspan {
                 font-size: 26px;
                 color: black;
@@ -100,10 +104,10 @@
 
             @*客戶姓名電話*@
             <div class="form-group row">
-                <div class="col-sm-1" >
+                <div class="col-xs-3" style="margin-left:10px;">
                     <label id="CustomerName">客戶姓名：</label>
                 </div>
-                <div class="col-sm-3" >
+                <div class="col-sm-3" style="margin-left:12px;">
                     <input type="text" id="CustomerNameData" placeholder="請輸入姓名" class="form-control"/>
                 </div>
                 <div class="col-sm-1">
@@ -126,10 +130,10 @@
 
             @*日期*@
             <div class="form-group row">
-                <div class="col-sm-1">
+                <div class="col-xs-3" style="margin-left:10px;">
                     <label>出貨日期：</label>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="margin-left:12px;">
                     <input type="date" id="ShippedDateData" class="form-control"/>
                 </div>
             </div>

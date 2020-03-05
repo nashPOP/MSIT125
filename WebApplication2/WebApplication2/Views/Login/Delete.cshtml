@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Delete";
 }
+@section style{
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+    </style>
+}
 
 <h2>刪除</h2>
 
@@ -40,7 +47,7 @@
                 </dl>*@
             <div class="form-actions no-color">
                 <input type="submit" value="確定刪除" class="btn btn-danger" /> |
-                @Html.ActionLink("登出", "LoginPage", "~/Views/Login", new { htmlAttributes = new { @class = "btn btn-primary col-offset-sm-2" } })
+                @*@Html.ActionLink("登出", "LoginPage", "~/Views/Login", new { htmlAttributes = new { @class = "btn btn-primary col-offset-sm-2" } })*@
             </div>
 
         </div>

@@ -19,23 +19,9 @@
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.css" rel="stylesheet" />
-    <style>
-        * {
-            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
-        }
-    </style>
     @RenderSection("style", required: false)
-
-    @section scripts
-        {
-
-        <script>
-            $("#logout").click(function () {
-                var data = $("#span1").val(@Session["account1"]);
-                $("#span1").hide();
-            })
-        </script>
-    }
+    
+    
 </head>
 
 <body id="page-top">
@@ -59,21 +45,20 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 功能列表
             </div>
 
             <!-- Nav Item - 查詢 -->
-            <li class="nav-item">
+            <li class="nav-item query">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>查詢</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        @Html.ActionLink("庫存查詢", "InventoryQuery","Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">庫存查詢</a>*@
+                        @Html.ActionLink("庫存查詢", "InventoryQuery", "Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">庫存查詢</a>*@
                         @Html.ActionLink("訂單查詢", "OrderQuery", "Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">訂單查詢</a>*@
                         @Html.ActionLink("進貨紀錄查詢", "InStockQuery", "Query", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">進貨紀錄查詢</a>*@
                     </div>
@@ -81,14 +66,14 @@
             </li>
 
             <!-- Nav Item -存貨輸入 -->
-            <li class="nav-item">
+            <li class="nav-item stock">
                 <a class="nav-link" href="~/EnterStock/EnterStock">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>存貨輸入</span>
                 </a>
             </li>
             <!-- Nav Item - 訂單輸入 -->
-            <li class="nav-item">
+            <li class="nav-item order">
                 <a class="nav-link" href="~/OrderInput/InputPage">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>訂單輸入</span>
@@ -96,7 +81,7 @@
             </li>
 
             <!-- Nav Item - 揀貨處理 -->
-            <li class="nav-item">
+            <li class="nav-item pick">
                 <a class="nav-link" href="~/Pick/pick">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>揀貨處理</span>
@@ -104,7 +89,7 @@
             </li>
 
             <!-- Nav Item - 資料管理 -->
-            <li class="nav-item">
+            <li class="nav-item data">
                 <a class="nav-link" href="~/SelectorCreate/SelectorCreate">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>資料管理</span>
@@ -112,16 +97,16 @@
             </li>
 
             <!-- Nav Item - 會員系統 -->
-            <li class="nav-item">
-                <a class="nav-link" href="#"  data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
+            <li class="nav-item mems">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>會員系統</span>
                 </a>
                 <div id="collapseMember" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        @Html.ActionLink("註冊新會員", "Register", "~/Views/Login",null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
-                        @Html.ActionLink("修改密碼", "EditPassWord", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
-                        @Html.ActionLink("刪除會員", "Delete", "~/Views/Login", new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
+                        @Html.ActionLink("註冊新會員", "Register", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
+                        @Html.ActionLink("修改密碼", "EditPassWord", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
+                        @Html.ActionLink("刪除會員", "Delete", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
                     </div>
                 </div>
             </li>
@@ -178,7 +163,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -193,7 +178,7 @@
                                     </div>
                                     <div>
                                         <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                        @*<span class="font-weight-bold">A new monthly report is ready to download!</span>*@
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -203,8 +188,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
+                                        @*<div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!*@
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -214,8 +199,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
+                                        @*<div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.*@
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">顯示所有提示</a>
@@ -227,7 +212,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
@@ -240,7 +225,7 @@
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                                        <div class="text-truncate">哈囉!我想請你幫我處理我現在正遇到的問題!</div>
                                         <div class="small text-gray-500">Emily Fowler · 58m</div>
                                     </div>
                                 </a>
@@ -250,7 +235,7 @@
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                                        <div class="text-truncate">您上次訂購的照片已到貨,你想要我怎樣拿給你?</div>
                                         <div class="small text-gray-500">Jae Chun · 1d</div>
                                     </div>
                                 </a>
@@ -260,7 +245,7 @@
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                                        <div class="text-truncate">上個月的閱報做得很好,我很滿意這樣的進度,繼續努力做好工作!</div>
                                         <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                                     </div>
                                 </a>
@@ -270,7 +255,7 @@
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="text-truncate">我是個"GOOD BOY"嗎?我會這樣問是因為有人跟我說,很多人對他們養的狗也是這樣說,雖然它們並不好</div>
                                         <div class="small text-gray-500">Chicken the Dog · 2w</div>
                                     </div>
                                 </a>
@@ -283,21 +268,17 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>                                
+                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="@Url.Action("Register","Login")">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    註冊新會員
-                                </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in FIXED" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="@Url.Action("EditPassWord","Login")">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400 "></i>
                                     修改密碼
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a id="logout1" class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
+                                <a id="logout" class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     登出
                                 </a>
@@ -318,7 +299,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2019</span>
+                        <span>德義國際後勤&copy;2020</span>                        
                     </div>
                 </div>
             </footer>
@@ -339,15 +320,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">確定要離開嗎?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">如果你真要離開,請選擇"登出"</div>
                 <div class="modal-footer">
+                    <a class="btn btn-primary logout" href="@Url.Action("LoginPage", "Login")">登出</a>
                     <input class="btn btn-secondary" type="reset" data-dismiss="modal">
-                    <a id="logout" class="btn btn-primary" href="@Url.Action("LoginPage", "Login")">登出</a>
+
                 </div>
             </div>
         </div>
@@ -376,5 +358,25 @@
         @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 
+   
+        <script>
+            
+           var IdentityCode ="@Session["IdentityCode"].ToString()";
+            if (IdentityCode == "A")
+            {
+                $('.pick').css('display', 'none')
+                $('.stock').css('display', 'none')
+                $('.data').css('display', 'none')
+                $('.mems').css('display', 'none')
+            }
+
+          
+
+            @*$("#logout").click(function () {
+                var data = $("#span1").val(@Session["account1"]);
+                $("#span1").hide();
+            })*@
+        </script>
+    
 </body>
 </html>
