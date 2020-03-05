@@ -358,6 +358,10 @@ namespace WebApplication2.Models
             }
         }
 
+        #endregion
+
+        #region dialog
+
         public IQueryable getOrderdialog(int id)
         {
             try

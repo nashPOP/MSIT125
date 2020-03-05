@@ -184,26 +184,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="DeleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">刪除訊息</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>是否確認刪除?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="dialogclick">確認</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section scripts{
     <script>
 
@@ -267,18 +247,18 @@
 
         $('[id="Btn_Delete"]').click(function () {
             var invid = $(this).attr("data-InventoryId");
-            $('#dialogclick').attr('data-InventoryId', invid);
-            $('#DeleteDialog').modal('show');
+            if (confirm("是否確認刪除此資料？") == true) {
+                Delete(invid)
+            }
         })
 
-        $('#dialogclick').on('click', function () {
-            var id = $(this).attr('data-InventoryId');
+        function Delete(id) {
             $.post("@Url.Action("InventoryDelete","Query")", { 'inventoryid': id },
                 function (datas) {
                     alert(datas);
                     location.reload();
                 })
-        });
+        }
 
         $(function () {
             CategoryData();

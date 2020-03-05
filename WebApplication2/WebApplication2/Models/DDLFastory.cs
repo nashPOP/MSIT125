@@ -18,14 +18,21 @@ namespace WebApplication2.Models
         /// <returns>{Int:WineryID,String:WineryName}</returns>
         public IQueryable getWinery()
         {
-            var winery = from n in fj.Winery
-                         select new
-                         {
-                             n.WineryID,
-                             n.WineryName
-                         };
+            try
+            {
+                var winery = from n in fj.Winery
+                             select new
+                             {
+                                 n.WineryID,
+                                 n.WineryName
+                             };
 
-            return winery;
+                return winery;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -35,12 +42,20 @@ namespace WebApplication2.Models
         /// <returns>{Int:CategoryID,String:CategoryName}</returns>
         public IQueryable getCategory()
         {
-            var category = fj.Category.Select(p => new {
-                p.CategoryID,
-                p.CategoryName
-            });
+            try
+            {
+                var category = fj.Category.Select(p => new
+                {
+                    p.CategoryID,
+                    p.CategoryName
+                });
 
-            return category;
+                return category;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -51,34 +66,54 @@ namespace WebApplication2.Models
         /// <returns>{Int:ProductID,String:ProductName}</returns>
         public IQueryable getProduct(int? id)
         {
-            var products = fj.Product.Select(p => p);
-
-            if (id != null && id != 0) 
+            try
             {
-                var q = from n in products
-                        where n.CategoryID == id
-                        select new { n.ProductID, n.ProductName };
-                return q;
-            }
-            else
-            {
-                var q=from n in products
-                      select new { n.ProductID, n.ProductName };
-                return q;
-            }
+                var products = fj.Product.Select(p => p);
 
+                if (id != null && id != 0)
+                {
+                    var q = from n in products
+                            where n.CategoryID == id
+                            select new { n.ProductID, n.ProductName };
+                    return q;
+                }
+                else
+                {
+                    var q = from n in products
+                            select new { n.ProductID, n.ProductName };
+                    return q;
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public IQueryable getMillilter()
         {
-            var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.capacity });
-            return millilter;
+            try
+            {
+                var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.capacity });
+                return millilter;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public IQueryable getShelf()
         {
-            var shelf = fj.Shelf.Select(p => new { p.ShelfID, p.ShelfPosition });
-            return shelf;
+            try
+            {
+                var shelf = fj.Shelf.Select(p => new { p.ShelfID, p.ShelfPosition });
+                return shelf;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

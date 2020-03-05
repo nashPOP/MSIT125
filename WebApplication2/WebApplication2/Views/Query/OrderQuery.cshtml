@@ -321,26 +321,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="DeleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">刪除訊息</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>是否確認刪除?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="dialogclick">確認</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section scripts{
     <script>
 
@@ -356,8 +336,8 @@
                     var allop = $('<option></option>');
                     allop.text("--請選擇--");
                     allop.val('0');
+                    $('#DDL_Product').append(allop);
                     if (datas != null) {
-                        $('#DDL_Product').append(allop);
                         $.each(datas, function (Idx, data) {
                             var op = $('<option></option>');
                             op.text(data.ProductName);
@@ -396,19 +376,20 @@
 
         $('[id="btnDelete"]').on('click', function () {
             var id = $(this).attr('data-id');
-            $('#dialogclick').attr('data-id', id);
-            $('#DeleteDialog').modal('show');
+            let message = confirm("是否確認刪除此筆資料？")
+            if (message == true) {
+                Delete(id)
+            }
         })
 
-        $('#dialogclick').click(function () {
-            var id = $(this).attr('data-id');
+        function Delete(id) {
             $.post("@Url.Action("OrderDelete","Query")", { 'id': id },
                 function (datas) {
                     $('#DeleteDialog').modal('hide');
                     alert(datas);
                     location.reload();
                 })
-        })
+        }
 
 
     $(function () {
