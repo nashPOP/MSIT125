@@ -6,6 +6,9 @@
 @section style
     {
     <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
         #CanDrive, #Can_not_Drive {
             cursor: pointer
         }
@@ -340,7 +343,7 @@
 
             })
             var td3 = $('<td><input type = "number" class = "form-control data-Qty"></td>')
-            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger btn-Cancle-For-Add" value ="取消"></td>')
+            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger" value ="取消"></td>')
 
             td1.text($(this).attr('data-OrderID'))
             $(td2).append(select);
@@ -405,12 +408,8 @@
                     return;
                  }
                  }
-        })
+            })
 
-        //新增品項的取消按鈕
-        $('#dialog').on('click', '.btn-Cancle-For-Add', function () {
-            ($(this).parentsUntil('tr').parent()).remove();
-        })
     </script>
 
 
