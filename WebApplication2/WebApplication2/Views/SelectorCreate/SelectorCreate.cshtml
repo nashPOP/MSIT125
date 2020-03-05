@@ -5,10 +5,6 @@
 
 @section style{
     <style>
-        * {
-            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
-        }
-
         @@font-face {
             font-family: 'Glyphicons Halflings';
             src: url('../fonts/glyphicons-halflings-regular.eot');
@@ -26,12 +22,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
-        /*#myTable_paginate li {
-            margin-left: -2px;
-            padding: 0px;
-            text-align: right;
-        }*/
 
         #myTable_paginate li a {
             position: relative;
@@ -221,10 +211,12 @@
         </div>
 
         <div>
-            <button type="button" id="bt1" class="btn btn-primary" data-toggle="modal" data-target="#window1" data-whatever="mdo">新增</button>
+            <button id="bt1" class="btn btn-primary">新增</button>
         </div>
     </div>
 </div>
+
+@*彈出視窗*@
 <div class="modal fade" id="window1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -236,22 +228,11 @@
             </div>
             <div class="modal-body">
                 <form>
-                    @*<div>
-                            <div>
-                                <select class="form-control" style="font-weight:800;font-family:標楷體;">
-                                    <option>酒莊</option>
-                                    <option>產品種類</option>
-                                    <option>產品名稱</option>
-                                    <option>產品容量</option>
-                                    <option>貨架</option>
-                                </select>
-                            </div>
-                        </div>*@
                     @*編輯按鈕*@
                     @*酒莊(編輯)*@
                     @if (Model.status == "Winery")
                     {
-                        <div class="form-group" @*style="display:none"*@>
+                        <div class="form-group" id="hide1">
                             <label for="message-text" class="col-form-label">酒莊編號：</label>
                             <input type="text" class="form-control" id="wineryId" readonly>
                         </div>
@@ -276,7 +257,7 @@
                     @*類別(編輯)*@
                     @if (Model.status == "Category")
                     {
-                        <div class="form-group" @*style="display:none"*@>
+                        <div class="form-group" id="hide1">
                             <label for="message-text" class="col-form-label">種類編號：</label>
                             <input type="text" class="form-control" id="categoryId" readonly>
                         </div>
@@ -289,7 +270,7 @@
                     @*產品(編輯)*@
                     @if (Model.status == "Product")
                     {
-                        <div class="form-group" @*style="display:none"*@>
+                        <div class="form-group" id="hide1">
                             <label for="message-text" class="col-form-label">產品編號：</label>
                             <input type="text" class="form-control" id="productId" readonly>
                         </div>
@@ -297,7 +278,7 @@
                             <label for="message-text" class="col-form-label">產品名稱：</label>
                             <input type="text" class="form-control" id="productName" autocomplete="off">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="hide2">
                             <label for="message-text" class="col-form-label">數量：</label>
                             <input type="text" class="form-control" id="productQuantity" readonly>
                         </div>
@@ -314,7 +295,7 @@
                     @*容量(編輯)*@
                     @if (Model.status == "Milliliter")
                     {
-                        <div class="form-group" @*style="display:none"*@>
+                        <div class="form-group" id="hide1">
                             <label for="message-text" class="col-form-label">容量編號：</label>
                             <input type="text" class="form-control" id="milliliterId" readonly>
                         </div>
@@ -336,11 +317,12 @@
                             <input type="text" class="form-control" id="shelfPosition" autocomplete="off">
                         </div>
                     }
-
                 </form>
             </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="warningSubmit"></button>
+                <button type="button" class="btn btn-primary" id="warningSubmit">儲存</button>
+                <button type="button" class="btn btn-primary" id="createSubmit">確認</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -349,6 +331,7 @@
 
 @section scripts{
     <script>
+        //彈出視窗
         $('#bt1').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -359,6 +342,7 @@
             modal.find('.modal-body input').val(recipient)
         })
 
+        //一開始的下拉選單(select option)
         $('#sl').change(function () {
             var v1 = $('#sl option:selected').val();
             console.log(v1);
@@ -367,18 +351,22 @@
             })
         })
 
+        //刪除按鈕(隱藏中)
         $('.btn-danger').on('click', function () {
             var x = $(this).attr('data-delete');
             var status = $(this).parents('tr').attr('data-status');
-
             $.post("@Url.Action("Delete","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
                 alert(data);
                 location.reload();
             })
         })
 
-        $('.btn-warning').on('click', function () {
-            $('#warningSubmit').text('儲存');
+        //編輯按鈕
+        $('.btn-success').on('click', function () {
+            $('#createSubmit').hide();
+            $('#warningSubmit').show();
+            $('#hide1').show();
+            $('#hide2').show();
             var x = $(this).attr('data-edit');
             var status = $(this).parents('tr').attr('data-status');
             var warning = $('#exampleModalLabel');
@@ -422,14 +410,24 @@
             })
         })
 
+        //編輯按鈕→儲存編輯→確認
         $('#warningSubmit').on('click', function () {
             var r = confirm("確認儲存");
             if (r == true) {
-                Edit();
+                Edit('Edit');
             }
         })
 
-        function Edit() {
+        //儲存按鈕→確認→confirm確認
+        $('#createSubmit').on('click', function () {
+            var r = confirm("確認新增");
+            if (r == true) {
+                Edit('Insert');
+            }
+        })
+
+        //存入資料庫
+        function Edit(modal) {
             var status = "@Model.status";
             console.log(status)
             var kk;
@@ -441,13 +439,11 @@
                 var e = $('#wineryEmail').val();
                 kk = a + "," + b + "," + c + "," + d + "," + e ;
             }
-
             if (status == 'Category') {
                 var a = $('#categoryId').val();
                 var b = $('#categoryName').val();
                 kk = a + "," + b;
             }
-
             if (status == 'Product') {
                 var a = $('#productId').val();
                 var b = $('#productName').val();
@@ -456,24 +452,73 @@
                 var e = $('#productCategory').val();
                 kk = a + "," + b + "," + c + "," + d + "," + e;
             }
-
             if (status == 'Milliliter') {
                 var a = $('#milliliterId').val();
                 var b = $('#milliliterName').val();
                 kk = a + "," + b;
             }
-
             if (status == 'Shelf') {
                 var a = $('#shelfId').val();
                 var b = $('#shelfPosition').val();
                 kk = a + "," + b;
             }
-            $.post("@Url.Action("Edit","SelectorCreate")", { 'kk': kk, 'status': status }, function (data) {
-                $('#window1').modal('hide');
-                location.reload();
-            })
+            if (modal == 'Edit') {
+                $.post("@Url.Action("Edit","SelectorCreate")", { 'kk': kk, 'status': status }, function (data) {
+                    $('#window1').modal('hide');
+                    location.reload();
+                })
+            }
+            else if (modal == 'Insert') {
+                $.post("@Url.Action("Insert","SelectorCreate")", { 'kk': kk, 'status': status }, function (data) {
+                    $('#window1').modal('hide');
+                    location.reload();
+                })
+            }
         }
 
+        //新增按鈕
+        $('#bt1').on('click', function () {
+            $('#createSubmit').show();
+            $('#warningSubmit').hide();
+            $('#hide1').hide();
+            $('#hide2').hide();
+            var status = "@Model.status";
+            var title = $('#exampleModalLabel');
+            if (status == 'Winery') {
+                $('#wineryId').val(null);
+                $('#wineryName').val(null);
+                $('#wineryPhone').val(null);
+                $('#wineryAddress').val(null);
+                $('#wineryEmail').val(null);
+                title.text('新增酒莊');
+            }
+            if (status == 'Category') {
+                $('#categoryId').val(null);
+                $('#categoryName').val(null);
+                title.text('新增種類');
+            }
+            if (status == 'Product') {
+                WineryData(0);
+                CategoryData(0);
+                $('#productId').val(null);
+                $('#productName').val(null);
+                $('#productQuantity').val(null);
+                title.text('新增產品');
+            }
+            if (status == 'Milliliter') {
+                $('#milliliterId').val(null);
+                $('#milliliterName').val(null);
+                title.text('新增容量');
+            }
+            if (status == 'Shelf') {
+                $('#shelfId').val(null);
+                $('#shelfPosition').val(null);
+                title.text('新增貨架');
+            }
+            $('#window1').modal('show');
+        })
+
+        //編輯/新增 裡酒莊的下拉選單
         function WineryData(id) {
             $.getJSON("@Url.Action("GetWinery", "SelectorCreate")", function (datas) {
                 $('#productWinery').empty();
@@ -483,10 +528,13 @@
                 op.val(data.WineryID);
                 $('#productWinery').append(op);
                 })
-                $('#productWinery option[value="' + id + '"]').attr('selected', true);
+                if (id != 0) {
+                    $('#productWinery option[value="' + id + '"]').attr('selected', true);
+                }
         })
         }
 
+        //編輯/新增 裡種類的下拉選單
         function CategoryData(id) {
             $.getJSON("@Url.Action("GetCategory", "SelectorCreate")", function (datas) {
                 $('#productCategory').empty();
@@ -495,11 +543,14 @@
                 op.text(data.CategoryName);
                 op.val(data.CategoryID);
                 $('#productCategory').append(op);
-            })
-            $('#productCategory option[value="' + id + '"]').attr('selected', true);
+                })
+                if (id != 0) {
+                    $('#productCategory option[value="' + id + '"]').attr('selected', true);
+                }
         })
         }
 
+        //框架套版
         $(function () {
             $('#myTable').DataTable({
                 paging: true,
