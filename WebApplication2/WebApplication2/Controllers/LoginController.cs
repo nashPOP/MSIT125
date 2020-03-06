@@ -140,48 +140,47 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LoginPage(string account1, string PassWord)
         {
-
-
-            var q = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
-
+            var q = db.Account;
+        
 
             //輸入之帳號與db相同,但密碼不同時:
-            if (account1 == q.Account1 && PassWord != q.Password)
+            if (q.Any(p=>p.Account1== account1 &&p.Password!= PassWord))
             {
                 ViewBag.Message = "密碼錯誤,請重新輸入!";
                 return View("LoginPage");
             }
             //輸入之帳號與密碼和db不同時:
-            else if (account1 != q.Account1 && PassWord != q.Password)
+            else if (q.Any(p=>p.Account1!=account1&&p.Password!=PassWord))
             {
                 ViewBag.Message = "帳號與密碼皆錯誤,請重新輸入!";
                 return View("LoginPage");
 
             }
             //輸入之帳號和db不同,但密碼相同時:
-            else if (account1 != q.Account1 && PassWord == q.Password)
+            else if (q.Any(p=>p.Account1!=account1&&p.Password==PassWord))
             {
                 ViewBag.Message = "帳號錯誤,請重新輸入!";
                 return View();
 
             }
             //輸入之帳號和密碼與db相同,且識別碼為A時:
-            if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "A")
+            if (q.Any(p=>p.Account1==account1&&p.Password==PassWord&&p.IdentityCode.Trim()=="A"))
             {
+                var C = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
                 ViewBag.Message = "歡迎進入本網站!";
-                Session["account1"] = q.Account1.ToString();
-                Session["IdentityCode"] = q.IdentityCode.ToString();
-                Session["WineryID"] = q.WineryID.ToString();
+                Session["account1"] = q.Any(p=>p.Account1==account1).ToString();
+                Session["IdentityCode"] = "A";
+                Session["WineryID"] = C.WineryID.ToString();
                 return RedirectToAction("EditPassWord", "Login");
 
             }
 
             //如果帳號密碼皆與DB相同,但識別碼為B者:
-            else if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "B")
+            else if (q.Any(p => p.Account1 == account1 && p.Password == PassWord && p.IdentityCode.Trim()== "B"))
             {
                 ViewBag.Message = "歡迎進入本網站!";
-                Session["account1"] = q.Account1.ToString();
-                Session["IdentityCode"] = q.IdentityCode.ToString();
+                Session["account1"] = q.Any(p => p.Account1 == account1).ToString();
+                Session["IdentityCode"] = "B";
                 return RedirectToAction("EnterStock", "EnterStock");
             }
             //當帳密為空值或null時:
@@ -190,21 +189,21 @@ namespace WebApplication2.Controllers
                 ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
                 return RedirectToAction("LoginPage", "Login");
             }
-            else if (account1 == q.Account1 && PassWord == "")
+            else if (q.Any(p => p.Account1 == account1) && PassWord == "")
             {
                 ViewBag.message = "請輸入密碼,密碼不可為空值!";
                 return RedirectToAction("LoginPage", "Login");
             }
-            else if (account1 == q.Account1 && PassWord == null)
+            else if (q.Any(p => p.Account1 == account1) && PassWord == null)
             {
                 ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
                 return RedirectToAction("LoginPage", "Login");
             }
             else if (account1 != "" && account1 != null && PassWord != "" && PassWord != null)
             {
-                if (account1 == q.Account1 && PassWord != q.Password)
+                if (account1.Length<3)
                 {
-                    ViewBag.message = "請輸入正確帳號跟密碼,帳號密碼不可隨便填寫!";
+                    ViewBag.message = "帳號長度不符,帳號密碼不可隨便填寫!";
                     return RedirectToAction("LoginPage", "Login");
                 }
                 else
