@@ -1,17 +1,10 @@
 ﻿@model WebApplication4.ViewModel.OrderInputViewModel
 @{
 
-
+    ViewBag.Title = "OrderInputPage";
 
 }
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta http-equiv="content-type" content="text-html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width , initial-scale=1.0" />
-    <title>OrderInputPage</title>
     @*@section style{
             @System.Web.Optimization.Styles.Render("~/Content/css")
         }*@
@@ -29,8 +22,6 @@
         </style>
     }
 
-</head>
-<body>
     @*訂單輸入欄位*@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -177,8 +168,8 @@
         </div>
     </div>
     @section scripts{
-        @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
-        @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
+        @*@System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+        @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")*@
         @*Read model to js*@
         <script type="text/javascript">
         var data = @Html.Raw(Json.Encode(Model.ProductsDatas));
@@ -187,7 +178,3 @@
         <script src="~/Scripts/OrderInput.js"></script>
     }
 
-
-
-</body>
-</html>
