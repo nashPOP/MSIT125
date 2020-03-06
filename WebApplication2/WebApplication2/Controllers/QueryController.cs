@@ -143,9 +143,8 @@ namespace WebApplication2.Controllers
                     return RedirectToAction("LoginPage", "Login");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
                 return RedirectToAction("OrderQuery");
             }
         }
@@ -171,9 +170,9 @@ namespace WebApplication2.Controllers
                     return RedirectToAction("LoginPage", "Login");
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
+               
             }
             return RedirectToAction("OrderEdit", order.OrderID);
         }
@@ -606,7 +605,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlWinery, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -620,7 +619,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlCategory, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -634,7 +633,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlProduct, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -647,7 +646,7 @@ namespace WebApplication2.Controllers
                 var ddlMillilter = ddl.getMillilter();
                 return Json(ddlMillilter, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -660,7 +659,7 @@ namespace WebApplication2.Controllers
                 var ddlShelf = ddl.getShelf();
                 return Json(ddlShelf, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }

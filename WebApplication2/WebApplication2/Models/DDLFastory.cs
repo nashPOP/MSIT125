@@ -29,7 +29,7 @@ namespace WebApplication2.Models
 
                 return winery;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -52,7 +52,7 @@ namespace WebApplication2.Models
 
                 return category;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -84,7 +84,7 @@ namespace WebApplication2.Models
                     return q;
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -97,7 +97,7 @@ namespace WebApplication2.Models
                 var millilter = fj.Milliliter.Select(p => new { p.MilliliterID, MilliliterName = p.capacity });
                 return millilter;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -110,7 +110,7 @@ namespace WebApplication2.Models
                 var shelf = fj.Shelf.Select(p => new { p.ShelfID, p.ShelfPosition });
                 return shelf;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

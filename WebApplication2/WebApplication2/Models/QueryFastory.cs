@@ -86,7 +86,7 @@ namespace WebApplication2.Models
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -217,7 +217,7 @@ namespace WebApplication2.Models
                 db.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
@@ -282,7 +282,7 @@ namespace WebApplication2.Models
 
                 return table;
             }
-            catch (Exception ex)
+            catch
             {
                 return getAllStockEnter().Select(p => p);
             }
@@ -410,7 +410,7 @@ namespace WebApplication2.Models
                             };
                 return order;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -450,7 +450,7 @@ namespace WebApplication2.Models
 
                 return orderdetail;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
