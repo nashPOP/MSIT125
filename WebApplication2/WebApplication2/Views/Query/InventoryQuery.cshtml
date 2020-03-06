@@ -77,7 +77,10 @@
                     <th>容量</th>
                     <th>總數</th>
                     <th>倉儲位置</th>
-                    <th></th>
+                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                    {
+                        <th></th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -93,10 +96,13 @@
                             <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
-                            <td class="text-center">
-                                <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                                <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash" ></span>&nbsp;刪除</button>
-                            </td>
+                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                            {
+                                <td class="text-center">
+                                    <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                    <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                </td>
+                            }
                         </tr>
                     }
                 }
@@ -191,10 +197,10 @@
                 paging: true,
                 searching: false,
                 ordering: true,
-                lengthChange: false,
+                lengthChange: true,
                 language: {
 
-                    lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+                    lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
 
                     paginate: {
                         previous: "上一頁",
@@ -210,7 +216,6 @@
                 },
                 pagingType: "full_numbers"
             });
-            $('#InventoryTable_wrapper').removeClass('form-inline');
         })
     </script>
 

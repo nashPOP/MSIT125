@@ -342,10 +342,10 @@
             paging: true,
             searching: false,
             ordering: true,
-            lengthChange: false,
+            lengthChange: true,
             language: {
 
-                lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+                lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
 
                 paginate: {
                     previous: "上一頁",
@@ -361,7 +361,6 @@
             },
             pagingType: "full_numbers"
         });
-        $('#OrderTable_wrapper').removeClass('form-inline');
 
         $('[id = "Details"]').on("click", function () {
             $("#dialog").dialog("open");

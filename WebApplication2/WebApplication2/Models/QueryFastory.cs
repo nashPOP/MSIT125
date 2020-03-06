@@ -291,6 +291,7 @@ namespace WebApplication2.Models
         #endregion
 
         #region Inventory
+
         public IEnumerable<Inventory> getInventoryQuery()
         {
             var table = from n in db.Inventory
@@ -298,11 +299,23 @@ namespace WebApplication2.Models
             return table.ToList();
         }
 
-        public IQueryable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
+        public IEnumerable<Inventory> getInventoryQuery(int WineryId)
+        {
+            var table = from n in db.Inventory
+                        where n.Product.WineryID == WineryId
+                        select n;
+            return table.ToList();
+        }
+
+        public IQueryable<Inventory> getInventoryQuery(QInventory qinv,int? WineryID)
         {
             try
             {
                 var table = db.Inventory.Select(p => p);
+                if (WineryID != null)
+                {
+                    db.Inventory.Where(p => p.Product.WineryID == WineryID);
+                }
                 if (!string.IsNullOrEmpty(qinv.TB_ProductID))
                 {
                     table = table.Where(p => p.ProductID.ToString() == qinv.TB_ProductID.Trim());
@@ -323,6 +336,7 @@ namespace WebApplication2.Models
             }
             catch (Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return db.Inventory.Select(p => p);
             }
 
@@ -353,6 +367,7 @@ namespace WebApplication2.Models
             }
             catch(Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return false;
             }
             
@@ -369,6 +384,7 @@ namespace WebApplication2.Models
             }
             catch (Exception ex)
             {
+                string ErrorMessage = ex.Message;
                 return ex.Message;
             }
         }
