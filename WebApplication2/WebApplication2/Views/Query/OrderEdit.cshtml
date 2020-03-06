@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.CustomerName, htmlAttributes: new { @class = "control-label" })
+                        客戶名稱：
                     </div>
                     <div class="col-sm-3">
                         @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.OrderDate, htmlAttributes: new { @class = "control-label" })
+                        訂購時間：
                     </div>
                     <div class="col-sm-3">
                         <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 OrderDate 必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
@@ -50,17 +50,16 @@
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.RequiredDate, htmlAttributes: new { @class = "control-label" })
+                        時間：
                     </div>
                     <div class="col-sm-3">
-                        
                         @Html.EditorFor(model => model.Order.RequiredDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.ShippedDate, htmlAttributes: new { @class = "control-label" })
+                        出貨時間：
                     </div>
                     <div class="col-sm-3">
                         
@@ -71,7 +70,7 @@
 
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.Note, htmlAttributes: new { @class = "control-label" })
+                        備註：
                     </div>
                     <div class="col-sm-8">
                         @Html.EditorFor(model => model.Order.Note, new { htmlAttributes = new { @class = "form-control" } })

@@ -277,7 +277,13 @@ namespace WebApplication2.Models
                 }
                 if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
                 {
-                    table = table.Where(p => p.StockEnterDate.StartsWith(qStockEnter.D_StockEnterDate));
+                    string date = qStockEnter.D_StockEnterDate;
+                    string dat1 = qStockEnter.D_StockEnterDate.Substring(8,1);
+                    if (qStockEnter.D_StockEnterDate.Substring(8, 1) == "0")
+                        date = date.Remove(8, 1);
+                    if (qStockEnter.D_StockEnterDate.Substring(5, 1) == "0")
+                        date = date.Remove(5, 1);
+                    table = table.Where(p => p.StockEnterDate.StartsWith(date));
                 }
 
                 return table;
