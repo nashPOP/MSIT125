@@ -258,8 +258,30 @@ namespace WebApplication2.Controllers
 
         public ActionResult InStockQuery()
         {
-            var StockQuery = fas.getAllStockEnter();
-            return View(StockQuery);
+
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "A")
+                {
+                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    var StockQuery = fas.getAllStockEnter(wineryid);
+                    return View(StockQuery);
+                }
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    var StockQuery = fas.getAllStockEnter();
+                    return View(StockQuery);
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            
         }
 
         [HttpPost]

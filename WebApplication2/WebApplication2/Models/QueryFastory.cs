@@ -192,6 +192,13 @@ namespace WebApplication2.Models
             return StockEnterTable;
         }
 
+        public IQueryable<StockEnter> getAllStockEnter(int id)
+        {
+            var StockEnterTable = db.StockEnter.Where(p=>p.WineryID==id).Select(p => p);
+
+            return StockEnterTable;
+        }
+
         public bool StockEnterEdit(StockEnter stock)
         {
             try
