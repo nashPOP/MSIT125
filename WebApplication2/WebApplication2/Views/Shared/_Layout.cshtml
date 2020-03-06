@@ -270,9 +270,11 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
+                        @if (Session["account1"]!=null)
+                        {
+                        <li class="nav-item dropdown no-arrow" id="li1">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in FIXED" aria-labelledby="userDropdown">
@@ -282,12 +284,13 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a id="logout" class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     登出
                                 </a>
                             </div>
                         </li>
+                        }
 
                     </ul>
 
@@ -330,8 +333,8 @@
                     </button>
                 </div>
                 <div class="modal-body">如果你真要離開,請選擇"登出"</div>
-                <div class="modal-footer">
-                    <a class="btn btn-primary logout" href="@Url.Action("LoginPage", "Login")">登出</a>
+                <div class="modal-footer"id="logout" >
+                    <a class="btn btn-primary logout" href="@Url.Action("LoginPage", "Login",new { logout="logout"})">登出</a>
                     <input class="btn btn-secondary" type="reset" data-dismiss="modal">
 
                 </div>
@@ -376,10 +379,10 @@
 
 
 
-            @*$("#logout").click(function () {
-                var data = $("#span1").val(@Session["account1"]);
-                $("#span1").hide();
-            })*@
+            $("#logout").click(function () {
+               
+            
+            })
     </script>
 
 </body>
