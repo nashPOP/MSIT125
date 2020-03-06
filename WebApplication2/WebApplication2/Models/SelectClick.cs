@@ -150,7 +150,7 @@ namespace WebApplication2.ModelView
                         return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }
@@ -207,7 +207,7 @@ namespace WebApplication2.ModelView
                         return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }
@@ -287,7 +287,7 @@ namespace WebApplication2.ModelView
                         return null;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return null;
             }

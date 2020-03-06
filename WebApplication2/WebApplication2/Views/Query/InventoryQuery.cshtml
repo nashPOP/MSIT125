@@ -7,6 +7,87 @@
     int count = 0;
 }
 
+@section style{
+
+    <style>
+
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #InventoryTable_paginate li {
+            margin-left: -2px;
+            padding: 0px;
+            text-align: right;
+        }
+
+            #InventoryTable_paginate li a {
+                position: relative;
+                display: block;
+                padding: 0.5rem 0.75rem;
+                margin-left: -1px;
+                line-height: 1.25;
+                color: #4e73df;
+                background-color: #fff;
+                border: 1px solid #dddfeb;
+                text-align: right;
+            }
+
+                #InventoryTable_paginate li a:hover {
+                    z-index: 2;
+                    color: #224abe;
+                    text-decoration: none;
+                    background-color: #eaecf4;
+                    border-color: #dddfeb;
+                }
+
+                #InventoryTable_paginate li a:focus {
+                    z-index: 2;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+                }
+
+            #InventoryTable_paginate li:first-child a {
+                margin-left: 0;
+                border-top-left-radius: 0.35rem;
+                border-bottom-left-radius: 0.35rem;
+            }
+
+            #InventoryTable_paginate li:last-child a {
+                border-top-right-radius: 0.35rem;
+                border-bottom-right-radius: 0.35rem;
+            }
+
+            #InventoryTable_paginate li.active a {
+                z-index: 1;
+                color: #fff;
+                background-color: #4e73df;
+                border-color: #4e73df;
+            }
+
+            #InventoryTable_paginate li.disabled a {
+                color: #858796;
+                pointer-events: none;
+                cursor: auto;
+                background-color: #fff;
+                border-color: #dddfeb;
+            }
+    </style>
+}
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h2>庫存查詢</h2>
@@ -77,10 +158,7 @@
                     <th>容量</th>
                     <th>總數</th>
                     <th>倉儲位置</th>
-                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
-                    {
-                        <th></th>
-                    }
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -96,13 +174,10 @@
                             <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
-                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
-                            {
-                                <td class="text-center">
-                                    <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                                    <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                                </td>
-                            }
+                            <td class="text-center">
+                                <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash" ></span>&nbsp;刪除</button>
+                            </td>
                         </tr>
                     }
                 }
@@ -197,10 +272,10 @@
                 paging: true,
                 searching: false,
                 ordering: true,
-                lengthChange: true,
+                lengthChange: false,
                 language: {
 
-                    lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
+                    lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
 
                     paginate: {
                         previous: "上一頁",
@@ -216,6 +291,7 @@
                 },
                 pagingType: "full_numbers"
             });
+            $('#InventoryTable_wrapper').removeClass('form-inline');
         })
     </script>
 

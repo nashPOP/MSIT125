@@ -59,12 +59,12 @@ namespace WebApplication2.Models
             return order;
         }
 
-        public IEnumerable<Order> getOrderByWineryID(int id)
+        public IQueryable<Order> getOrderByWineryID(int id)
         {
             var order = from n in db.Order
                         where n.WineryID == id
                         select n;
-            return order.ToList();
+            return order;
         }
 
         public bool EditOrder(Order order)
@@ -86,7 +86,7 @@ namespace WebApplication2.Models
                 }
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }
@@ -192,13 +192,6 @@ namespace WebApplication2.Models
             return StockEnterTable;
         }
 
-        public IQueryable<StockEnter> getAllStockEnter(int id)
-        {
-            var StockEnterTable = db.StockEnter.Where(p=>p.WineryID==id).Select(p => p);
-
-            return StockEnterTable;
-        }
-
         public bool StockEnterEdit(StockEnter stock)
         {
             try
@@ -217,7 +210,7 @@ namespace WebApplication2.Models
                 db.SaveChanges();
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
@@ -282,7 +275,7 @@ namespace WebApplication2.Models
 
                 return table;
             }
-            catch
+            catch (Exception ex)
             {
                 return getAllStockEnter().Select(p => p);
             }
@@ -291,7 +284,6 @@ namespace WebApplication2.Models
         #endregion
 
         #region Inventory
-
         public IEnumerable<Inventory> getInventoryQuery()
         {
             var table = from n in db.Inventory
@@ -299,23 +291,11 @@ namespace WebApplication2.Models
             return table.ToList();
         }
 
-        public IEnumerable<Inventory> getInventoryQuery(int WineryId)
-        {
-            var table = from n in db.Inventory
-                        where n.Product.WineryID == WineryId
-                        select n;
-            return table.ToList();
-        }
-
-        public IQueryable<Inventory> getInventoryQuery(QInventory qinv,int? WineryID)
+        public IQueryable<Inventory> getInventoryQuery(ModelViews.QInventory qinv)
         {
             try
             {
                 var table = db.Inventory.Select(p => p);
-                if (WineryID != null)
-                {
-                    db.Inventory.Where(p => p.Product.WineryID == WineryID);
-                }
                 if (!string.IsNullOrEmpty(qinv.TB_ProductID))
                 {
                     table = table.Where(p => p.ProductID.ToString() == qinv.TB_ProductID.Trim());
@@ -336,7 +316,6 @@ namespace WebApplication2.Models
             }
             catch (Exception ex)
             {
-                string ErrorMessage = ex.Message;
                 return db.Inventory.Select(p => p);
             }
 
@@ -367,7 +346,6 @@ namespace WebApplication2.Models
             }
             catch(Exception ex)
             {
-                string ErrorMessage = ex.Message;
                 return false;
             }
             
@@ -384,7 +362,6 @@ namespace WebApplication2.Models
             }
             catch (Exception ex)
             {
-                string ErrorMessage = ex.Message;
                 return ex.Message;
             }
         }
@@ -410,7 +387,7 @@ namespace WebApplication2.Models
                             };
                 return order;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
@@ -450,7 +427,7 @@ namespace WebApplication2.Models
 
                 return orderdetail;
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
