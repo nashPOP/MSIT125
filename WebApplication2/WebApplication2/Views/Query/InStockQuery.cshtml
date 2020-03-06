@@ -4,85 +4,7 @@
 
     List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 }
-@section style{
-    <style>
-        @@font-face {
-            font-family: 'Glyphicons Halflings';
-            src: url('../fonts/glyphicons-halflings-regular.eot');
-            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
-        }
 
-        .glyphicon {
-            position: relative;
-            top: 1px;
-            display: inline-block;
-            font-family: 'Glyphicons Halflings';
-            font-style: normal;
-            font-weight: normal;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /*#StockEnterTable_paginate li {
-            margin-left: -2px;
-            padding: 0px;
-            text-align: right;
-        }*/
-
-            #StockEnterTable_paginate li a {
-                position: relative;
-                display: block;
-                padding: 0.5rem 0.75rem;
-                margin-left: -1px;
-                line-height: 1.25;
-                color: #4e73df;
-                background-color: #fff;
-                border: 1px solid #dddfeb;
-                text-align: right;
-            }
-
-                #StockEnterTable_paginate li a:hover {
-                    z-index: 2;
-                    color: #224abe;
-                    text-decoration: none;
-                    background-color: #eaecf4;
-                    border-color: #dddfeb;
-                }
-
-                #StockEnterTable_paginate li a:focus {
-                    z-index: 2;
-                    outline: 0;
-                    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-                }
-
-            #StockEnterTable_paginate li:first-child a {
-                margin-left: 0;
-                border-top-left-radius: 0.35rem;
-                border-bottom-left-radius: 0.35rem;
-            }
-
-            #StockEnterTable_paginate li:last-child a {
-                border-top-right-radius: 0.35rem;
-                border-bottom-right-radius: 0.35rem;
-            }
-
-            #StockEnterTable_paginate li.active a {
-                z-index: 1;
-                color: #fff;
-                background-color: #4e73df;
-                border-color: #4e73df;
-            }
-
-            #StockEnterTable_paginate li.disabled a {
-                color: #858796;
-                pointer-events: none;
-                cursor: auto;
-                background-color: #fff;
-                border-color: #dddfeb;
-            }
-    </style>
-}
 <div class="card shadow mb-4">
     <div class="card-header py-2  d-flex flex-row">
         <h2>進貨紀錄查詢</h2>
@@ -114,17 +36,19 @@
 
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-1">
-                    <label for="DDL_Winery" id="LB_Winery">酒莊：</label>
+            if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+            {
+                <div class="form-group row">
+                    <div class="col-sm-1">
+                        <label for="DDL_Winery" id="LB_Winery">酒莊：</label>
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3"></div>
                 </div>
-                <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
-                </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-3"></div>
-            </div>
-
+            }
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Millilter" id="LB_Winery">容量：</label>
@@ -176,7 +100,10 @@
                             <th>倉儲位置</th>
                             <th>備註</th>
                             <th>入庫時間</th>
-                            <th></th>
+                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                            {
+                                <th></th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -212,35 +139,18 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.StockEnterDate)
                                     </td>
-                                    <td class="text-center">
-                                        <a id="Btn_Edit" href="@Url.Action("StockEnterEdit", "Query", new { id = item.StockEnterID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                                        <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                                    </td>
+                                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                    {
+                                        <td class="text-center">
+                                            <a id="Btn_Edit" href="@Url.Action("StockEnterEdit", "Query", new { id = item.StockEnterID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                            <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="DeleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">刪除訊息</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>是否確認刪除?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="dialogclick">確認</button>
             </div>
         </div>
     </div>
@@ -273,16 +183,17 @@
                 })
             }
 
-    function WineryData() {
-        $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
-            $.each(datas, function (Idx, data) {
-                var op = $('<option></option>');
-                op.text(data.WineryName);
-                op.val(data.WineryID);
-                $('#DDL_Winery').append(op);
+
+        function WineryData() {
+            $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.WineryName);
+                    op.val(data.WineryID);
+                    $('#DDL_Winery').append(op);
+                })
             })
-        })
-    }
+        }
 
         function CategoryData() {
             $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
@@ -301,7 +212,7 @@
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
-                    op.text(data.MilliliterName);
+                    op.text(data.MilliliterName + "ml");
                     op.val(data.MilliliterID);
                     $('#DDL_Millilter').append(op);
                 })
@@ -334,7 +245,7 @@
                     alert(datas);
                     location.reload(); 
             })
-        })
+        }
 
         $(function () {
             WineryData();
@@ -347,10 +258,10 @@
                 paging: true,
                 searching: false,
                 ordering: true,
-                lengthChange: false,
+                lengthChange: true,
                 language: {
 
-                    lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+                    lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
 
                     paginate: {
                         previous: "上一頁",
@@ -366,7 +277,7 @@
                 },
                 pagingType: "full_numbers"
             });
-            $('#StockEnterTable_wrapper').removeClass('form-inline');
+            
             $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
         })
     </script>

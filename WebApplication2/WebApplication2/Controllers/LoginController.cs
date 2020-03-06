@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
     {
         Frog_JumpEntities db = new Frog_JumpEntities();
         AAccount ac = new AAccount();
-        
+
         // GET: Login
         public ActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         public ActionResult Delete(string account1)
         {
@@ -46,37 +46,43 @@ namespace WebApplication2.Controllers
 
         }
 
-     
+
         [HttpPost]
-        public ActionResult EditPassWord(string Account1, string Password,string Password1)
+        public ActionResult EditPassWord(string Account1, string Password, string Password1)
         {
             var q = db.Account.FirstOrDefault(p => p.Account1 == Account1 && p.Password == Password);
-            
-            if (Account1 == q.Account1&&Password==q.Password)
+
+            if (Account1 == q.Account1 && Password == q.Password)
             {
 
-                 q.Password=Password1 ;
-            
+                q.Password = Password1;
+
                 db.SaveChanges();
                 return RedirectToAction("LoginPage");
-            
+
             }
             else
             {
                 ViewBag.Message("帳號與密碼不相同,請重新輸入!");
                 return RedirectToAction("EditPassWord");
             }
-            
+
 
         }
 
         public ActionResult EditPassWord()
         {
             //接受輸入進表單的值,並做修改:
-            string account = Session["account1"] as string;
-            var q = db.Account.FirstOrDefault(p => p.Account1 == account);
-            return View(q);
-
+            if (Session["account1"] != null)
+            {
+                string account = Session["account1"] as string;
+                var q = db.Account.FirstOrDefault(p => p.Account1 == account);
+                return View(q);
+            }
+            else
+            {
+                return RedirectToAction("LoginPage");
+            }
 
         }
 
@@ -92,12 +98,12 @@ namespace WebApplication2.Controllers
                 db.SaveChanges();
                 //如果split有錯,把值由0改成1:
 
-                string s= db.Account.OrderByDescending(P => P.Account1).Select(P => P.Account1).FirstOrDefault().Substring(1);
+                string s = db.Account.OrderByDescending(P => P.Account1).Select(P => P.Account1).FirstOrDefault().Substring(1);
                 int.TryParse(s, out int a);
 
 
                 var k = db.Winery.FirstOrDefault(P => P.WineryName == wineryname && P.WineryPhone == wineryphone && P.WineryAddress == wineryaddress && P.WineryEmail == wineryemail).WineryID;
-                db.Account.Add(new Account() { Account1 = "A" + (a + 1),IdentityCode="A",Password="123456000".Trim(),WineryID=k });
+                db.Account.Add(new Account() { Account1 = "A" + (a + 1), IdentityCode = "A", Password = "123456000".Trim(), WineryID = k });
                 db.SaveChanges();
                 return RedirectToAction("LoginPage");
 
@@ -112,27 +118,35 @@ namespace WebApplication2.Controllers
 
             }
         }
-            //註解可拿掉
-            public ActionResult Register()
+        //註解可拿掉
+        public ActionResult Register()
+        {
+            if (Session["account1"] != null)
             {
                 return View();
             }
+            else
+            {
+                return RedirectToAction("LoginPage");
 
-            //註解可拿掉
-        
+
+            }
+
+        }
+
+        //註解可拿掉
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LoginPage(string account1, string PassWord)
         {
-            //Session["lOGIN"] = true;
-            //Session["lOGIN1"] = false;
-            Session["IdentityCode"] = "A";
-            Session["IdentityCode1"] = "B";
+
+
             var q = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
-           
+
 
             //輸入之帳號與db相同,但密碼不同時:
-            if (account1 == q.Account1&& PassWord != q.Password)
+            if (account1 == q.Account1 && PassWord != q.Password)
             {
                 ViewBag.Message = "密碼錯誤,請重新輸入!";
                 return View("LoginPage");
@@ -152,20 +166,21 @@ namespace WebApplication2.Controllers
 
             }
             //輸入之帳號和密碼與db相同,且識別碼為A時:
-           if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "A")
+            if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "A")
             {
                 ViewBag.Message = "歡迎進入本網站!";
                 Session["account1"] = q.Account1.ToString();
                 Session["IdentityCode"] = q.IdentityCode.ToString();
                 Session["WineryID"] = q.WineryID.ToString();
                 return RedirectToAction("EditPassWord", "Login");
-                
+
             }
+
             //如果帳號密碼皆與DB相同,但識別碼為B者:
             else if (account1 == q.Account1 && PassWord == q.Password && q.IdentityCode.Trim() == "B")
             {
                 ViewBag.Message = "歡迎進入本網站!";
-                Session["account1"] =q.Account1.ToString();
+                Session["account1"] = q.Account1.ToString();
                 Session["IdentityCode"] = q.IdentityCode.ToString();
                 return RedirectToAction("EnterStock", "EnterStock");
             }
@@ -206,10 +221,21 @@ namespace WebApplication2.Controllers
 
         }
 
-        public ActionResult LoginPage()
+        public ActionResult LoginPage(string logout)
         {
-          
-            return View();
+            if (logout != null)
+            {
+                Session.Remove("accout1");
+                Session.Remove("IdentityCode");
+                Session.Remove("WineryID");
+
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+
         }
 
     }

@@ -18,13 +18,14 @@
     <!-- Custom styles for this template-->
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+
     @RenderSection("style", required: false)
-        <style>
-            * {
-                font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
-            }
-        </style>
+    <style>
+        * {
+            font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -192,7 +193,7 @@
                                     </div>
                                     <div>
                                         @*<div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!*@
+                                            $290.29 has been deposited into your account!*@
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -203,7 +204,7 @@
                                     </div>
                                     <div>
                                         @*<div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.*@
+                                            Spending Alert: We've noticed unusually high spending for your account.*@
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">顯示所有提示</a>
@@ -269,9 +270,11 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
+                        @if (Session["account1"]!=null)
+                        {
+                        <li class="nav-item dropdown no-arrow" id="li1">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span id="span1" class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@Session["account1"]</span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in FIXED" aria-labelledby="userDropdown">
@@ -281,12 +284,13 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a id="logout" class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="@Url.Action("LoginPage","Login")" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     登出
                                 </a>
                             </div>
                         </li>
+                        }
 
                     </ul>
 
@@ -302,7 +306,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>德義國際後勤&copy;2020</span>                        
+                        <span>德義國際後勤&copy;2020</span>
                     </div>
                 </div>
             </footer>
@@ -329,8 +333,8 @@
                     </button>
                 </div>
                 <div class="modal-body">如果你真要離開,請選擇"登出"</div>
-                <div class="modal-footer">
-                    <a class="btn btn-primary logout" href="@Url.Action("LoginPage", "Login")">登出</a>
+                <div class="modal-footer"id="logout" >
+                    <a class="btn btn-primary logout" href="@Url.Action("LoginPage", "Login",new { logout="logout"})">登出</a>
                     <input class="btn btn-secondary" type="reset" data-dismiss="modal">
 
                 </div>
@@ -355,15 +359,15 @@
     <!-- Page level custom scripts -->
     <script src="~/Content/js/demo/chart-area-demo.js"></script>
     <script src="~/Content/js/demo/chart-pie-demo.js"></script>
-    <script src="~/Content/DataTables/datatables.min.js"></script>
-    <script src="~/Content/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendor/datatables/dataTables.bootstrap4.js"></script>
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 
-   
-        <script>
-            
+
+    <script>
+
            var IdentityCode ="@Session["IdentityCode"].ToString()";
             if (IdentityCode == "A")
             {
@@ -373,13 +377,13 @@
                 $('.mems').css('display', 'none')
             }
 
-          
 
-            @*$("#logout").click(function () {
-                var data = $("#span1").val(@Session["account1"]);
-                $("#span1").hide();
-            })*@
-        </script>
-    
+
+            $("#logout").click(function () {
+               
+            
+            })
+    </script>
+
 </body>
 </html>

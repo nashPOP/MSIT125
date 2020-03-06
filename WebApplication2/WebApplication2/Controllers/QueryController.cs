@@ -31,9 +31,10 @@ namespace WebApplication2.Controllers
                 {
                     if ((string)Session["IdentityCode"] == "A")
                     {
+                        int.TryParse((string)Session["WineryID"],out int wineryid);
                         QueryModelByView qv = new QueryModelByView()
                         {
-                            Orderlist = fas.getOrderByWineryID((int)Session["WineryID"])
+                            Orderlist = fas.getOrderByWineryID(wineryid)
                         };
 
                         return View(qv);
@@ -69,11 +70,35 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                QueryModelByView qv = new QueryModelByView()
+                if (Session["IdentityCode"] != null)
                 {
-                    Orderlist = fas.getOrderQuery(qOrder).ToList(),
-                };
-                return View(qv);
+                    if ((string)Session["IdentityCode"] == "A")
+                    {
+                        qOrder.DDL_Winery = (string)Session["WineryID"];
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getOrderQuery(qOrder).ToList(),
+                        };
+                        return View(qv);
+                    }
+                    else if ((string)Session["IdentityCode"] == "B")
+                    {
+                        QueryModelByView qv = new QueryModelByView()
+                        {
+                            Orderlist = fas.getOrderQuery(qOrder).ToList(),
+                        };
+
+                        return View(qv);
+                    }
+                    else
+                    {
+                        return RedirectToAction("LoginPage", "Login");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
             catch (Exception ex)
             {
@@ -87,26 +112,39 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                if (id != null)
+                if (Session["IdentityCode"] != null)
                 {
-                    Order q = fas.getOrderByID((int)id);
-                    var qd = fas.getOrder_DetailsByID((int)id).ToList();
-
-                    QueryModelByView model = new QueryModelByView()
+                    if ((string)Session["IdentityCode"] == "B")
                     {
-                        Order = q,
-                        Order_details = qd
-                    };
-                    return View(model);
+                        if (id != null)
+                        {
+                            Order q = fas.getOrderByID((int)id);
+                            var qd = fas.getOrder_DetailsByID((int)id).ToList();
+
+                            QueryModelByView model = new QueryModelByView()
+                            {
+                                Order = q,
+                                Order_details = qd
+                            };
+                            return View(model);
+                        }
+                        else
+                        {
+                            return RedirectToAction("OrderQuery");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("OrderQuery");
+                    return RedirectToAction("LoginPage", "Login");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
                 return RedirectToAction("OrderQuery");
             }
         }
@@ -116,11 +154,25 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                fas.EditOrder(order);
+                if (Session["IdentityCode"] != null)
+                {
+                    if ((string)Session["IdentityCode"] == "B")
+                    {
+                        fas.EditOrder(order);
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
-            catch(Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
+               
             }
             return RedirectToAction("OrderEdit", order.OrderID);
         }
@@ -129,14 +181,28 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                string message = fas.OrdersDelete(id);
-                if (message != "0")
+                if (Session["IdentityCode"] != null)
                 {
-                    return Json(message, JsonRequestBehavior.AllowGet);
+                    if ((string)Session["IdentityCode"] == "B")
+                    {
+                        string message = fas.OrdersDelete(id);
+                        if (message != "0")
+                        {
+                            return Json(message, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
                 }
                 else
                 {
-                    return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("LoginPage", "Login");
                 }
             }
             catch (Exception ex)
@@ -149,19 +215,33 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                Order_Details od = new Order_Details()
+                if (Session["IdentityCode"] != null)
                 {
-                    OrderID = (int)oid,
-                    ProductID = (int)pid,
-                    Quantity = (int)qty
-                };
+                    if ((string)Session["IdentityCode"] == "B")
+                    {
+                        Order_Details od = new Order_Details()
+                        {
+                            OrderID = (int)oid,
+                            ProductID = (int)pid,
+                            Quantity = (int)qty
+                        };
 
-                string message = fas.Order_DetailInsert(od);
-                if (message != "0")
-                {
-                    return Json("新增成功", JsonRequestBehavior.AllowGet);
+                        string message = fas.Order_DetailInsert(od);
+                        if (message != "0")
+                        {
+                            return Json("新增成功", JsonRequestBehavior.AllowGet);
+                        }
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
                 }
-                return Json(message, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
             catch(Exception ex)
             {
@@ -173,27 +253,41 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                string[] od1 = item.Split(',');
-                int.TryParse(od1[1], out int pdid);
-                int.TryParse(od1[2], out int q);
-                Order_Details od = new Order_Details()
+                if (Session["IdentityCode"] != null)
                 {
-                    OrderID = (int)oid,
-                    ProductID = pdid,
-                    Quantity = q
-                };
-                Order_Details New_od = new Order_Details()
-                {
-                    OrderID = (int)oid,
-                    ProductID = (int)pid,
-                    Quantity = (int)qty
-                };
-                string message = fas.EditOrderDetail(od, New_od);
-                if (message == "0")
-                {
-                    return Json("編輯成功", JsonRequestBehavior.AllowGet);
+                    if ((string)Session["IdentityCode"] == "B")
+                    {
+                        string[] od1 = item.Split(',');
+                        int.TryParse(od1[1], out int pdid);
+                        int.TryParse(od1[2], out int q);
+                        Order_Details od = new Order_Details()
+                        {
+                            OrderID = (int)oid,
+                            ProductID = pdid,
+                            Quantity = q
+                        };
+                        Order_Details New_od = new Order_Details()
+                        {
+                            OrderID = (int)oid,
+                            ProductID = (int)pid,
+                            Quantity = (int)qty
+                        };
+                        string message = fas.EditOrderDetail(od, New_od);
+                        if (message == "0")
+                        {
+                            return Json("編輯成功", JsonRequestBehavior.AllowGet);
+                        }
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
                 }
-                return Json(message, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
             }
             catch(Exception ex)
             {
@@ -205,20 +299,34 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                string[] OD_item = item.Split(',');
-                int.TryParse(OD_item[0], out int orderid);
-                int.TryParse(OD_item[1], out int productid);
-                int.TryParse(OD_item[2], out int qty);
-                Order_Details od = new Order_Details() { OrderID = orderid, ProductID = productid, Quantity = qty };
-
-                string message = fas.OrderDetailDelete(od);
-                if (message != "0")
+                if (Session["IdentityCode"] != null)
                 {
-                    return Json(message, JsonRequestBehavior.AllowGet);
+                    if ((string)Session["IdentityCode"] == "B")
+                    {
+                        string[] OD_item = item.Split(',');
+                        int.TryParse(OD_item[0], out int orderid);
+                        int.TryParse(OD_item[1], out int productid);
+                        int.TryParse(OD_item[2], out int qty);
+                        Order_Details od = new Order_Details() { OrderID = orderid, ProductID = productid, Quantity = qty };
+
+                        string message = fas.OrderDetailDelete(od);
+                        if (message != "0")
+                        {
+                            return Json(message, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("OrderQuery");
+                    }
                 }
                 else
                 {
-                    return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("LoginPage", "Login");
                 }
             }
             catch(Exception ex)
@@ -233,42 +341,132 @@ namespace WebApplication2.Controllers
 
         public ActionResult InStockQuery()
         {
-            var StockQuery = fas.getAllStockEnter();
-            return View(StockQuery);
+
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "A")
+                {
+                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    var StockQuery = fas.getAllStockEnter(wineryid);
+                    return View(StockQuery);
+                }
+                else if ((string)Session["IdentityCode"] == "B")
+                {
+                    var StockQuery = fas.getAllStockEnter();
+                    return View(StockQuery);
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            
         }
 
         [HttpPost]
         public ActionResult InStockQuery(QStockEnter qStockEnter)
         {
-            var StockQuery = fas.getStockEnter(qStockEnter);
-            return View(StockQuery);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "A")
+                {
+                    qStockEnter.DDL_Winery = (string)Session["WineryID"];
+                    var StockQuery = fas.getStockEnter(qStockEnter);
+                    return View(StockQuery);
+                }
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    var StockQuery = fas.getStockEnter(qStockEnter);
+                    return View(StockQuery);
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
 
-        public ActionResult StockEnterEdit(int id)
+        public ActionResult StockEnterEdit(int? id)
         {
-            StockEnter StockEdit = fas.getStockEnterByid(id);
-            return View(StockEdit);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    if (id != null)
+                    {
+                        StockEnter StockEdit = fas.getStockEnterByid((int)id);
+                        return View(StockEdit);
+                    }
+                    else
+                    {
+                        return RedirectToAction("InStockQuery");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("InStockQuery");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
 
         [HttpPost]
         public ActionResult StockEnterEdit(StockEnter stock)
         {
-            bool StockEdit = fas.StockEnterEdit(stock);
-            if (StockEdit)
+            if (Session["IdentityCode"] != null)
             {
-                return RedirectToAction("InStockQuery");
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    bool StockEdit = fas.StockEnterEdit(stock);
+                    if (StockEdit)
+                    {
+                        return RedirectToAction("InStockQuery");
+                    }
+                    else
+                    {
+                        return RedirectToAction("StockEnterEdit", stock.StockEnterID);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("InStockQuery");
+                }
             }
             else
             {
-                return RedirectToAction("StockEnterEdit",stock.StockEnterID);
+                return RedirectToAction("LoginPage", "Login");
             }
-
         }
 
         public ActionResult StockEnterDelete(int stid)
         {
-            string StockDelete = fas.StockEnterDelete(stid);
-            return Json(StockDelete,JsonRequestBehavior.AllowGet);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    string StockDelete = fas.StockEnterDelete(stid);
+                    return Json(StockDelete, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("InStockQuery");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
         #endregion
 
@@ -276,43 +474,125 @@ namespace WebApplication2.Controllers
 
         public ActionResult InventoryQuery()
         {
-            IEnumerable<Inventory> Inventory = fas.getInventoryQuery();
-            return View(Inventory);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "A")
+                {
+                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    IEnumerable<Inventory> Inventory = fas.getInventoryQuery(wineryid);
+                    return View(Inventory);
+                }
+                else if ((string)Session["IdentityCode"] == "B")
+                {
+                    IEnumerable<Inventory> Inventory = fas.getInventoryQuery();
+                    return View(Inventory);
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
+            
         }
 
         [HttpPost]
         public ActionResult InventoryQuery(QInventory inventory)
         {
-            var Inventory = fas.getInventoryQuery(inventory).ToList();
-            return View(Inventory);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "A")
+                {
+                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    var Inventory = fas.getInventoryQuery(inventory, wineryid).ToList();
+                    return View(Inventory);
+                }
+                else if ((string)Session["IdentityCode"] == "B")
+                {
+                    var Inventory = fas.getInventoryQuery(inventory,null).ToList();
+                    return View(Inventory);
+                }
+                else
+                {
+                    return RedirectToAction("LoginPage", "Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
 
         public ActionResult InventoryEdit(int id)
         {
-            var InventoryEdit = fas.getInventoryByID(id);
-            return View(InventoryEdit);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    var InventoryEdit = fas.getInventoryByID(id);
+                    return View(InventoryEdit);
+                }
+                else
+                {
+                    return RedirectToAction("InventoryQuery");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
 
         [HttpPost]
         public ActionResult InventoryEdit(Inventory inventory)
         {
-            bool edit = fas.InventoryEdit(inventory);
-            if (edit)
+            if (Session["IdentityCode"] != null)
             {
-                return RedirectToAction("InventoryQuery");
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    bool edit = fas.InventoryEdit(inventory);
+                    if (edit)
+                    {
+                        return RedirectToAction("InventoryQuery");
+                    }
+                    else
+                    {
+                        return RedirectToAction("InventoryEdit", inventory.InventoryID);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("InventoryQuery");
+                }
             }
             else
             {
-                return RedirectToAction("InventoryEdit",inventory.InventoryID);
+                return RedirectToAction("LoginPage", "Login");
             }
-
         }
 
         public ActionResult InventoryDelete(int inventoryid)
         {
-            string message = fas.InventoryDelete(inventoryid);
+            if (Session["IdentityCode"] != null)
+            {
+                if ((string)Session["IdentityCode"] == "B")
+                {
+                    string message = fas.InventoryDelete(inventoryid);
 
-            return Json(message, JsonRequestBehavior.AllowGet);
+                    return Json(message, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("InventoryQuery");
+                }
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Login");
+            }
         }
         #endregion
 
@@ -325,7 +605,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlWinery, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -339,7 +619,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlCategory, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -353,7 +633,7 @@ namespace WebApplication2.Controllers
 
                 return Json(ddlProduct, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -366,7 +646,7 @@ namespace WebApplication2.Controllers
                 var ddlMillilter = ddl.getMillilter();
                 return Json(ddlMillilter, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -379,7 +659,7 @@ namespace WebApplication2.Controllers
                 var ddlShelf = ddl.getShelf();
                 return Json(ddlShelf, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }

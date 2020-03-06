@@ -6,85 +6,6 @@
     List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 
 }
-@section style{ 
-    <style>
-        @@font-face {
-            font-family: 'Glyphicons Halflings';
-            src: url('../fonts/glyphicons-halflings-regular.eot');
-            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
-        }
-
-        .glyphicon {
-            position: relative;
-            top: 1px;
-            display: inline-block;
-            font-family: 'Glyphicons Halflings';
-            font-style: normal;
-            font-weight: normal;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        #OrderTable_paginate li {
-            margin-left: -2px;
-            padding: 0px;
-            text-align: right;
-        }
-
-            #OrderTable_paginate li a {
-                position: relative;
-                display: block;
-                padding: 0.5rem 0.75rem;
-                margin-left: -1px;
-                line-height: 1.25;
-                color: #4e73df;
-                background-color: #fff;
-                border: 1px solid #dddfeb;
-                text-align: right;
-            }
-
-                #OrderTable_paginate li a:hover {
-                    z-index: 2;
-                    color: #224abe;
-                    text-decoration: none;
-                    background-color: #eaecf4;
-                    border-color: #dddfeb;
-                }
-
-                #OrderTable_paginate li a:focus {
-                    z-index: 2;
-                    outline: 0;
-                    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-                }
-
-            #OrderTable_paginate li:first-child a {
-                margin-left: 0;
-                border-top-left-radius: 0.35rem;
-                border-bottom-left-radius: 0.35rem;
-            }
-
-            #OrderTable_paginate li:last-child a {
-                border-top-right-radius: 0.35rem;
-                border-bottom-right-radius: 0.35rem;
-            }
-
-            #OrderTable_paginate li.active a {
-                z-index: 1;
-                color: #fff;
-                background-color: #4e73df;
-                border-color: #4e73df;
-            }
-
-            #OrderTable_paginate li.disabled a {
-                color: #858796;
-                pointer-events: none;
-                cursor: auto;
-                background-color: #fff;
-                border-color: #dddfeb;
-            }
-    </style>
-}
 <div class="card shadow mb-4">
     <div class="card-header py-2 d-flex flex-row">
         <h3>訂單查詢</h3>
@@ -92,23 +13,26 @@
     <div class="card-body">
         @using (Html.BeginForm())
         {
-            <div class="form-group row">
-                <div class="col-sm-1">
-                    <label for="tborderid" id="lborderid">訂單編號：</label>
-                </div>
-                <div class="col-sm-3">
-                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control", @autocomplete = "off" })
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tborderid" id="lborderid">訂單編號：</label>
+            </div>
+            <div class="col-sm-3">
+                @Html.TextBox("TB_OrderID", "", new { @class = "form-control", @autocomplete = "off" })
 
-                </div>
-                <div class="col-sm-1"></div>
+            </div>
+            <div class="col-sm-1"></div>
+            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+            {
                 <div class="col-sm-1">
                     <label for="selw" id="lbw">酒莊：</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
                 </div>
-                <div class="col-sm-4"></div>
-            </div>
+            }
+            <div class="col-sm-4"></div>
+        </div>
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="tbCustomer" id="lbw">客戶名稱：</label>
@@ -176,76 +100,83 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <table id="OrderTable" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Order.OrderID)
-                                    </th>
-                                    <th>
-                                        酒莊
-                                    </th>
-                                    <th>
-                                        客戶名稱
-                                    </th>
-                                    <th>
-                                        訂購時間
-                                    </th>
-                                    <th>
-                                        時間
-                                    </th>
-                                    <th>
-                                        出貨時間
-                                    </th>
-                                    <th>
-                                        備註
-                                    </th>
+                            
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            訂單編號
+                                        </th>
+                                        <th>
+                                            酒莊
+                                        </th>
+                                        <th>
+                                            客戶名稱
+                                        </th>
+                                        <th>
+                                            訂購時間
+                                        </th>
+                                        <th>
+                                            時間
+                                        </th>
+                                        <th>
+                                            出貨時間
+                                        </th>
+                                        <th>
+                                            備註
+                                        </th>
 
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model.Orderlist != null)
-                                {
-                                    foreach (var item in Model.Orderlist)
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Orderlist != null)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderID)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Winery.WineryName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.RequiredDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ShippedDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Note)
-                                            </td>
-                                            <td class="text-center">
-                                                <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
-                                                    <span class="fa fa-edit"></span>&nbsp;編輯
-                                                </a>
-                                                <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
-                                                    <span class="fa fa-sticky-note"></span>&nbsp;明細
-                                                </button>
-                                                <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
-                                                    <span class="fa fa-trash"></span>&nbsp;刪除
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        foreach (var item in Model.Orderlist)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.OrderID)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.OrderDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.RequiredDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ShippedDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Note)
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                            <span class="fa fa-edit"></span>&nbsp;編輯
+                                                        </a>
+                                                    }
+                                                    <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                        <span class="fa fa-sticky-note"></span>&nbsp;明細
+                                                    </button>
+                                                    @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
+                                                            <span class="fa fa-trash"></span>&nbsp;刪除
+                                                        </a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                    </tbody>
+                            </table>
                     </div>
                 </div>
                 <div class="row">
@@ -411,10 +342,10 @@
             paging: true,
             searching: false,
             ordering: true,
-            lengthChange: false,
+            lengthChange: true,
             language: {
 
-                lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+                lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
 
                 paginate: {
                     previous: "上一頁",
@@ -430,7 +361,6 @@
             },
             pagingType: "full_numbers"
         });
-        $('#OrderTable_wrapper').removeClass('form-inline');
 
         $('[id = "Details"]').on("click", function () {
             $("#dialog").dialog("open");
