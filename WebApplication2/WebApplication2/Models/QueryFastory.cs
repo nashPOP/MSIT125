@@ -32,7 +32,11 @@ namespace WebApplication2.Models
             }
             if (!string.IsNullOrEmpty(qOrder.TB_CustomerName))
             {
-                table = table.Where(p => p.CustomerName.ToString() == qOrder.TB_CustomerName.Trim());
+                table = table.Where(p => p.CustomerName.ToUpper().ToString() == qOrder.TB_CustomerName.Trim().ToUpper());
+            }
+            if (!string.IsNullOrEmpty(qOrder.DDL_Product) && qOrder.DDL_Product != "0")
+            {
+                table = table.Where(p => p.Order_Details.Where(c => c.ProductID.ToString() == qOrder.DDL_Product).Count() > 0);
             }
             if (qOrder.D_OrderDate!=null)
             {
@@ -319,7 +323,7 @@ namespace WebApplication2.Models
                 var table = db.Inventory.Select(p => p);
                 if (WineryID != null)
                 {
-                    db.Inventory.Where(p => p.Product.WineryID == WineryID);
+                    table = db.Inventory.Where(p => p.Product.WineryID == WineryID);
                 }
                 if (!string.IsNullOrEmpty(qinv.TB_ProductID))
                 {

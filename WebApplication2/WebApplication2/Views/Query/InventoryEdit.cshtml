@@ -53,8 +53,8 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-warning btnpr"><span class="fa fa-save"></span>儲存</button>
-                        @Html.ActionLink("取消", "InventoryQuery",null,new { @class = "btn btn-danger" })
+                        <button type="submit" class="btn btn-warning"><span class="fa fa-save"></span>&nbsp;儲存</button>
+                        <a href="@Url.Action("InventoryQuery")" class="btn btn-danger"><span class="fa fa-times"></span>&nbsp;取消</a>
                     </div>
                 </div>
             </div>
@@ -68,11 +68,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        //$('#DDL_Category').change(function () {
-        //    let categoryid = $(this).val();
-        //    ProductData(categoryid);
-        //})
-
         function ProductData() {
             $.post("@Url.Action("GetProduct", "Query")",
                 function (datas) {
@@ -85,16 +80,15 @@
                             $('#ProductID').append(op);
                         })
                             $('#ProductID option[value="@Model.ProductID"]').attr('selected', true);
-                    
                 })
         }
 
         function MillilterData() {
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
-                if (data != null) {
+                if (datas != null) {
                     $.each(datas, function (Idx, data) {
                         var op = $('<option></option>');
-                        op.text(data.MilliliterName);
+                        op.text(data.MilliliterName+"ml");
                         op.val(data.MilliliterID);
                         $('#MilliliterID').append(op);
                     })
@@ -105,7 +99,7 @@
 
         function ShelfData() {
             $.post("@Url.Action("GetShelf", "Query")", function (datas) {
-                if (data != null) {
+                if (datas != null) {
                     $.each(datas, function (Idx, data) {
                         var op = $('<option></option>');
                         op.text(data.ShelfPosition);
@@ -117,24 +111,10 @@
             })
         }
 
-        @*function CategoryData() {
-            $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
-                $.each(datas, function (Idx, data) {
-                    var op = $('<option></option>');
-                    op.text(data.CategoryName);
-                    op.val(data.CategoryID);
-                    $('#DDL_Category').append(op);
-                })
-            })
-        }*@
-
         $(function () {
-            //CategoryData();
             ProductData();
             MillilterData();
             ShelfData();
-
-
         })
     </script>
 }

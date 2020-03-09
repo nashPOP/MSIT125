@@ -177,7 +177,7 @@ namespace WebApplication2.Controllers
             return RedirectToAction("OrderEdit", order.OrderID);
         }
 
-        public ActionResult OrderDelete(int id)
+        public ActionResult OrderDelete(int? id)
         {
             try
             {
@@ -185,14 +185,21 @@ namespace WebApplication2.Controllers
                 {
                     if ((string)Session["IdentityCode"] == "B")
                     {
-                        string message = fas.OrdersDelete(id);
-                        if (message != "0")
+                        if (id != null)
                         {
-                            return Json(message, JsonRequestBehavior.AllowGet);
+                            string message = fas.OrdersDelete((int)id);
+                            if (message != "0")
+                            {
+                                return Json(message, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                            }
                         }
                         else
                         {
-                            return Json("刪除成功", JsonRequestBehavior.AllowGet);
+                            return RedirectToAction("OrderQuery");
                         }
                     }
                     else
@@ -341,7 +348,6 @@ namespace WebApplication2.Controllers
 
         public ActionResult InStockQuery()
         {
-
             if (Session["IdentityCode"] != null)
             {
                 if ((string)Session["IdentityCode"] == "A")
