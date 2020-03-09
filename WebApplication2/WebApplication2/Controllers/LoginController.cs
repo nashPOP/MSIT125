@@ -16,6 +16,7 @@ namespace WebApplication2.Controllers
     {
         Frog_JumpEntities db = new Frog_JumpEntities();
         AAccount ac = new AAccount();
+       
 
         // GET: Login
         public ActionResult Index()
@@ -28,7 +29,6 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult Delete(string account1)
         {
-
             var mems = db.Account.Where(p => p.Account1 == account1).FirstOrDefault();
             if (mems != null)
             {
@@ -141,78 +141,79 @@ namespace WebApplication2.Controllers
         public ActionResult LoginPage(string account1, string PassWord)
         {
             var q = db.Account;
-        
+            var c = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
+           
 
             //輸入之帳號與db相同,但密碼不同時:
-            if (q.Any(p=>p.Account1== account1 &&p.Password!= PassWord))
+            if (q.Where(p => p.Account1 == account1 && p.Password != PassWord).Count()>0)
             {
-                ViewBag.Message = "密碼錯誤,請重新輸入!";
-                return View("LoginPage");
+                ViewBag.Message="密碼錯誤,請重新輸入!";
+              
             }
             //輸入之帳號與密碼和db不同時:
-            else if (q.Any(p=>p.Account1!=account1&&p.Password!=PassWord))
+            else if (q.Where(p=>p.Account1!=account1&&p.Password!=PassWord).Count() > 0)
             {
                 ViewBag.Message = "帳號與密碼皆錯誤,請重新輸入!";
-                return View("LoginPage");
+              
 
             }
             //輸入之帳號和db不同,但密碼相同時:
-            else if (q.Any(p=>p.Account1!=account1&&p.Password==PassWord))
+            if (q.Where(p=>p.Account1!=account1&&p.Password==PassWord).Count() > 0)
             {
                 ViewBag.Message = "帳號錯誤,請重新輸入!";
-                return View();
+              
 
             }
             //輸入之帳號和密碼與db相同,且識別碼為A時:
-            if (q.Any(p=>p.Account1==account1&&p.Password==PassWord&&p.IdentityCode.Trim()=="A"))
+            if (c!=null&& c.IdentityCode.Trim()=="A")
             {
-                var C = db.Account.FirstOrDefault(p => p.Account1 == account1 && p.Password == PassWord);
+                
                 ViewBag.Message = "歡迎進入本網站!";
-                Session["account1"] = q.Any(p=>p.Account1==account1).ToString();
-                Session["IdentityCode"] = "A";
-                Session["WineryID"] = C.WineryID.ToString();
+                Session["account1"] =c.Account1.ToString();
+                Session["IdentityCode"] = c.IdentityCode.ToString();
+                Session["WineryID"] =c.WineryID.ToString();
                 return RedirectToAction("EditPassWord", "Login");
 
             }
 
             //如果帳號密碼皆與DB相同,但識別碼為B者:
-            else if (q.Any(p => p.Account1 == account1 && p.Password == PassWord && p.IdentityCode.Trim()== "B"))
+            else if (c!=null&& c.IdentityCode.Trim()== "B")
             {
                 ViewBag.Message = "歡迎進入本網站!";
-                Session["account1"] = q.Any(p => p.Account1 == account1).ToString();
-                Session["IdentityCode"] = "B";
+                Session["account1"] = c.Account1.ToString();
+                Session["IdentityCode"] = c.IdentityCode.ToString();
                 return RedirectToAction("EnterStock", "EnterStock");
             }
             //當帳密為空值或null時:
-            else if (account1 == "" && PassWord == "")
-            {
-                ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
-                return RedirectToAction("LoginPage", "Login");
-            }
-            else if (q.Any(p => p.Account1 == account1) && PassWord == "")
-            {
-                ViewBag.message = "請輸入密碼,密碼不可為空值!";
-                return RedirectToAction("LoginPage", "Login");
-            }
-            else if (q.Any(p => p.Account1 == account1) && PassWord == null)
-            {
-                ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
-                return RedirectToAction("LoginPage", "Login");
-            }
-            else if (account1 != "" && account1 != null && PassWord != "" && PassWord != null)
-            {
-                if (account1.Length<3)
-                {
-                    ViewBag.message = "帳號長度不符,帳號密碼不可隨便填寫!";
-                    return RedirectToAction("LoginPage", "Login");
-                }
-                else
-                {
-                    ViewBag.message = "請輸入正確帳號跟密碼,帳號密碼不可隨便填寫!";
-                    return RedirectToAction("LoginPage", "Login");
-                }
+            //else if (account1 == "" && PassWord == "")
+            //{
+            //    ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
+            //    return RedirectToAction("LoginPage", "Login");
+            //}
+            //else if (q.Any(p => p.Account1 == account1) && PassWord == "")
+            //{
+            //    ViewBag.message = "請輸入密碼,密碼不可為空值!";
+            //    return RedirectToAction("LoginPage", "Login");
+            //}
+            //else if (q.Any(p => p.Account1 == account1) && PassWord == null)
+            //{
+            //    ViewBag.message = "請輸入帳號跟密碼,帳號密碼不可為空值!";
+            //    return RedirectToAction("LoginPage", "Login");
+            //}
+            //else if (account1 != "" && account1 != null && PassWord != "" && PassWord != null)
+            //{
+            //    if (account1.Length<3)
+            //    {
+            //        ViewBag.message = "帳號長度不符,帳號密碼不可隨便填寫!";
+            //        return RedirectToAction("LoginPage", "Login");
+            //    }
+            //    else
+            //    {
+            //        ViewBag.message = "請輸入正確帳號跟密碼,帳號密碼不可隨便填寫!";
+            //        return RedirectToAction("LoginPage", "Login");
+            //    }
 
-            }
+            //}
             else
             {
                 return View();

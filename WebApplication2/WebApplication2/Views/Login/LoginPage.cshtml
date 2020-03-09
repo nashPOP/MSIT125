@@ -24,6 +24,9 @@
                 德義後勤
             </div>
             <!-- Login Form -->
+            <div id="mess" style="color:#7700BB">
+                @ViewBag.message
+            </div>
 
             <div class="row">
                 <div class="col-sm-4 form-group d-block fa-border-all body-content">
@@ -36,16 +39,16 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Account1, "帳號", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-sm-4" id="name1" >
-                                        @Html.EditorFor(model => model.Account1, new { htmlAttributes = new { @class = "form-control ", @id = "login", @required = "required" } })
-                                        @Html.ValidationMessageFor(model => model.Account1, "", new { @class = "text-danger" })
+                                <div class="col-sm-4" id="name1">
+                                    @Html.EditorFor(model => model.Account1, new { htmlAttributes = new { @class = "form-control ", @id = "login", @required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Account1, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Password, "密碼", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-sm-4" id="password1">
-                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control",  @id = "password", @required = "required",style="-webkit-text-security:circle" } })
-                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "password", @required = "required", style = "-webkit-text-security:circle" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -53,18 +56,19 @@
                                     <input id="submit" type="submit" value="登入" class="btn btn-danger" />
                                 </div>
                             </div>
+
                         }
                     </form>
                 </div>
             </div>
             @*<input type="text" id="login" class="fadeIn second" name="login" placeholder="請輸入帳號">
-                <input type="text" id="password" class="fadeIn third" name="login" placeholder="請輸入密碼">
-                <input type="submit" class="fadeIn fourth" value="登入">*@
+        <input type="text" id="password" class="fadeIn third" name="login" placeholder="請輸入密碼">
+        <input type="submit" class="fadeIn fourth" value="登入">*@
 
             <!-- Remind Passowrd -->
             @*<div id="formFooter">
-                    <a class="underlineHover" href="#">修改密碼</a>
-                </div>*@
+            <a class="underlineHover" href="#">修改密碼</a>
+        </div>*@
         </div>
     </div>
     <script src="~/Content/vendor/jquery/jquery.min.js"></script>
@@ -75,13 +79,13 @@
 
 
 
-    <script>
-        $('#login').click(function () {
-            if ($(this).val() == "" || $(this).val() == null)
-                alert("請輸入密碼,密碼不可為空白!")
-        =           
-            //$(this).css("background-color","red")        
-
+    <script>  
+        $('#submit').click(function () {
+            if ($("#login").val() == "" || $("#passwword").val() == null) {
+                //alert("請輸入帳號/密碼,帳號/密碼不可為空白!")
+               
+                //$(this).css("background-color","red")        
+            }
         })
         //$('#password').focusout(function () {
         //    if ($(this).val() == "" || $(this).val() == null) {
