@@ -80,7 +80,6 @@ namespace WebApplication2.Models
                     Edit.RequiredDate = order.RequiredDate;
                     Edit.ShippedDate = (DateTime)order.ShippedDate;
                     Edit.Note = order.Note;
-                    Edit.Status = "";
                     db.SaveChanges();
                     return true;
                 }
