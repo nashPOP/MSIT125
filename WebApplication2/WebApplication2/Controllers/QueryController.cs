@@ -143,9 +143,8 @@ namespace WebApplication2.Controllers
                     return RedirectToAction("LoginPage", "Login");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
                 return RedirectToAction("OrderQuery");
             }
         }
@@ -171,9 +170,9 @@ namespace WebApplication2.Controllers
                     return RedirectToAction("LoginPage", "Login");
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                string ErrorMessage = ex.Message;
+               
             }
             return RedirectToAction("OrderEdit", order.OrderID);
         }
@@ -450,14 +449,21 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public ActionResult StockEnterDelete(int stid)
+        public ActionResult StockEnterDelete(int? stid)
         {
             if (Session["IdentityCode"] != null)
             {
                 if ((string)Session["IdentityCode"] == "B")
                 {
-                    string StockDelete = fas.StockEnterDelete(stid);
-                    return Json(StockDelete, JsonRequestBehavior.AllowGet);
+                    if (stid != null)
+                    {
+                        string StockDelete = fas.StockEnterDelete((int)stid);
+                        return Json(StockDelete, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return RedirectToAction("InStockQuery");
+                    }
                 }
                 else
                 {
@@ -527,14 +533,21 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public ActionResult InventoryEdit(int id)
+        public ActionResult InventoryEdit(int? id)
         {
             if (Session["IdentityCode"] != null)
             {
                 if ((string)Session["IdentityCode"] == "B")
                 {
-                    var InventoryEdit = fas.getInventoryByID(id);
-                    return View(InventoryEdit);
+                    if (id != null)
+                    {
+                        var InventoryEdit = fas.getInventoryByID((int)id);
+                        return View(InventoryEdit);
+                    }
+                    else
+                    {
+                        return RedirectToAction("InventoryQuery");
+                    }
                 }
                 else
                 {
@@ -550,6 +563,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult InventoryEdit(Inventory inventory)
         {
+
             if (Session["IdentityCode"] != null)
             {
                 if ((string)Session["IdentityCode"] == "B")
@@ -575,15 +589,21 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public ActionResult InventoryDelete(int inventoryid)
+        public ActionResult InventoryDelete(int? inventoryid)
         {
             if (Session["IdentityCode"] != null)
             {
                 if ((string)Session["IdentityCode"] == "B")
                 {
-                    string message = fas.InventoryDelete(inventoryid);
-
-                    return Json(message, JsonRequestBehavior.AllowGet);
+                    if (inventoryid != null)
+                    {
+                        string message = fas.InventoryDelete((int)inventoryid);
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return RedirectToAction("InventoryQuery");
+                    }
                 }
                 else
                 {
@@ -603,10 +623,9 @@ namespace WebApplication2.Controllers
             try
             {
                 var ddlWinery = ddl.getWinery();
-
                 return Json(ddlWinery, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -617,10 +636,9 @@ namespace WebApplication2.Controllers
             try
             {
                 var ddlCategory = ddl.getCategory();
-
                 return Json(ddlCategory, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -631,10 +649,9 @@ namespace WebApplication2.Controllers
             try
             {
                 var ddlProduct = ddl.getProduct(id);
-
                 return Json(ddlProduct, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -647,7 +664,7 @@ namespace WebApplication2.Controllers
                 var ddlMillilter = ddl.getMillilter();
                 return Json(ddlMillilter, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
@@ -660,7 +677,7 @@ namespace WebApplication2.Controllers
                 var ddlShelf = ddl.getShelf();
                 return Json(ddlShelf, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch
             {
                 return Json(null, JsonRequestBehavior.AllowGet);
             }

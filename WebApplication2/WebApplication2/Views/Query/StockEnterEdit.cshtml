@@ -22,7 +22,7 @@
                 @Html.HiddenFor(model => model.StockEnterID)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ProductID, "商品", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ProductID, "商品：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("ProductID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.WineryID, "酒莊", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.WineryID, "酒莊：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("WineryID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.WineryID, "", new { @class = "text-danger" })
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ShelfID, "倉庫位置", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ShelfID, "倉庫位置：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("ShelfID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ShelfID, "", new { @class = "text-danger" })
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.MilliliterID, "容量", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.MilliliterID, "容量：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("MilliliterID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.MilliliterID, "", new { @class = "text-danger" })
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Quantity,"數量：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Note,"備註：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.StockEnterDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.StockEnterDate,"存貨時間：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
 
                         @Html.EditorFor(model => model.StockEnterDate, new { htmlAttributes = new { @class = "form-control" } })
@@ -127,7 +127,7 @@
                         op.val(data.WineryID);
                         $('#WineryID').append(op);
                     })
-                    $('#WineryID option[value=@Model.WineryID]').attr('selected', true); \
+                    $('#WineryID option[value=@Model.WineryID]').attr('selected', true);
                 }
             })
         }

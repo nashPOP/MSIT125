@@ -22,17 +22,18 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Order.OrderID)
+                @Html.HiddenFor(model => model.Order.WineryID)
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.WineryID, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.Order.WineryID,"酒莊", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
-                        @Html.TextBoxFor(model => model.Order.Winery.WineryName, htmlAttributes: new { @class = "form-control", @ReadOnly = "true" , @autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Order.Winery.WineryName, htmlAttributes: new { @class = "form-control", @ReadOnly = "true", @autocomplete = "off" })
                         @Html.ValidationMessageFor(model => model.Order.WineryID, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.CustomerName, htmlAttributes: new { @class = "control-label" })
+                        客戶名稱：
                     </div>
                     <div class="col-sm-3">
                         @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
@@ -41,7 +42,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.OrderDate, htmlAttributes: new { @class = "control-label" })
+                        訂購時間：
                     </div>
                     <div class="col-sm-3">
                         <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 OrderDate 必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
@@ -50,20 +51,19 @@
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.RequiredDate, htmlAttributes: new { @class = "control-label" })
+                        時間：
                     </div>
                     <div class="col-sm-3">
-                        
                         @Html.EditorFor(model => model.Order.RequiredDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.ShippedDate, htmlAttributes: new { @class = "control-label" })
+                        出貨時間：
                     </div>
                     <div class="col-sm-3">
-                        
+
                         @Html.EditorFor(model => model.Order.ShippedDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = "text-danger" })
                     </div>
@@ -71,7 +71,7 @@
 
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.Note, htmlAttributes: new { @class = "control-label" })
+                        備註：
                     </div>
                     <div class="col-sm-8">
                         @Html.EditorFor(model => model.Order.Note, new { htmlAttributes = new { @class = "form-control" } })
@@ -81,7 +81,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="儲存" class="btn btn-success"  />
+                        <input type="submit" value="儲存" class="btn btn-success" />
                     </div>
                 </div>
             </div>
@@ -90,9 +90,8 @@
 }
 <br />
 <div class="card shadow">
-    <div class="card-header py-3"></div>
     <div class="card-body">
-        <table class="table table-bordered">
+        <table id="OrderEditTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>
@@ -205,15 +204,15 @@
             })
         }
 
-        $("#EditDialog").dialog({
-            autoOpen: false,
-            modal: true,
-            width: 600,
-            height: 400,
-            show: {
-            },
-            hide: {
-            }
+    $("#EditDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        height: 400,
+        show: {
+        },
+        hide: {
+        }
     });
 
         $(function () {
@@ -293,6 +292,29 @@
                         alert('刪除完成');
                         location.reload();
                     })
+            });
+
+            $('#OrderEditTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: true,
+                language: {
+
+                    lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+                },
+                pagingType: "full_numbers"
             });
         })
 

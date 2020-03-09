@@ -80,13 +80,12 @@ namespace WebApplication2.Models
                     Edit.RequiredDate = order.RequiredDate;
                     Edit.ShippedDate = (DateTime)order.ShippedDate;
                     Edit.Note = order.Note;
-                    Edit.Status = "";
                     db.SaveChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -217,7 +216,7 @@ namespace WebApplication2.Models
                 db.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
@@ -277,12 +276,18 @@ namespace WebApplication2.Models
                 }
                 if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
                 {
-                    table = table.Where(p => p.StockEnterDate.StartsWith(qStockEnter.D_StockEnterDate));
+                    string date = qStockEnter.D_StockEnterDate;
+                    string dat1 = qStockEnter.D_StockEnterDate.Substring(8,1);
+                    if (qStockEnter.D_StockEnterDate.Substring(8, 1) == "0")
+                        date = date.Remove(8, 1);
+                    if (qStockEnter.D_StockEnterDate.Substring(5, 1) == "0")
+                        date = date.Remove(5, 1);
+                    table = table.Where(p => p.StockEnterDate.StartsWith(date));
                 }
 
                 return table;
             }
-            catch (Exception ex)
+            catch
             {
                 return getAllStockEnter().Select(p => p);
             }
@@ -410,7 +415,7 @@ namespace WebApplication2.Models
                             };
                 return order;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }
@@ -450,7 +455,7 @@ namespace WebApplication2.Models
 
                 return orderdetail;
             }
-            catch(Exception ex)
+            catch
             {
                 return null;
             }

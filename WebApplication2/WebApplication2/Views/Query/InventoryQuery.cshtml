@@ -93,7 +93,9 @@
                             <td>@count</td>
                             <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
                             <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
-                            <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)
+                                ml
+                            </td>
                             <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
                             @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
@@ -141,8 +143,7 @@
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
-                    console.log(datas);
-                    op.text(data.MilliliterName);
+                    op.text(data.MilliliterName+"ml");
                     op.val(data.MillilterID);
                     $('#DDL_Millilter').append(op);
                 })

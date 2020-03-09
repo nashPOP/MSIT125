@@ -3,14 +3,7 @@
 @{
     ViewBag.Title = "InventoryEdit";
 
-    List<SelectListItem> list = new List<SelectListItem>()
-{
-new SelectListItem()
-{
-Text="--請選擇--",
-Value="0"
-}
-};
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 }
 
 <div class="card shadow">
@@ -23,38 +16,36 @@ Value="0"
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>Inventory</h4>
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.InventoryID)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ProductID, "ProductID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.ProductID, "產品名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
                         @Html.DropDownList("ProductID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.MilliliterID, "MilliliterID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.MilliliterID, "容量", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
                         @Html.DropDownList("MilliliterID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.MilliliterID, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.Quantity,"庫存量", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
                         @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ShelfID, "ShelfID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.ShelfID, "貨架位置", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
                         @Html.DropDownList("ShelfID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ShelfID, "", new { @class = "text-danger" })
                     </div>
@@ -82,19 +73,19 @@ Value="0"
         //    ProductData(categoryid);
         //})
 
-        function ProductData(id) {
-            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+        function ProductData() {
+            $.post("@Url.Action("GetProduct", "Query")",
                 function (datas) {
                     $('#ProductID').empty();
-                    if (data != null) {
+                    
                         $.each(datas, function (Idx, data) {
                             var op = $('<option></option>');
                             op.text(data.ProductName);
                             op.val(data.ProductID);
                             $('#ProductID').append(op);
-                        }
+                        })
                             $('#ProductID option[value="@Model.ProductID"]').attr('selected', true);
-                    }
+                    
                 })
         }
 
