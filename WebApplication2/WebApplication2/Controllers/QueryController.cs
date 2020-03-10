@@ -159,6 +159,7 @@ namespace WebApplication2.Controllers
                     if ((string)Session["IdentityCode"] == "B")
                     {
                         fas.EditOrder(order);
+                        return RedirectToAction("OrderQuery");
                     }
                     else
                     {
@@ -172,9 +173,9 @@ namespace WebApplication2.Controllers
             }
             catch
             {
-               
+               return RedirectToAction("OrderEdit", order.OrderID);
             }
-            return RedirectToAction("OrderEdit", order.OrderID);
+            
         }
 
         public ActionResult OrderDelete(int? id)
