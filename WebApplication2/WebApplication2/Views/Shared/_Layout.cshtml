@@ -129,7 +129,8 @@
                                     }
                                     if (Session["IdentityCode"].ToString().Trim() == "A")
                                     {
-                                        @Html.ActionLink("修改密碼", "EditPassWord", "Login", null, new { @class = "collapse-item EDpwd" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
+                                        @Html.ActionLink("修改密碼", "EditPassWord", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
+                                        @Html.ActionLink("資料更改", "WineryEdit", "Login", null, new { @class = "collapse-item" })
                                     }
                                     if (Session["IdentityCode"].ToString().Trim() == "B")
                                     {

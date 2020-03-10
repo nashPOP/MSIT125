@@ -235,9 +235,45 @@ namespace WebApplication2.Controllers
             {
                 return View();
             }
-
         }
 
+        public ActionResult WineryEdit()
+        {
+            try
+            {
+                if(Session["IdentityCode"] != null )
+                {
+                    if (Session["IdentityCode"].ToString().Trim() == "A" )
+                    {
+                        int x = int.Parse(Session["WineryID"].ToString());
+                        var a = db.Winery.FirstOrDefault(p => p.WineryID == x);
+                        return View(a);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index","Home");
+                    }
+                }
+                return RedirectToAction("LoginPage");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult WineryEdit(Winery b)
+        {
+            int x = int.Parse(Session["WineryID"].ToString());
+            var a = db.Winery.FirstOrDefault(p => p.WineryID == x);
+            a.WineryName = b.WineryName;
+            a.WineryPhone = b.WineryPhone;
+            a.WineryEmail = b.WineryEmail;
+            a.WineryAddress = b.WineryAddress;
+            db.SaveChanges();
+            return View();
+        }
     }
 }
 
