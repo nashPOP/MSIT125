@@ -26,10 +26,14 @@
             font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji",標楷體;
         }
     </style>
+    <script>
+        if ("@Session["IdentityCode"]" == "" || "@Session["IdentityCode"]" == null) {
+           location.href = "@Url.Action("LoginPage", "Login")";
+        }
+    </script>
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -367,17 +371,13 @@
 
 
     <script>
-
-           var IdentityCode ="@Session["IdentityCode"].ToString()";
-            if (IdentityCode == "A")
-            {
+            var IdentityCode = "@Session["IdentityCode"]";
+            if (IdentityCode == "A") {
                 $('.pick').css('display', 'none')
                 $('.stock').css('display', 'none')
                 $('.data').css('display', 'none')
                 $('.mems').css('display', 'none')
             }
-
-
 
             $("#logout").click(function () {
                
