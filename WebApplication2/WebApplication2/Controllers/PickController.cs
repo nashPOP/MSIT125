@@ -16,66 +16,43 @@ namespace WebApplication2.Controllers
         //Load
         public ActionResult pick()
         {
-            #region 庫存判斷
-            /*
-            ArrayList k = new ArrayList();
-            DataTable dataTable = new DataTable();
-            var e = (dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity).Select(p => new { p.Order_Detail_ID, p.ProductID })).ToList();
-            dataTable.Columns.Add("Order_Detail_ID");
-            dataTable.Columns.Add("ProductID");
+            #region 庫存判斷            
 
-            for (int i = 0; i < e.Count(); i++)
+            //DateTime RequiredDate_Send = new DateTime();
+            List<Order> q = new List<Order>();
+            List<int> OrderID_Send = new List<int>();
+            List<DateTime> RequiredDate_Send = new List<DateTime>();
+            List<string> status_Send = new List<string>();
+            // List<DateTime> RequiredDate_Send = new List<DateTime>();
+            var list_Order_DetailID_More = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).Distinct().ToArray();
+            var list_ProductID = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+            var list_ProductName = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+
+            var list_all_Order_ID = dbcontext.Order_Details.Where(p => p.Order.Status != "Z").Select(p => p.OrderID).Distinct().ToArray();
+            int[] temp = new int[list_all_Order_ID.Length - list_Order_DetailID_More.Length];
+            foreach (var numberToRemove in list_Order_DetailID_More)
             {
-                dataTable.Rows.Add(e[i].Order_Detail_ID, e[i].ProductID);
+                list_all_Order_ID = list_all_Order_ID.Where(val => val != numberToRemove).ToArray();
             }
-            for (int i = 0; i < dataTable.Rows.Count; i++)
-            {
-                //;
-                var r = dbcontext.Order_Details.Where(h => h.Product == dataTable.Rows[i]["ProductID"]);
 
-            }*/
-
-            //Todo..Load
-            /*
-                        //宣告變數，用來儲存所有productID
-                        ArrayList Ary_ProductID = new ArrayList();
-                        var productID_list = (dbcontext.Product.Select(p => p.ProductID)).ToList();
-                        foreach (var item in productID_list)
-                        {
-                            Ary_ProductID.Add(item);
-                        }
-
-                        #region for=> 把所有productID都循一遍
-                        //宣告目前庫存變數
-                        foreach (int pID in Ary_ProductID)
-                        {
-                            var stock_Qty = dbcontext.Product.Where(o => o.ProductID == pID).Select(p => p.Quantity);
-                            // 宣告用來儲存的變數容器
-
-                            //找出有對應productID的訂單
-                            var orderList = dbcontext.Order_Details.Where(o => o.ProductID == pID).Select(p => p.Quantity);
-
-                            //用for迴圈把對應productID的下單數量與庫存變數相減，把可出貨的放入變數容器，並減掉下單的數量
-                            #region for迴圈=>把對應productID的下單數量與庫存變數相減，把可出貨的放入變數容器，並減掉下單的數量
-                            foreach (var order in orderList)
-                            {
-                                //blablablabla
-                                if(stock_Qty)
-                                stock_Qty = (int)stock_Qty - order;
-                            }
-                            #endregion
-                        }
-
-
-
-
-
-                        #endregion
-                        //把變數容器顯示出來
-             */
             #endregion
 
-            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity && p.Order.Status == "C").Select(p => p.Order);
+            for (int i = 0; i < list_all_Order_ID.Length; i++)
+            {
+                int Sel = list_all_Order_ID[i];
+                var OrderID_Send_tmp = dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.OrderID).ToList();
+                var RequiredDate_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.RequiredDate).ToList());
+                var status_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.Status).ToList());
+
+                OrderID_Send.Add(OrderID_Send_tmp[0]);
+                RequiredDate_Send.Add(RequiredDate_Send_tmp[0]);
+                status_Send.Add(status_Send_tmp[0]);
+            }
+
+            for (int i = 0; i < OrderID_Send.Count(); i++)
+            {
+                q.Add(new Order { OrderID = OrderID_Send[i], RequiredDate = Convert.ToDateTime(RequiredDate_Send[i]), Status = Convert.ToString(status_Send[i]) });
+            }
 
 
             return View(q);
@@ -84,7 +61,7 @@ namespace WebApplication2.Controllers
         public ActionResult order_Detail(string orderID)
         {
 
-            var order_details = dbcontext.Order_Details.Where(p => p.OrderID.ToString() == orderID).Select(p => new { p.OrderID, p.Product.ProductName, p.Quantity, p.Order_Detail_ID });
+            var order_details = dbcontext.Order_Details.Where(p => p.OrderID.ToString() == orderID).Select(p => new { p.OrderID,p.ProductID, p.Product.ProductName, p.Quantity, p.Order_Detail_ID, p.Product.Shelf.ShelfPosition });
 
             return Json(order_details, JsonRequestBehavior.AllowGet);
         }
@@ -92,7 +69,48 @@ namespace WebApplication2.Controllers
         public ActionResult Ajax_Pick()
         {
             // var orders = dbcontext.Order.OrderBy(p=>p.RequiredDate).Select(p => new { p.OrderID,  p.RequiredDate, p.Status });
-            var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity && p.Order.Status == "C").Select(p => new { p.Order.OrderID,p.Order.RequiredDate,p.Order.Status});
+            //var q = dbcontext.Order_Details.Where(p => p.Quantity < p.Product.Quantity && p.Order.Status == "C").Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status });
+
+
+
+            #region 庫存判斷            
+
+
+            //DateTime RequiredDate_Send = new DateTime();
+            List<Order> q = new List<Order>();
+            List<int> OrderID_Send = new List<int>();
+            List<DateTime> RequiredDate_Send = new List<DateTime>();
+            List<string> status_Send = new List<string>();
+            // List<DateTime> RequiredDate_Send = new List<DateTime>();
+            var list_Order_DetailID_More = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).Distinct().ToArray();
+            var list_ProductID = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+            var list_ProductName = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+
+            var list_all_Order_ID = dbcontext.Order_Details.Where(p => p.Order.Status != "Z").Select(p => p.OrderID).Distinct().ToArray();
+            int[] temp = new int[list_all_Order_ID.Length - list_Order_DetailID_More.Length];
+            foreach (var numberToRemove in list_Order_DetailID_More)
+            {
+                list_all_Order_ID = list_all_Order_ID.Where(val => val != numberToRemove).ToArray();
+            }
+
+            #endregion
+
+            for (int i = 0; i < list_all_Order_ID.Length; i++)
+            {
+                int Sel = list_all_Order_ID[i];
+                var OrderID_Send_tmp = dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.OrderID).ToList();
+                var RequiredDate_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.RequiredDate).ToList());
+                var status_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.Status).ToList());
+
+                OrderID_Send.Add(OrderID_Send_tmp[0]);
+                RequiredDate_Send.Add(RequiredDate_Send_tmp[0]);
+                status_Send.Add(status_Send_tmp[0]);
+            }
+
+            for (int i = 0; i < OrderID_Send.Count(); i++)
+            {
+                q.Add(new Order { OrderID = OrderID_Send[i], RequiredDate = Convert.ToDateTime(RequiredDate_Send[i]), Status = Convert.ToString(status_Send[i]) });
+            }
 
             return Json(q, JsonRequestBehavior.AllowGet);
         }
@@ -100,8 +118,40 @@ namespace WebApplication2.Controllers
         public ActionResult Ajax_NotAllowPick()
         {
             //var orders = dbcontext.Order_Details.Where(p => p.Quantity > p.Product.Quantity).Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status });
-            var orders = dbcontext.Order_Details.Where(p => p.Quantity > p.Product.Quantity).Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status }).Distinct();
-            return Json(orders, JsonRequestBehavior.AllowGet);
+            //var orders = dbcontext.Order_Details.Where(p => p.Quantity > p.Product.Quantity).Select(p => new { p.Order.OrderID, p.Order.RequiredDate, p.Order.Status }).Distinct();
+            #region 庫存判斷            
+
+
+            //DateTime RequiredDate_Send = new DateTime();
+            List<Order> q = new List<Order>();
+            List<int> OrderID_Send = new List<int>();
+            List<DateTime> RequiredDate_Send = new List<DateTime>();
+            List<string> status_Send = new List<string>();
+            // List<DateTime> RequiredDate_Send = new List<DateTime>();
+            var list_OrderDetail_OrderID_More = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).Distinct().ToArray();
+            var list_ProductID = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+            var list_ProductName = dbcontext.Order_Details.Where(n => n.Quantity > n.Product.Quantity && n.Order.Status != "Z").Select(n => n.Order.OrderID).ToArray();
+
+
+            for (int i = 0; i < list_OrderDetail_OrderID_More.Length; i++)
+            {
+                int Sel = list_OrderDetail_OrderID_More[i];
+                var OrderID_Send_tmp = dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.OrderID).ToList();
+                var RequiredDate_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.RequiredDate).ToList());
+                var status_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.Status).ToList());
+
+                OrderID_Send.Add(OrderID_Send_tmp[0]);
+                RequiredDate_Send.Add(RequiredDate_Send_tmp[0]);
+                status_Send.Add(status_Send_tmp[0]);
+            }
+            #endregion
+            for (int i = 0; i < OrderID_Send.Count(); i++)
+            {
+                q.Add(new Order { OrderID = OrderID_Send[i], RequiredDate = Convert.ToDateTime(RequiredDate_Send[i]), Status = Convert.ToString(status_Send[i]) });
+            }
+
+
+            return Json(q, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -137,18 +187,36 @@ namespace WebApplication2.Controllers
 
         public ActionResult order_Detail_Insert(int OrderID, int Quantity, int ProductID)
         {
-            using (var context = new Frog_JumpEntities())
-            {
+            
+            
                 var order_details = new Order_Details
                 {
                     OrderID = OrderID,
                     Quantity = Quantity,
                     ProductID = ProductID
                 };
-                context.Order_Details.Add(order_details);
-                context.SaveChanges();
-            }
+                dbcontext.Order_Details.Add(order_details);
+                dbcontext.SaveChanges();
+            
             return Content(OrderID.ToString());
+        }
+
+        public ActionResult pick_Update(int orderID, DateTime RequiredDate)
+        {
+            var Ship = new Ship
+            {
+                OrderID = orderID,
+                RequiredDate = RequiredDate,
+                ShipDate = DateTime.Now
+            };
+            dbcontext.Ship.Add(Ship);
+            var Order_Status = dbcontext.Order.Where(p => p.OrderID == orderID).FirstOrDefault();
+            Order_Status.Status = "Z";
+            dbcontext.SaveChanges();
+            
+            
+
+            return View();
         }
     }
 }

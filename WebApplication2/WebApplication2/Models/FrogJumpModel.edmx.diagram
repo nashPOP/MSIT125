@@ -30,6 +30,12 @@
         <AssociationConnector Association="Model1.FK_Order_Details_Order" />
         <AssociationConnector Association="Model1.FK_Order_Winery" />
         <AssociationConnector Association="Model1.FK_StockEnter_Milliliter" />
+        <AssociationConnector Association="Model1.FK_Product_Product" />
+        <EntityTypeShape EntityType="Model1.Ship" Width="1.5" PointX="3.375" PointY="9.25" />
+        <EntityTypeShape EntityType="Model1.ShipDetail" Width="1.5" PointX="8.125" PointY="7" />
+        <AssociationConnector Association="Model1.FK_Ship_Order" />
+        <AssociationConnector Association="Model1.FK_ShipDetail_Product" />
+        <AssociationConnector Association="Model1.FK_ShipDetail_Ship" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

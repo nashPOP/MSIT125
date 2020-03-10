@@ -198,6 +198,12 @@
     <Compile Include="Models\Shelf.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ship.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShipDetail.cs">
+      <DependentUpon>FrogJumpModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StockEnter.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>

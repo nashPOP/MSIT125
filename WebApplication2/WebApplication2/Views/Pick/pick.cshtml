@@ -1,4 +1,4 @@
-﻿@model IQueryable<WebApplication2.Models.Order>
+﻿@*@model IQueryable<WebApplication2.Models.Order>*@
 
 @{
     ViewBag.Title = "pick";
@@ -53,7 +53,7 @@
                         @foreach (var item in Model)
                         {
                             string status = "";
-                            if (item.Status == "C")
+                            if (item.Status != "Z")
                             {
                                 status = "可揀貨";
                             }
@@ -66,7 +66,7 @@
                                 <td>@item.RequiredDate.ToString().Substring(0, 9)</td>
                                 <td>@status</td>
                                 <td>
-                                    <input type="button" class="btn btn-success orderPick" value="揀貨" data-orderpick="@item.OrderID" />
+                                    <input type="button" class="btn btn-success orderPick" value="揀貨" data-orderId="@item.OrderID"  data-RequiredDate="@item.RequiredDate.ToString().Substring(0, 9)"/>
                                     <input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="@item.OrderID " />
                                 </td>
                             </tr>
@@ -92,7 +92,21 @@
 
         </div>
 
-
+        <div id="Pickdaillog">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>品名</th>
+                        <th>數量</th>
+                        <th>存貨位置</th>
+                        <th>備註</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody_Pick"></tbody>
+            </table>
+        </div>
+        <div></div>
 
     </div>
 </div>
@@ -117,9 +131,28 @@
 
             });
 
+            $("#Pickdaillog").dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "drop",
+                    duration: 1000
+                },
+                height: 600,
+                width: 880,
+                draggable: true,
+                resizable: true
+
+            });
+
+
             $("#tbody_For_Order").on("click", '.btn_orderDetail', function () {
                 $("#dialog").dialog("open");
             });
+
         });
 
         function Order_detail_Creat() {
@@ -172,10 +205,11 @@
 
                 $(datas).each(function (idx, value) {
                     console.log(value.Status);
-                    if (value.Status == 'C') {
+                    if (value.Status != "Z") {
                         textstatus = "可揀貨"
                     }
-                    else { textstatus = "揀貨中" }
+                    else { textstatus = "已完成" }
+
                     var date = new Date(parseInt((value.RequiredDate).substr(6)));
                     var day = date.getDate();
                     var month = date.getMonth();
@@ -187,7 +221,7 @@
                     var td1 = $('<td>' + value.OrderID + '</td>')
                     var td2 = $('<td>' + year + "/" + month + "/" + day + '</td>')
                     var td3 = $('<td>' + textstatus + '</td>')
-                    var td4 = $('<td><input type="button" class="btn btn-success orderPick" value="揀貨" data-orderPick="' + value.OrderID + '" /><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID + '" /></td>')
+                    var td4 = $('<td><input type="button" class="btn btn-success orderPick" value="揀貨" data-orderId="' + value.OrderID + '" data-RequiredDate="' + year + "/" + month + "/" + day + '" /><input type="button" class="btn btn-danger btn_orderDetail" value="詳細資料..." data-orderId="' + value.OrderID + '" /></td>')
 
 
 
@@ -340,7 +374,7 @@
 
             })
             var td3 = $('<td><input type = "number" class = "form-control data-Qty"></td>')
-            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger" value ="取消"></td>')
+            var td4 = $('<td><input type = "button" class = "btn btn-primary btn_confrim_for_orderdetail" data-OrderID="' + $(this).attr('data-OrderID') + '" value ="確定"><input type = "button" class = "btn btn-danger btn-Cancle-For-Add" value ="取消"></td>')
 
             td1.text($(this).attr('data-OrderID'))
             $(td2).append(select);
@@ -398,14 +432,77 @@
 
                         $('#dialog').append(newButton);
                     }
-                        )
-                    }
-                   else
-                 {
+                    )
+                }
+                else {
                     return;
-                 }
-                 }
-            })
+                }
+            }
+        })
+
+        //新增品項的取消按鈕
+        $('#dialog').on('click', '.btn-Cancle-For-Add', function () {
+            ($(this).parentsUntil('tr').parent()).remove();
+        })
+
+        //揀貨按鈕
+        $('#tbody_For_Order').on('click', '.orderPick', function () {
+            $('.tbody_Pick').children().remove();
+            $('.btn-pick-confirm').remove();
+            $("#Pickdaillog").dialog("open");
+            var id = $(this).attr('data-orderId');
+            var RequiredDate = $(this).attr('data-requireddate');
+            console.log(id);
+            $.get("/Pick/order_Detail", { orderID: id },
+                function (datas) {
+
+                    $(datas).each(function (idx, value) {
+
+                        var tr = $('<tr></tr>')
+                        var td1 = $('<td></td>')
+                        var td2 = $('<td class="td-PID" data-ProductID ="' + value.ProductID +'"></td>')
+                        var td3 = $('<td></td>')
+                        var td4 = $('<td></td>')
+                        var td5 = $('<td><textarea></textarea></td>')
+
+                        td1.text(value.OrderID)
+                        td2.text(value.ProductName)
+                        td3.text(value.Quantity)
+                        td4.text(value.ShelfPosition)
+
+                        tr.append(td1).append(td2).append(td3).append(td4).append(td5)
+
+                        $('.tbody_Pick').append(tr)
+
+                    })
+
+                })
+            var newButton = $('<div><input type="button" class="btn btn-success btn-pick-confirm" data-Orderid="' + id + '" data-requireddate="'+RequiredDate+'" value="確定揀貨"/><div>')
+
+
+            $('#Pickdaillog').append(newButton);
+        })
+        $('#Pickdaillog').on('click', '.btn-pick-confirm', function () {
+            if (window.confirm('確定揀貨完成？') == true) {
+                var OID = $(this).attr('data-Orderid');
+                var RD = $(this).attr('data-requireddate');
+                console.log( $(this).parentsUntil('#Pickdailog').find('.td-PID').attr('data-ProductID'))
+                $.post('/Pick/pick_Update', {
+                    OrderID: OID,
+                    RequiredDate: RD                    
+                }, function (data) {
+                    alert("揀貨完成");
+                })
+            }
+            else {
+                return false;
+            }       
+
+
+            window.location.reload();
+
+        })
+
 
     </script>
 

@@ -20,6 +20,7 @@ namespace WebApplication2.Models
             this.Order_Details = new HashSet<Order_Details>();
             this.StockEnter = new HashSet<StockEnter>();
             this.Inventory = new HashSet<Inventory>();
+            this.ShipDetail = new HashSet<ShipDetail>();
         }
     
         public int ProductID { get; set; }
@@ -27,6 +28,7 @@ namespace WebApplication2.Models
         public Nullable<int> WineryID { get; set; }
         public int Quantity { get; set; }
         public Nullable<int> CategoryID { get; set; }
+        public Nullable<int> ShelfID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Details> Order_Details { get; set; }
@@ -36,5 +38,8 @@ namespace WebApplication2.Models
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventory> Inventory { get; set; }
+        public virtual Shelf Shelf { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShipDetail> ShipDetail { get; set; }
     }
 }

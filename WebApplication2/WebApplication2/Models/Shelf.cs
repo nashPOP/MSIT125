@@ -19,6 +19,7 @@ namespace WebApplication2.Models
         {
             this.Inventory = new HashSet<Inventory>();
             this.StockEnter = new HashSet<StockEnter>();
+            this.Product = new HashSet<Product>();
         }
     
         public int ShelfID { get; set; }
@@ -28,5 +29,7 @@ namespace WebApplication2.Models
         public virtual ICollection<Inventory> Inventory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockEnter> StockEnter { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

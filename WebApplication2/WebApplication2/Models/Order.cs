@@ -18,6 +18,7 @@ namespace WebApplication2.Models
         public Order()
         {
             this.Order_Details = new HashSet<Order_Details>();
+            this.Ship = new HashSet<Ship>();
         }
     
         public int OrderID { get; set; }
@@ -32,5 +33,7 @@ namespace WebApplication2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Details> Order_Details { get; set; }
         public virtual Winery Winery { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Ship> Ship { get; set; }
     }
 }

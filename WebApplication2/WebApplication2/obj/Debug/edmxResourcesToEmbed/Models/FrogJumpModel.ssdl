@@ -5,9 +5,9 @@
       <PropertyRef Name="AccountId" />
     </Key>
     <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Account" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="Password" Type="nchar" MaxLength="10" Nullable="false" />
-    <Property Name="IdentityCode" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Account" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdentityCode" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="WineryID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Category">
@@ -68,6 +68,7 @@
     <Property Name="WineryID" Type="int" />
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="CategoryID" Type="int" />
+    <Property Name="ShelfID" Type="int" />
   </EntityType>
   <EntityType Name="Shelf">
     <Key>
@@ -75,6 +76,23 @@
     </Key>
     <Property Name="ShelfID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ShelfPosition" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Ship">
+    <Key>
+      <PropertyRef Name="ShipID" />
+    </Key>
+    <Property Name="ShipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequiredDate" Type="datetime" Nullable="false" />
+    <Property Name="ShipDate" Type="datetime" Nullable="false" />
+    <Property Name="OrderID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShipDetail">
+    <Key>
+      <PropertyRef Name="ShipDetailId" />
+    </Key>
+    <Property Name="ShipDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShipID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="StockEnter">
     <Key>
@@ -196,6 +214,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Product_Product">
+    <End Role="Shelf" Type="Self.Shelf" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shelf">
+        <PropertyRef Name="ShelfID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ShelfID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ship_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="Ship" Type="Self.Ship" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="Ship">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipDetail_Product1">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ShipDetail" Type="Self.ShipDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ShipDetail">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShipDetail_Ship">
+    <End Role="Ship" Type="Self.Ship" Multiplicity="1" />
+    <End Role="ShipDetail" Type="Self.ShipDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ship">
+        <PropertyRef Name="ShipID" />
+      </Principal>
+      <Dependent Role="ShipDetail">
+        <PropertyRef Name="ShipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_StockEnter_Milliliter">
     <End Role="Milliliter" Type="Self.Milliliter" Multiplicity="1" />
     <End Role="StockEnter" Type="Self.StockEnter" Multiplicity="*" />
@@ -253,6 +319,8 @@
     <EntitySet Name="Order_Details" EntityType="Self.Order_Details" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Shelf" EntityType="Self.Shelf" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ship" EntityType="Self.Ship" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShipDetail" EntityType="Self.ShipDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StockEnter" EntityType="Self.StockEnter" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Winery" EntityType="Self.Winery" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Account_Account" Association="Self.FK_Account_Account">
@@ -286,6 +354,22 @@
     <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
       <End Role="Category" EntitySet="Category" />
       <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Product" Association="Self.FK_Product_Product">
+      <End Role="Shelf" EntitySet="Shelf" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ship_Order" Association="Self.FK_Ship_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Ship" EntitySet="Ship" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipDetail_Product1" Association="Self.FK_ShipDetail_Product1">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ShipDetail" EntitySet="ShipDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShipDetail_Ship" Association="Self.FK_ShipDetail_Ship">
+      <End Role="Ship" EntitySet="Ship" />
+      <End Role="ShipDetail" EntitySet="ShipDetail" />
     </AssociationSet>
     <AssociationSet Name="FK_StockEnter_Milliliter" Association="Self.FK_StockEnter_Milliliter">
       <End Role="Milliliter" EntitySet="Milliliter" />
