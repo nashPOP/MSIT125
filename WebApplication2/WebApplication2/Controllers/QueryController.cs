@@ -29,7 +29,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "A")
+                    if (Session["IdentityCode"].ToString().Trim() == "A")
                     {
                         int.TryParse((string)Session["WineryID"],out int wineryid);
                         QueryModelByView qv = new QueryModelByView()
@@ -39,7 +39,7 @@ namespace WebApplication2.Controllers
 
                         return View(qv);
                     }
-                    else if((string)Session["IdentityCode"] == "B")
+                    else if(Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         QueryModelByView qv = new QueryModelByView()
                         {
@@ -72,7 +72,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "A")
+                    if (Session["IdentityCode"].ToString().Trim() == "A")
                     {
                         qOrder.DDL_Winery = (string)Session["WineryID"];
                         QueryModelByView qv = new QueryModelByView()
@@ -81,7 +81,7 @@ namespace WebApplication2.Controllers
                         };
                         return View(qv);
                     }
-                    else if ((string)Session["IdentityCode"] == "B")
+                    else if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         QueryModelByView qv = new QueryModelByView()
                         {
@@ -114,7 +114,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         if (id != null)
                         {
@@ -156,7 +156,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         fas.EditOrder(order);
                         return RedirectToAction("OrderQuery");
@@ -184,7 +184,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         if (id != null)
                         {
@@ -225,7 +225,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         Order_Details od = new Order_Details()
                         {
@@ -263,7 +263,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         string[] od1 = item.Split(',');
                         int.TryParse(od1[1], out int pdid);
@@ -309,7 +309,7 @@ namespace WebApplication2.Controllers
             {
                 if (Session["IdentityCode"] != null)
                 {
-                    if ((string)Session["IdentityCode"] == "B")
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         string[] OD_item = item.Split(',');
                         int.TryParse(OD_item[0], out int orderid);
@@ -351,13 +351,13 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "A")
+                if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
-                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    int.TryParse(((string)Session["WineryID"]).Trim(), out int wineryid);
                     var StockQuery = fas.getAllStockEnter(wineryid);
                     return View(StockQuery);
                 }
-                else if ((string)Session["IdentityCode"] == "B")
+                else if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     var StockQuery = fas.getAllStockEnter();
                     return View(StockQuery);
@@ -379,13 +379,13 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "A")
+                if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
-                    qStockEnter.DDL_Winery = (string)Session["WineryID"];
+                    qStockEnter.DDL_Winery = ((string)Session["WineryID"]).Trim();
                     var StockQuery = fas.getStockEnter(qStockEnter);
                     return View(StockQuery);
                 }
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     var StockQuery = fas.getStockEnter(qStockEnter);
                     return View(StockQuery);
@@ -405,7 +405,7 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     if (id != null)
                     {
@@ -433,7 +433,7 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     bool StockEdit = fas.StockEnterEdit(stock);
                     if (StockEdit)
@@ -460,7 +460,7 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     if (stid != null)
                     {
@@ -490,13 +490,13 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "A")
+                if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
-                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    int.TryParse(((string)Session["WineryID"]).Trim(), out int wineryid);
                     IEnumerable<Inventory> Inventory = fas.getInventoryQuery(wineryid);
                     return View(Inventory);
                 }
-                else if ((string)Session["IdentityCode"] == "B")
+                else if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     IEnumerable<Inventory> Inventory = fas.getInventoryQuery();
                     return View(Inventory);
@@ -518,13 +518,13 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "A")
+                if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
-                    int.TryParse((string)Session["WineryID"], out int wineryid);
+                    int.TryParse(((string)Session["WineryID"]).Trim(), out int wineryid);
                     var Inventory = fas.getInventoryQuery(inventory, wineryid).ToList();
                     return View(Inventory);
                 }
-                else if ((string)Session["IdentityCode"] == "B")
+                else if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     var Inventory = fas.getInventoryQuery(inventory,null).ToList();
                     return View(Inventory);
@@ -544,7 +544,7 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     if (id != null)
                     {
@@ -573,7 +573,7 @@ namespace WebApplication2.Controllers
 
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     bool edit = fas.InventoryEdit(inventory);
                     if (edit)
@@ -600,7 +600,7 @@ namespace WebApplication2.Controllers
         {
             if (Session["IdentityCode"] != null)
             {
-                if ((string)Session["IdentityCode"] == "B")
+                if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
                     if (inventoryid != null)
                     {

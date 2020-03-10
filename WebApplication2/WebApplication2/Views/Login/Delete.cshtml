@@ -39,7 +39,7 @@
                         </dd>
                 </dl>*@
             <div class="form-actions no-color">
-                <input type="submit" value="確定刪除" class="btn btn-danger" /> |
+                <input type="submit" value="確定刪除" class="btn btn-danger" onclick="return confirm('確定刪除該帳戶？')" /> 
                 @*@Html.ActionLink("登出", "LoginPage", "~/Views/Login", new { htmlAttributes = new { @class = "btn btn-primary col-offset-sm-2" } })*@
             </div>
 

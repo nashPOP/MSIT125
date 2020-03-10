@@ -485,37 +485,34 @@
             var status = "@Model.status";
             var title = $('#exampleModalLabel');
             if (status == 'Winery') {
-                $('#wineryId').val(null);
-                $('#wineryName').val(null);
-                $('#wineryPhone').val(null);
-                $('#wineryAddress').val(null);
-                $('#wineryEmail').val(null);
-                title.text('新增酒莊');
+                location.href = "@Url.Action("Register","Login")";
             }
-            if (status == 'Category') {
-                $('#categoryId').val(null);
-                $('#categoryName').val(null);
-                title.text('新增種類');
+            else {
+                if (status == 'Category') {
+                    $('#categoryId').val(null);
+                    $('#categoryName').val(null);
+                    title.text('新增種類');
+                }
+                if (status == 'Product') {
+                    WineryData(0);
+                    CategoryData(0);
+                    $('#productId').val(null);
+                    $('#productName').val(null);
+                    $('#productQuantity').val(null);
+                    title.text('新增產品');
+                }
+                if (status == 'Milliliter') {
+                    $('#milliliterId').val(null);
+                    $('#milliliterName').val(null);
+                    title.text('新增容量');
+                }
+                if (status == 'Shelf') {
+                    $('#shelfId').val(null);
+                    $('#shelfPosition').val(null);
+                    title.text('新增貨架');
+                }
+                $('#window1').modal('show');
             }
-            if (status == 'Product') {
-                WineryData(0);
-                CategoryData(0);
-                $('#productId').val(null);
-                $('#productName').val(null);
-                $('#productQuantity').val(null);
-                title.text('新增產品');
-            }
-            if (status == 'Milliliter') {
-                $('#milliliterId').val(null);
-                $('#milliliterName').val(null);
-                title.text('新增容量');
-            }
-            if (status == 'Shelf') {
-                $('#shelfId').val(null);
-                $('#shelfPosition').val(null);
-                title.text('新增貨架');
-            }
-            $('#window1').modal('show');
         })
 
         //編輯/新增 裡酒莊的下拉選單

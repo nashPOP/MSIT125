@@ -182,7 +182,7 @@ namespace WebApplication2.Controllers
                 ViewBag.Message = "歡迎進入本網站!";
                 Session["account1"] = c.Account1.ToString();
                 Session["IdentityCode"] = c.IdentityCode.ToString();
-                return RedirectToAction("EnterStock", "EnterStock");
+                return RedirectToAction("Index", "Home");
             }
             //當帳密為空值或null時:
             //else if (account1 == "" && PassWord == "")

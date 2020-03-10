@@ -41,7 +41,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index","Home")">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -72,14 +72,19 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item -存貨輸入 -->
-            <li class="nav-item stock">
-                <a class="nav-link" href="~/EnterStock/EnterStock">
-                    <i class="fas fa-fw fa-pencil-alt"></i>
-                    <span>存貨輸入</span>
-                </a>
-            </li>
+            @if (Session["IdentityCode"] != null)
+            {
+                if (Session["IdentityCode"].ToString().Trim() == "B")
+                {
+                    <!-- Nav Item -存貨輸入 -->
+                    <li class="nav-item stock">
+                        <a class="nav-link" href="~/EnterStock/EnterStock">
+                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <span>存貨輸入</span>
+                        </a>
+                    </li>
+                }
+            }
             <!-- Nav Item - 訂單輸入 -->
             <li class="nav-item order">
                 <a class="nav-link" href="~/OrderInput/InputPage">
@@ -87,47 +92,63 @@
                     <span>訂單輸入</span>
                 </a>
             </li>
+            @if (Session["IdentityCode"] != null)
+            {
+                if (Session["IdentityCode"].ToString().Trim() == "B")
+                {
+                    <!-- Nav Item - 揀貨處理 -->
+                    <li class="nav-item pick">
+                        <a class="nav-link" href="~/Pick/pick">
+                            <i class="fas fa-fw fa-th-list"></i>
+                            <span>揀貨處理</span>
+                        </a>
+                    </li>
 
-            <!-- Nav Item - 揀貨處理 -->
-            <li class="nav-item pick">
-                <a class="nav-link" href="~/Pick/pick">
-                    <i class="fas fa-fw fa-th-list"></i>
-                    <span>揀貨處理</span>
-                </a>
-            </li>
+                    <!-- Nav Item - 資料管理 -->
+                    <li class="nav-item data">
+                        <a class="nav-link" href="~/SelectorCreate/SelectorCreate">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>資料管理</span>
+                        </a>
+                    </li>
+                }
+            }
+                    <!-- Nav Item - 會員系統 -->
+                    <li class="nav-item mems">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
+                            <i class="fas fa-fw fa-user"></i>
+                            <span>會員系統</span>
+                        </a>
+                        <div id="collapseMember" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                @if (Session["IdentityCode"] != null)
+                                {
+                                    if (Session["IdentityCode"].ToString().Trim() == "B")
+                                    {
+                                        @Html.ActionLink("註冊新會員", "Register", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
+                                    }
+                                    if (Session["IdentityCode"].ToString().Trim() == "A")
+                                    {
+                                        @Html.ActionLink("修改密碼", "EditPassWord", "Login", null, new { @class = "collapse-item EDpwd" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
+                                    }
+                                    if (Session["IdentityCode"].ToString().Trim() == "B")
+                                    {
+                                        @Html.ActionLink("刪除會員", "Delete", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </li>
 
-            <!-- Nav Item - 資料管理 -->
-            <li class="nav-item data">
-                <a class="nav-link" href="~/SelectorCreate/SelectorCreate">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>資料管理</span>
-                </a>
-            </li>
+                    <!-- Divider -->
+                    <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Nav Item - 會員系統 -->
-            <li class="nav-item mems">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>會員系統</span>
-                </a>
-                <div id="collapseMember" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        @Html.ActionLink("註冊新會員", "Register", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
-                        @Html.ActionLink("修改密碼", "EditPassWord", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">修改密碼</a>*@
-                        @Html.ActionLink("刪除會員", "Delete", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
+                    <!-- Sidebar Toggler (Sidebar) -->
+                    <div class="text-center d-none d-md-inline">
+                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
                     </div>
-                </div>
-            </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+                </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -371,13 +392,13 @@
 
 
     <script>
-            var IdentityCode = "@Session["IdentityCode"]";
-            if (IdentityCode == "A") {
-                $('.pick').css('display', 'none')
-                $('.stock').css('display', 'none')
-                $('.data').css('display', 'none')
-                $('.mems').css('display', 'none')
-            }
+        var IdentityCode = "@Session["IdentityCode"]";
+        //if (IdentityCode.trim() == "A") {
+        //        $('.pick').css('display', 'none')
+        //        $('.stock').css('display', 'none')
+        //        $('.data').css('display', 'none')
+        //        $('.mems').css('display', 'none')
+        //    }
 
             $("#logout").click(function () {
                
