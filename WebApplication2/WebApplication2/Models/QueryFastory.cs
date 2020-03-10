@@ -224,7 +224,6 @@ namespace WebApplication2.Models
             {
                 return false;
             }
-            
         }
 
         public string StockEnterDelete(int stid)
@@ -288,7 +287,6 @@ namespace WebApplication2.Models
                         date = date.Remove(5, 1);
                     table = table.Where(p => p.StockEnterDate.StartsWith(date));
                 }
-
                 return table;
             }
             catch
@@ -415,7 +413,8 @@ namespace WebApplication2.Models
                                 n.CustomerName,
                                 n.OrderDate,
                                 n.RequiredDate,
-                                n.ShippedDate
+                                n.ShippedDate,
+                                n.Note
                             };
                 return order;
             }

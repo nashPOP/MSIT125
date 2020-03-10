@@ -42,7 +42,6 @@
                     </div>
                     <div class="col-sm-3">
                         <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 OrderDate 必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
-                        @*@Html.EditorFor(model => model.Order.OrderDate, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
@@ -51,7 +50,6 @@
                     </div>
                     <div class="col-sm-3">
                         <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 RequiredDate 必須是日期。" data-val-required="RequiredDate 欄位是必要項。" id="Order_RequiredDate" name="Order.RequiredDate" type="datetime" value="@Model.Order.RequiredDate.ToShortDateString()">
-                        @*@Html.EditorFor(model => model.Order.RequiredDate, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -60,8 +58,14 @@
                         出貨時間：
                     </div>
                     <div class="col-sm-3">
-                        <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 ShippedDate 必須是日期。" id="Order_ShippedDate" name="Order.ShippedDate" type="datetime" value="@Model.Order.ShippedDate.Value.ToShortDateString()">
-                        @*@Html.EditorFor(model => model.Order.ShippedDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @if (Model.Order.ShippedDate == null)
+                        {
+                            <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 ShippedDate 必須是日期。" id="Order_ShippedDate" name="Order.ShippedDate" type="datetime" value="">
+                        }
+                        else
+                        {
+                            <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="欄位 ShippedDate 必須是日期。" id="Order_ShippedDate" name="Order.ShippedDate" type="datetime" value="@Model.Order.ShippedDate.Value.ToShortDateString()">
+                        }
                         @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -79,7 +83,7 @@
                 <div class="form-group row">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="submit" class="btn btn-warning"><span class="fa fa-save"></span>&nbsp;儲存</button>
-                        @Html.ActionLink("回查詢頁面", "OrderQuery", null, htmlAttributes: new { @class = "btn btn-info" })
+                        <a href="@Url.Action("OrderQuery")" class="btn btn-info"><span class='fa fa-undo'></span>&nbsp;回查詢頁面</a>
                     </div>
                 </div>
             </div>
@@ -107,26 +111,29 @@
                 </tr>
             </thead>
             <tbody>
-                @{int count = 0; }
-                @foreach (var item in Model.Order_details)
+                @if (Model.Order_details != null)
                 {
+                    int count = 0;
+                    foreach (var item in Model.Order_details)
+                    {
 
-                    <tr id="@count" data-item="@item.OrderID,@item.ProductID,@item.Quantity">
-                        <td id="productid">
-                            @Html.DisplayFor(modelitem => item.ProductID)
-                        </td>
-                        <td id="productname">
-                            @Html.DisplayFor(modelitem => item.Product.ProductName)
-                        </td>
-                        <td id="quantity">
-                            @Html.DisplayFor(modelitem => item.Quantity)
-                        </td>
-                        <td class="text-center">
-                            <button id="btnEdit" data-count="@count" data-Orderid="@item.OrderID" data-Prodcutid="@item.ProductID" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
-                            <button id="btnDelete" data-count="@count" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
-                        </td>
-                        @{count++;}
-                    </tr>
+                        <tr id="@count" data-item="@item.OrderID,@item.ProductID,@item.Quantity">
+                            <td id="productid">
+                                @Html.DisplayFor(modelitem => item.ProductID)
+                            </td>
+                            <td id="productname">
+                                @Html.DisplayFor(modelitem => item.Product.ProductName)
+                            </td>
+                            <td id="quantity">
+                                @Html.DisplayFor(modelitem => item.Quantity)
+                            </td>
+                            <td class="text-center">
+                                <button id="btnEdit" data-count="@count" data-Orderid="@item.OrderID" data-Prodcutid="@item.ProductID" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</button>
+                                <button id="btnDelete" data-count="@count" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                            </td>
+                            @{count++;}
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -294,7 +301,7 @@
                 if (confirm("確認要刪除此商品?") == true) {
                     $.post("@Url.Action("OrderDetailDelete", "Query")", { 'item': titem },
                         function (datas) {
-                            alert('刪除完成');
+                            alert(datas);
                             location.reload();
                         })
                 }
