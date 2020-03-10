@@ -209,10 +209,12 @@
                 </tbody>
             </table>
         </div>
-
-        <div>
-            <button id="bt1" class="btn btn-primary">新增</button>
-        </div>
+        @if (Model.status != null)
+        {
+            <div>
+                <button id="bt1" class="btn btn-primary">新增</button>
+            </div>
+        }
     </div>
 </div>
 
