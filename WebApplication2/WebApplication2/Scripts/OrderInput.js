@@ -61,8 +61,8 @@ op.addToTable = () => {
         for (var key in optionData) {
             appendString += `<td class="${key}">${optionData[key]}</td>`;
         }
-        appendString += `<td><button class='btn btn-warning reviseButton' data-row='${op.rowCount}'>修改</button> 
-                         <button class='btn btn-danger deleteButton' data-row='${op.rowCount}'>刪除</button></td>`
+        appendString += `<td><button class='btn btn-success reviseButton' data-row='${op.rowCount}'><span class="fa fa-edit"></span>&nbsp;修改</button> 
+                         <button class='btn btn-danger deleteButton' data-row='${op.rowCount}'><span class="fa fa-trash"></span>&nbsp;刪除</button></td>`
         appendString += `</tr>`;
 
         //加入到表格
@@ -150,8 +150,8 @@ op.confirmRevise = () => {
     for (var key in data) {
         appendString += `<td class="${key}">${data[key]}</td>`;
     }
-    appendString += `<td><button class='btn btn-warning reviseButton' data-row='${rowId}'>修改</button> 
-                         <button class='btn btn-danger deleteButton' data-row='${rowId}'>刪除</button></td>`
+    appendString += `<td><button class='btn btn-warning reviseButton' data-row='${rowId}'><span class="fa fa-edit"></span>&nbsp;修改</button> 
+                         <button class='btn btn-danger deleteButton' data-row='${rowId}'><span class="fa fa-trash"></span>&nbsp;刪除</button></td>`
 
     //加入到表格
     console.log(appendString);

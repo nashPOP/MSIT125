@@ -139,7 +139,7 @@
                         var eleCategoryID = $("<td></td>").text(category.text());
                         var eleShelfID = $("<td></td>").text(shelf.text());
                         var eleCount = $("<td></td>").text(x++);
-                        var eleBtn = $("<td><input id='btn_delete' type='button' class='btn btn-danger' value='刪除'/></td>")
+                        var eleBtn = $("<td><button id='btn_delete' type='button' class='btn btn-danger'><span class='fa fa-trash'></span>&nbsp;刪除</button></td>")
                         eletr.append(eleCount).append(eleCategoryID).append(eleProduct).append(eleMilliliterID).append(eleQuantity).append(eleShelfID).append(eleNote).append(eleBtn);
                         $("#tb").append(eletr);
                     })

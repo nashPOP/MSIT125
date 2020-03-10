@@ -142,7 +142,7 @@
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
-                    op.text(data.MilliliterName+"ml");
+                    op.text(data.MilliliterName);
                     op.val(data.MillilterID);
                     $('#DDL_Millilter').append(op);
                 })
