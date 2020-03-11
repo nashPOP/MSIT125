@@ -1,1 +1,0 @@
-frog-jump.database.windows.net
