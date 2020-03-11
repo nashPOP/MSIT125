@@ -1,0 +1,581 @@
+﻿@model WebApplication2.ModelViews.SelectTable
+@{
+    ViewBag.Title = "SelectorCreate";
+}
+
+@section style{
+    <style>
+        @@font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url('../fonts/glyphicons-halflings-regular.eot');
+            src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #myTable_paginate li a {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #4e73df;
+            background-color: #fff;
+            border: 1px solid #dddfeb;
+            text-align: right;
+        }
+
+            #myTable_paginate li a:hover {
+                z-index: 2;
+                color: #224abe;
+                text-decoration: none;
+                background-color: #eaecf4;
+                border-color: #dddfeb;
+            }
+
+            #myTable_paginate li a:focus {
+                z-index: 2;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+            }
+
+        #myTable_paginate li:first-child a {
+            margin-left: 0;
+            border-top-left-radius: 0.35rem;
+            border-bottom-left-radius: 0.35rem;
+        }
+
+        #myTable_paginate li:last-child a {
+            border-top-right-radius: 0.35rem;
+            border-bottom-right-radius: 0.35rem;
+        }
+
+        #myTable_paginate li.active a {
+            z-index: 1;
+            color: #fff;
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        #myTable_paginate li.disabled a {
+            color: #858796;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dddfeb;
+        }
+    </style>
+}
+
+<div class="card shadow">
+    <div class="card-header">
+        <h2 class="py-3">資料管理</h2>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="form-group" row>
+                <div class="col-sm-4">
+                    <select id="sl" class="form-control">
+                        <option value="0">--請選擇--</option>
+                        <option value="1">酒莊</option>
+                        <option value="2">產品種類</option>
+                        <option value="3">產品名稱</option>
+                        <option value="4">產品容量</option>
+                        <option value="5">貨架</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <table id="myTable" class="table">
+                <thead>
+                    <tr>
+                        @if (Model.status == "Winery")
+                        {
+                            <th>編號</th>
+                            <th>酒莊名稱</th>
+                            <th>連絡電話</th>
+                            <th>地址</th>
+                            <th>電子信箱</th>
+                            <th></th>
+                        }
+                        @if (Model.status == "Category")
+                        {
+                            <th>編號</th>
+                            <th>產品種類</th>
+                            <th></th>
+                        }
+                        @if (Model.status == "Product")
+                        {
+                            <th>編號</th>
+                            <th>產品名稱</th>
+                            <th>數量</th>
+                            <th>所屬酒莊</th>
+                            <th>產品種類</th>
+                            <th></th>
+                        }
+                        @if (Model.status == "Milliliter")
+                        {
+                            <th>編號</th>
+                            <th>容量(ml)</th>
+                            <th></th>
+                        }
+                        @if (Model.status == "Shelf")
+                        {
+                            <th>編號</th>
+                            <th>貨架位子</th>
+                            <th></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    @*酒莊資料表*@
+                    @if (Model.status == "Winery")
+                    {
+                        foreach (var item in Model.wineryTable)
+                        {
+                            <tr data-status="@Model.status">
+                                <td>@Html.DisplayFor(modelitem => item.WineryID)</td>
+                                <td>@Html.DisplayFor(modelitem => item.WineryName)</td>
+                                <td>@Html.DisplayFor(modelitem => item.WineryPhone)</td>
+                                <td>@Html.DisplayFor(modelitem => item.WineryAddress)</td>
+                                <td>@Html.DisplayFor(modelitem => item.WineryEmail)</td>
+                                <td class="text-center"><button class="btn btn-success" data-edit="@item.WineryID"><span class="fa fa-edit"></span>&nbsp;編輯</button> @*<button class="btn btn-danger" data-delete="@item.WineryID">刪除</button>*@</td>
+                            </tr>
+                        }
+                    }
+                    @*類別資料表*@
+                    @if (Model.status == "Category")
+                    {
+                        foreach (var item in Model.categoryTable)
+                        {
+                            <tr data-status="@Model.status">
+                                <td>@Html.DisplayFor(modelitem => item.CategoryID)</td>
+                                <td>@Html.DisplayFor(modelitem => item.CategoryName)</td>
+                                <td class="text-center"><button class="btn btn-success" data-edit="@item.CategoryID"><span class="fa fa-edit"></span>&nbsp;編輯</button> @*<button class="btn btn-danger" data-delete="@item.CategoryID">刪除</button>*@</td>
+                            </tr>
+                        }
+                    }
+                    @*產品資料表*@
+                    @if (Model.status == "Product")
+                    {
+                        foreach (var item in Model.productTable)
+                        {
+                            <tr data-status="@Model.status">
+                                <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
+                                <td>@Html.DisplayFor(modelitem => item.ProductName)</td>
+                                <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
+                                <td>@Html.DisplayFor(modelitem => item.Winery.WineryName)</td>
+                                <td>@Html.DisplayFor(modelitem => item.Category.CategoryName)</td>
+                                <td class="text-center"><button class="btn btn-success" data-edit="@item.ProductID"><span class="fa fa-edit"></span>&nbsp;編輯</button> @*<button class="btn btn-danger" data-delete="@item.ProductID">刪除</button>*@</td>
+                            </tr>
+                        }
+                    }
+                    @*容量資料表*@
+                    @if (Model.status == "Milliliter")
+                    {
+                        foreach (var item in Model.milliliterTabel)
+                        {
+                            <tr data-status="@Model.status">
+                                <td>@Html.DisplayFor(modelitem => item.MilliliterID)</td>
+                                <td>@Html.DisplayFor(modelitem => item.capacity)</td>
+                                <td class="text-center"><button class="btn btn-success" data-edit="@item.MilliliterID"><span class="fa fa-edit"></span>&nbsp;編輯</button> @*<button class="btn btn-danger" data-delete="@item.MilliliterID">刪除</button>*@</td>
+                            </tr>
+                        }
+                    }
+                    @*貨架資料表*@
+                    @if (Model.status == "Shelf")
+                    {
+                        foreach (var item in Model.shelfTable)
+                        {
+                            <tr data-status="@Model.status">
+                                <td>@Html.DisplayFor(modelitem => item.ShelfID)</td>
+                                <td>@Html.DisplayFor(modelitem => item.ShelfPosition)</td>
+                                <td class="text-center"><button class="btn btn-success" data-edit="@item.ShelfID"><span class="fa fa-edit"></span>&nbsp;編輯</button> @*<button class="btn btn-danger" data-delete="@item.ShelfID">刪除</button>*@</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.status != null)
+        {
+            <div>
+                <button id="bt1" class="btn btn-primary">新增</button>
+            </div>
+        }
+    </div>
+</div>
+
+@*彈出視窗*@
+<div class="modal fade" id="window1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*編輯按鈕*@
+                    @*酒莊(編輯)*@
+                    @if (Model.status == "Winery")
+                    {
+                        <div class="form-group" id="hide1">
+                            <label for="message-text" class="col-form-label">酒莊編號：</label>
+                            <input type="text" class="form-control" id="wineryId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">酒莊名稱：</label>
+                            <input type="text" class="form-control" id="wineryName" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">電話：</label>
+                            <input type="text" class="form-control" id="wineryPhone" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">地址：</label>
+                            <input type="text" class="form-control" id="wineryAddress" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">電子信箱：</label>
+                            <input type="text" class="form-control" id="wineryEmail" autocomplete="off">
+                        </div>
+                    }
+
+                    @*類別(編輯)*@
+                    @if (Model.status == "Category")
+                    {
+                        <div class="form-group" id="hide1">
+                            <label for="message-text" class="col-form-label">種類編號：</label>
+                            <input type="text" class="form-control" id="categoryId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">產品種類：</label>
+                            <input type="text" class="form-control" id="categoryName" autocomplete="off">
+                        </div>
+                    }
+
+                    @*產品(編輯)*@
+                    @if (Model.status == "Product")
+                    {
+                        <div class="form-group" id="hide1">
+                            <label for="message-text" class="col-form-label">產品編號：</label>
+                            <input type="text" class="form-control" id="productId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">產品名稱：</label>
+                            <input type="text" class="form-control" id="productName" autocomplete="off">
+                        </div>
+                        <div class="form-group" id="hide2">
+                            <label for="message-text" class="col-form-label">數量：</label>
+                            <input type="text" class="form-control" id="productQuantity" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">所屬酒莊：</label>
+                            <select class="form-control" id="productWinery"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">產品種類：</label>
+                            <select class="form-control" id="productCategory"></select>
+                        </div>
+                    }
+
+                    @*容量(編輯)*@
+                    @if (Model.status == "Milliliter")
+                    {
+                        <div class="form-group" id="hide1">
+                            <label for="message-text" class="col-form-label">容量編號：</label>
+                            <input type="text" class="form-control" id="milliliterId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">容量(ml)：</label>
+                            <input type="text" class="form-control" id="milliliterName" autocomplete="off">
+                        </div>
+                    }
+
+                    @*貨架(編輯)*@
+                    @if (Model.status == "Shelf")
+                    {
+                        <div class="form-group" style="display:none">
+                            <label for="message-text" class="col-form-label">貨架編號：</label>
+                            <input type="text" class="form-control" id="shelfId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">貨架位子：</label>
+                            <input type="text" class="form-control" id="shelfPosition" autocomplete="off">
+                        </div>
+                    }
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="warningSubmit">儲存</button>
+                <button type="button" class="btn btn-primary" id="createSubmit">確認</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        //彈出視窗
+        $('#bt1').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+
+        //一開始的下拉選單(select option)
+        $('#sl').change(function () {
+            var v1 = $('#sl option:selected').val();
+            console.log(v1);
+            $.post("@Url.Action("change","SelectorCreate")", { 'value': v1 }, function (data) {
+                window.location.href = data;
+            })
+        })
+
+        //刪除按鈕(隱藏中)
+        $('.btn-danger').on('click', function () {
+            var x = $(this).attr('data-delete');
+            var status = $(this).parents('tr').attr('data-status');
+            $.post("@Url.Action("Delete","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
+                alert(data);
+                location.reload();
+            })
+        })
+
+        //編輯按鈕
+        $('.btn-success').on('click', function () {
+            $('#createSubmit').hide();
+            $('#warningSubmit').show();
+            $('#hide1').show();
+            $('#hide2').show();
+            var x = $(this).attr('data-edit');
+            var status = $(this).parents('tr').attr('data-status');
+            var warning = $('#exampleModalLabel');
+            $.post("@Url.Action("Warning","SelectorCreate")", { 'id': x, 'status': status }, function (data) {
+                if (status == 'Winery') {
+                    $('#wineryId').val(data[0].WineryID);
+                    $('#wineryName').val(data[0].WineryName);
+                    $('#wineryPhone').val(data[0].WineryPhone);
+                    $('#wineryAddress').val(data[0].WineryAddress);
+                    $('#wineryEmail').val(data[0].WineryEmail);
+                    warning.text('酒莊編輯');
+                }
+
+                if (status == 'Category') {
+                    $('#categoryId').val(data[0].CategoryID);
+                    $('#categoryName').val(data[0].CategoryName);
+                    warning.text('種類編輯');
+                }
+
+                if (status == 'Product') {
+                    WineryData(data[0].WineryID);
+                    CategoryData(data[0].CategoryID);
+                    $('#productId').val(data[0].ProductID);
+                    $('#productName').val(data[0].ProductName);
+                    $('#productQuantity').val(data[0].Quantity);
+                    warning.text('產品編輯');
+                }
+
+                if (status == 'Milliliter') {
+                    $('#milliliterId').val(data[0].MilliliterID);
+                    $('#milliliterName').val(data[0].capacity);
+                    warning.text('容量編輯');
+                }
+
+                if (status == 'Shelf') {
+                    $('#shelfId').val(data[0].ShelfID);
+                    $('#shelfPosition').val(data[0].ShelfPosition);
+                    warning.text('貨架編輯');
+                }
+                $('#window1').modal('show');
+            })
+        })
+
+        //編輯按鈕→儲存編輯→確認
+        $('#warningSubmit').on('click', function () {
+            var r = confirm("確認儲存");
+            if (r == true) {
+                Edit('Edit');
+            }
+        })
+
+        //儲存按鈕→確認→confirm確認
+        $('#createSubmit').on('click', function () {
+            var r = confirm("確認新增");
+            if (r == true) {
+                Edit('Insert');
+            }
+        })
+
+        //存入資料庫
+        function Edit(modal) {
+            var status = "@Model.status";
+            console.log(status)
+            var kk;
+            if (status == 'Winery') {
+                var a = $('#wineryId').val();
+                var b = $('#wineryName').val();
+                var c = $('#wineryPhone').val();
+                var d = $('#wineryAddress').val();
+                var e = $('#wineryEmail').val();
+                kk = a + "," + b + "," + c + "," + d + "," + e ;
+            }
+            if (status == 'Category') {
+                var a = $('#categoryId').val();
+                var b = $('#categoryName').val();
+                kk = a + "," + b;
+            }
+            if (status == 'Product') {
+                var a = $('#productId').val();
+                var b = $('#productName').val();
+                var c = $('#productQuantity').val();
+                var d = $('#productWinery').val();
+                var e = $('#productCategory').val();
+                kk = a + "," + b + "," + c + "," + d + "," + e;
+            }
+            if (status == 'Milliliter') {
+                var a = $('#milliliterId').val();
+                var b = $('#milliliterName').val();
+                kk = a + "," + b;
+            }
+            if (status == 'Shelf') {
+                var a = $('#shelfId').val();
+                var b = $('#shelfPosition').val();
+                kk = a + "," + b;
+            }
+            if (modal == 'Edit') {
+                $.post("@Url.Action("Edit","SelectorCreate")", { 'kk': kk, 'status': status }, function (data) {
+                    $('#window1').modal('hide');
+                    location.reload();
+                })
+            }
+            else if (modal == 'Insert') {
+                $.post("@Url.Action("Insert","SelectorCreate")", { 'kk': kk, 'status': status }, function (data) {
+                    $('#window1').modal('hide');
+                    location.reload();
+                })
+            }
+        }
+
+        //新增按鈕
+        $('#bt1').on('click', function () {
+            $('#createSubmit').show();
+            $('#warningSubmit').hide();
+            $('#hide1').hide();
+            $('#hide2').hide();
+            var status = "@Model.status";
+            var title = $('#exampleModalLabel');
+            if (status == 'Winery') {
+                location.href = "@Url.Action("Register","Login")";
+            }
+            else {
+                if (status == 'Category') {
+                    $('#categoryId').val(null);
+                    $('#categoryName').val(null);
+                    title.text('新增種類');
+                }
+                if (status == 'Product') {
+                    WineryData(0);
+                    CategoryData(0);
+                    $('#productId').val(null);
+                    $('#productName').val(null);
+                    $('#productQuantity').val(null);
+                    title.text('新增產品');
+                }
+                if (status == 'Milliliter') {
+                    $('#milliliterId').val(null);
+                    $('#milliliterName').val(null);
+                    title.text('新增容量');
+                }
+                if (status == 'Shelf') {
+                    $('#shelfId').val(null);
+                    $('#shelfPosition').val(null);
+                    title.text('新增貨架');
+                }
+                $('#window1').modal('show');
+            }
+        })
+
+        //編輯/新增 裡酒莊的下拉選單
+        function WineryData(id) {
+            $.getJSON("@Url.Action("GetWinery", "SelectorCreate")", function (datas) {
+                $('#productWinery').empty();
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.WineryName);
+                op.val(data.WineryID);
+                $('#productWinery').append(op);
+                })
+                if (id != 0) {
+                    $('#productWinery option[value="' + id + '"]').attr('selected', true);
+                }
+        })
+        }
+
+        //編輯/新增 裡種類的下拉選單
+        function CategoryData(id) {
+            $.getJSON("@Url.Action("GetCategory", "SelectorCreate")", function (datas) {
+                $('#productCategory').empty();
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.CategoryName);
+                op.val(data.CategoryID);
+                $('#productCategory').append(op);
+                })
+                if (id != 0) {
+                    $('#productCategory option[value="' + id + '"]').attr('selected', true);
+                }
+        })
+        }
+
+        //框架套版
+        $(function () {
+            $('#myTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: false,
+                language: {
+
+                    //lengthMenu: '<div class="row"><div class="col-sm-4"><label>顯示</label></div><div class="col-sm-8"><select class="form-control input-xsmall">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select></div></div>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+
+                },
+                pagingType: "full_numbers"
+            });
+            $('#myTable_wrapper').removeClass('form-inline');
+        })
+    </script>
+}
+

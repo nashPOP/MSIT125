@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f3a5bd226e64a89a91f064edddaf382" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="Model1.Account" Width="1.5" PointX="3.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Category" Width="1.5" PointX="7.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Inventory" Width="1.5" PointX="9.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Milliliter" Width="1.5" PointX="8.375" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Order_Details" Width="1.5" PointX="3.375" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Product" Width="1.5" PointX="5.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Shelf" Width="1.5" PointX="10.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Winery" Width="1.5" PointX="1.125" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="Model1.FK_Account_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Milliliter" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Inventory_Shelf" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Order_Details_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Product_Winery" ManuallyRouted="false" />
+        <AssociationConnector Association="Model1.FK_Product_Category" />
+        <AssociationConnector Association="Model1.FK_Inventory_Product" />
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="1.125" PointY="4.75" />
+        <AssociationConnector Association="Model1.FK_Order_Details_Order" />
+        <AssociationConnector Association="Model1.FK_Order_Winery" />
+        <AssociationConnector Association="Model1.FK_Product_Product" />
+        <EntityTypeShape EntityType="Model1.Ship" Width="1.5" PointX="3.375" PointY="9.25" />
+        <AssociationConnector Association="Model1.FK_Ship_Order" />
+        <EntityTypeShape EntityType="Model1.StockEnter" Width="1.5" PointX="13" PointY="2.125" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Milliliter" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Product" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Shelf" />
+        <AssociationConnector Association="Model1.FK_StockEnter_Winery" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

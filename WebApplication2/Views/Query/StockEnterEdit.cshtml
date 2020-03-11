@@ -1,0 +1,197 @@
+﻿@model WebApplication2.Models.StockEnter
+
+@{
+    ViewBag.Title = "進貨紀錄查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
+}
+
+<div class="card">
+    <div class="card-header">
+        <h2>進貨紀錄查詢</h2>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>入庫編輯</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.StockEnterID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductID, "商品：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.DropDownList("ProductID", list, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WineryID, "酒莊：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.DropDownList("WineryID", list, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.WineryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ShelfID, "倉庫位置：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.DropDownList("ShelfID", list, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ShelfID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MilliliterID, "容量：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.DropDownList("MilliliterID", list, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MilliliterID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Quantity,"數量：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Note,"備註：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StockEnterDate,"存貨時間：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-sm-4">
+                        @Html.EditorFor(model => model.StockEnterDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.StockEnterDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-sm-4">
+                        <input type="submit" value="儲存" class="btn btn-success" />
+                        @Html.ActionLink("取消", "InStockQuery", null, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#ProductID').empty();
+                    if (datas != null) {
+                        var allop = $('<option></option>');
+                        allop.text("--請選擇--");
+                        allop.val('0');
+                        $('#ProductID').append(allop);
+
+                        $.each(datas, function (Idx, data) {
+                            var op = $('<option></option>');
+                            op.text(data.ProductName);
+                            op.val(data.ProductID);
+                            $('#ProductID').append(op);
+                        })
+                        $('#ProductID option[value=@Model.ProductID]').attr('selected', true);
+                    }
+                })
+            }
+
+        function WineryData() {
+            $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+                if (datas != null) {
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.WineryName);
+                        op.val(data.WineryID);
+                        $('#WineryID').append(op);
+                    })
+                    $('#WineryID option[value=@Model.WineryID]').attr('selected', true);
+                }
+            })
+        }
+
+        function CategoryData() {
+            $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+                if (datas != null) {
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.CategoryName);
+                        op.val(data.CategoryID);
+                        $('#CategoryID').append(op);
+                    })
+                }
+            })
+        }
+
+        function MillilterData() {
+            $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
+                if (datas != null) {
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.MilliliterName+"ml");
+                        op.val(data.MilliliterID);
+                        $('#MilliliterID').append(op);
+                    })
+                    $('#MilliliterID option[value=@Model.MilliliterID]').attr('selected', true);
+                }
+            })
+        }
+
+        function ShelfData() {
+            $.post("@Url.Action("GetShelf", "Query")", function (datas) {
+                if (datas != null) {
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ShelfPosition);
+                        op.val(data.ShelfID);
+                        $('#ShelfID').append(op);
+                    })
+                    $('#ShelfID option[value=@Model.ShelfID]').attr('selected', true);
+                }
+            })
+        }
+
+        $.datepicker.regional['zh-TW'] = {
+            dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+            dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"],
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            prevText: "上月",
+            nextText: "次月",
+            weekHeader: "週"
+        };
+        //將預設語系設定為中文
+        $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
+    $(function () {
+        WineryData();
+        CategoryData();
+        ProductData();
+        MillilterData();
+        ShelfData();
+
+        $('#StockEnterDate').datepicker({ dateFormat:'yy/mm/dd' });
+
+    })
+    </script>
+}

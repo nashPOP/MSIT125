@@ -1,0 +1,298 @@
+﻿@model IQueryable<WebApplication2.Models.StockEnter>
+@{
+    ViewBag.Title = "進貨紀錄查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-2  d-flex flex-row">
+        <h2>進貨紀錄查詢</h2>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="TB_ProductID" id="LB_ProductID">商品編號：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_ProductID", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Category" id="LB_Category">分類：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="DDL_Product" id="lbProduct">商品名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+
+                </div>
+            </div>
+            if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+            {
+                <div class="form-group row">
+                    <div class="col-sm-1">
+                        <label for="DDL_Winery" id="LB_Winery">酒莊：</label>
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3"></div>
+                </div>
+            }
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Millilter" id="LB_Winery">容量：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Shelf", list, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="D_StockEnterDate" id="LB_StockEnterDate">入庫時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_StockEnterDate" name="D_StockEnterDate" class="form-control" autocomplete="off" />
+                </div>
+            </div>
+            <button type="submit" id="Btn_StockEnterQuery" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+        }
+    </div>
+</div>
+<br />
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row">
+        <h3>進貨紀錄列表</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="StockEnterTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>編號</th>
+                            <th>商品號碼</th>
+                            <th>商品名稱</th>
+                            <th>酒莊</th>
+                            <th>容量</th>
+                            <th>入庫數量</th>
+                            <th>倉儲位置</th>
+                            <th>備註</th>
+                            <th>入庫時間</th>
+                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                            {
+                                <th></th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StockEnterID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProductID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Milliliter.capacity)
+                                        ml
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Shelf.ShelfPosition)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Note)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StockEnterDate)
+                                    </td>
+                                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                    {
+                                        <td class="text-center">
+                                            <a id="Btn_Edit" href="@Url.Action("StockEnterEdit", "Query", new { id = item.StockEnterID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                            <button id="Btn_Delete" data-StockEnterId="@item.StockEnterID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+
+                    var allop = $('<option></option>');
+                    allop.text("--請選擇--");
+                    allop.val('0');
+                    $('#DDL_Product').append(allop);
+
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.ProductName);
+                        op.val(data.ProductID);
+                        $('#DDL_Product').append(op);
+                    })
+                })
+            }
+
+
+        function WineryData() {
+            $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.WineryName);
+                    op.val(data.WineryID);
+                    $('#DDL_Winery').append(op);
+                })
+            })
+        }
+
+        function CategoryData() {
+            $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+                if (datas != null) {
+                    $.each(datas, function (Idx, data) {
+                        var op = $('<option></option>');
+                        op.text(data.CategoryName);
+                        op.val(data.CategoryID);
+                        $('#DDL_Category').append(op);
+                    })
+                }
+            })
+        }
+
+        function MillilterData() {
+            $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.MilliliterName);
+                    op.val(data.MilliliterID);
+                    $('#DDL_Millilter').append(op);
+                })
+
+            })
+        }
+
+        function ShelfData() {
+            $.post("@Url.Action("GetShelf", "Query")", function (datas) {
+                $.each(datas, function (Idx, data) {
+                    var op = $('<option></option>');
+                    op.text(data.ShelfPosition);
+                    op.val(data.ShelfID);
+                    $('#DDL_Shelf').append(op);
+                })
+            })
+        }
+
+        $('[id="Btn_Delete"]').click(function () {
+            var id = $(this).attr('data-StockEnterId');
+            if (confirm("是否確認刪除此筆資料？")==true) {
+                Delete(id);
+            }
+            
+        })
+
+        function Delete(id) {
+            $.post("@Url.Action("StockEnterDelete", "Query")", { 'stid': id },
+                function (datas) {
+                    alert(datas);
+                    location.reload(); 
+            })
+        }
+
+        $.datepicker.regional['zh-TW'] = {
+            dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+            dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"],
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            prevText: "上月",
+            nextText: "次月",
+            weekHeader: "週"
+        };
+        //將預設語系設定為中文
+        $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
+
+        $(function () {
+            WineryData();
+            CategoryData();
+            ProductData();
+            MillilterData();
+            ShelfData();
+
+            $('#StockEnterTable').DataTable({
+                paging: true,
+                searching: false,
+                ordering: true,
+                lengthChange: true,
+                language: {
+
+                    lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
+
+                    paginate: {
+                        previous: "上一頁",
+                        next: "下一頁",
+                        first: "第一頁",
+                        last: "最後一頁"
+                    },
+                    zeroRecords: "無資料",
+                    info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                    infoEmpty: "無紀錄",
+                    infoFiltered: "",
+
+                },
+                pagingType: "full_numbers"
+            });
+            
+            $('#D_StockEnterDate').datepicker({ dateFormat: "yy/mm/dd" });
+        })
+    </script>
+
+}

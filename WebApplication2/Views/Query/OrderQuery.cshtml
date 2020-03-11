@@ -1,0 +1,459 @@
+﻿@model WebApplication2.ModelViews.QueryModelByView
+
+@{
+    ViewBag.Title = "訂單查詢";
+
+    List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
+
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-2 d-flex flex-row">
+        <h3>訂單查詢</h3>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label for="tborderid" id="lborderid">訂單編號：</label>
+            </div>
+            <div class="col-sm-3">
+                @Html.TextBox("TB_OrderID", "", new { @class = "form-control", @autocomplete = "off" })
+
+            </div>
+            <div class="col-sm-1"></div>
+            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+            {
+                <div class="col-sm-1">
+                    <label for="selw" id="lbw">酒莊：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                </div>
+            }
+            <div class="col-sm-4"></div>
+        </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tbCustomer" id="lbw">客戶名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control", @autocomplete = "off" })
+                </div>
+                <div class="col-sm-8"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="tbCategory" id="lbCategory">分類：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Category", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="tbProduct" id="lbProduct">商品名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="D_OrderDate" id="lbOrderDate">訂購時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" autocomplete="off" />
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
+                    <label for="D_RequiredDate" id="lbRequiredDate">出貨時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_RequiredDate" name="D_RequiredDate" class="form-control is-vaid" autocomplete="off" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="D_ShippedDate" id="lbShippedDate">送達時間：</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" id="D_ShippedDate" name="D_ShippedDate" class="form-control is-vaid" autocomplete="off" />
+                </div>
+                <div class="col-sm-8">
+                </div>
+            </div>
+            <button type="submit" id="" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
+        }
+    </div>
+</div>
+<br />
+<div class="card shadow mb-4">
+    <div class="card-header py-3 ">
+        <h3>訂單列表</h3>
+    </div>
+    <div class="card-body">
+        <div class="">
+            <div class="dataTables_wrapper">
+                <div class="row">
+                    <div></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="OrderTable" class="table table-bordered" >
+                            
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            訂單編號
+                                        </th>
+                                        <th>
+                                            酒莊
+                                        </th>
+                                        <th>
+                                            客戶名稱
+                                        </th>
+                                        <th>
+                                            訂購時間
+                                        </th>
+                                        <th>
+                                            出貨時間
+                                        </th>
+                                        <th>
+                                            送達時間
+                                        </th>
+                                        <th>
+                                            備註
+                                        </th>
+                                        <th>
+                                            狀態
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Orderlist != null)
+                                    {
+                                        foreach (var item in Model.Orderlist)
+                                        {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RequiredDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShippedDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Note)
+                                        </td>
+                                        <td>
+                                            @if (item.Status != "Z")
+                                            {
+                                                <label>未出貨</label>
+                                            }
+                                            else
+                                            {
+                                                <label>已出貨</label>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                            {
+                                                <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                    <span class="fa fa-edit"></span>&nbsp;編輯
+                                                </a>
+                                            }
+                                            <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                <span class="fa fa-sticky-note"></span>&nbsp;明細
+                                            </button>
+                                            @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
+                                            {
+                                                <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
+                                                    <span class="fa fa-trash"></span>&nbsp;刪除
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                    </tbody>
+                            </table>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog" title="訂單明細">
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        訂單編號：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_OrderID"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        酒莊：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_Winery"></label>
+                    </div>
+                    <div class="col-lg-2">
+                        客戶名稱：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_Customer"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        訂購時間：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_OrderData"></label>
+                    </div>
+                    <div class="col-lg-2">
+                        出貨時間：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_RequiredDate"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        送達時間：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_ShipperData"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        備註：
+                    </div>
+                    <div class="col-lg-10">
+                        <label id="Dlog_Note"></label>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group">
+                <table id="OrderDetailsDialogTable" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>編號</th>
+                            <th>產品編號</th>
+                            <th>產品名稱</th>
+                            <th>數量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Dlog_Product_tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+    $('#DDL_Category').change(function () {
+        let categoryid = $(this).val();
+        ProductData(categoryid);
+        })
+
+        function ProductData(id) {
+            $.post("@Url.Action("GetProduct", "Query")", { 'id': id },
+                function (datas) {
+                    $('#DDL_Product').empty();
+                    var allop = $('<option></option>');
+                    allop.text("--請選擇--");
+                    allop.val('0');
+                    if (datas != null) {
+                        $('#DDL_Product').append(allop);
+                        $.each(datas, function (Idx, data) {
+                            var op = $('<option></option>');
+                            op.text(data.ProductName);
+                            op.val(data.ProductID);
+                            $('#DDL_Product').append(op);
+                        })
+                    }
+                })
+            }
+
+    function WineryData() {
+        $.getJSON("@Url.Action("GetWinery", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.WineryName);
+                op.val(data.WineryID);
+                $('#DDL_Winery').append(op);
+            })
+        })
+    }
+
+    function CategoryData() {
+        $.getJSON("@Url.Action("GetCategory", "Query")", function (datas) {
+            $.each(datas, function (Idx, data) {
+                var op = $('<option></option>');
+                op.text(data.CategoryName);
+                op.val(data.CategoryID);
+                $('#DDL_Category').append(op);
+            })
+        })
+    }
+
+        $('[id="btnDelete"]').on('click', function () {
+            var id = $(this).attr('data-id');
+            let message = confirm("是否確認刪除此筆資料？")
+            if (message == true) {
+                Delete(id)
+            }
+        })
+
+        function Delete(id) {
+            $.post("@Url.Action("OrderDelete","Query")", { 'id': id },
+                function (datas) {
+                    $('#DeleteDialog').modal('hide');
+                    alert(datas);
+                    location.reload();
+                })
+        }
+
+        $.datepicker.regional['zh-TW'] = {
+            dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+            dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"],
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            prevText: "上月",
+            nextText: "次月",
+            weekHeader: "週"
+        };
+        //將預設語系設定為中文
+        $.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
+
+    $(function () {
+        WineryData();
+        CategoryData();
+        ProductData();
+        $('#D_OrderDate').datepicker({ dateFormat: "yy/mm/dd" });
+        $('#D_RequiredDate').datepicker({ dateFormat: "yy/mm/dd" });
+        $('#D_ShippedDate').datepicker({ dateFormat: "yy/mm/dd" });
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 1000,
+            height: 800,
+            show: {
+            },
+            hide: {
+            }
+        });
+
+        var datetables = {
+            paging: true,
+            searching: false,
+            ordering: true,
+            lengthChange: true,
+            language: {
+
+                lengthMenu: '<label>顯示</label><select class="custom-select custom-select-sm form-control form-control-sm">' + '<option value="10">10</option>' + '<option value="20">20</option>' + '<option value="30">30</option>' + '<option value="40">50</option>' + '<option value="50">100</option>' + '</select><label>筆</label>',
+
+                paginate: {
+                    previous: "上一頁",
+                    next: "下一頁",
+                    first: "第一頁",
+                    last: "最後一頁"
+                },
+                zeroRecords: "無資料",
+                info: "總共 _PAGES_ 頁，顯示第 _START_ 筆 到第 _END_ 筆。",
+                infoEmpty: "無紀錄",
+                infoFiltered: "",
+
+            },
+            pagingType: "full_numbers"
+        }
+
+        $('#OrderTable').DataTable(datetables);
+
+
+        $('[id = "Details"]').on("click", function () {
+            let orderid = $(this).attr('data-OrderID');
+            $.post("@Url.Action("Dialog_Order", "Query")",// "/Query/Dialog_Order"
+                { 'id': orderid },
+                function (datas) {
+                    //console.log(datas);
+                    $.each(datas, function (idx, data) {
+                        var orderdata, shipperData,requiredDate;
+                        if (data.OrderDate != null) {
+                            orderdata = new Date(parseInt(data.OrderDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                        }
+                        else {
+                            orderdata = null;
+                        }
+                        if (data.ShippedDate != null) {
+                            shipperData = new Date(parseInt(data.ShippedDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                        }
+                        else {
+                            shipperData = null;
+                        }
+                        if (data.RequiredDate != null) {
+                            requiredDate = new Date(parseInt(data.RequiredDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
+                        }
+                        else {
+                            requiredDate = null;
+                        }
+                        $('#Dlog_OrderID').text(data.OrderID);
+                        $('#Dlog_Winery').text(data.WineryName);
+                        $('#Dlog_Customer').text(data.CustomerName);
+                        $('#Dlog_OrderData').text(orderdata);
+                        $('#Dlog_RequiredDate').text(requiredDate);
+                        $('#Dlog_ShipperData').text(shipperData);
+                        $('#Dlog_Note').text(data.Note);
+                    })
+                }
+            )
+            $.post("@Url.Action("Dialog_OrderDetail", "Query")", // "/Query/Dialog_OrderDetail"
+                { 'id': orderid ,'pid':null},
+                function (datas) {
+                    $('#Dlog_Product_tbody').empty();
+                    let count = 0;
+                    $.each(datas, function (idx, data) {
+                        count = count+1;
+                        var tr = $('<tr></tr>')
+                        var counts = $('<td></td>').text(count);
+                        var pid = $('<td></td>').text(data.ProductID);
+                        var pname = $('<td></td>').text(data.ProductName);
+                        var pq = $('<td></td>').text(data.Quantity);
+                        tr.append(counts).append(pid).append(pname).append(pq);
+                        $('#Dlog_Product_tbody').append(tr);
+                    })
+                }
+            )
+            $("#dialog").dialog("open");
+        });
+    })
+
+    </script>
+
+}
