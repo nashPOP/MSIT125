@@ -216,13 +216,33 @@
         })
 
         function shelfchange(productid) {
-            $.post("@Url.Action("SelectShelfChange", "EnterStock")",
-                { 'id': productid},
-                function (datas) {
-                    if (datas != 0) {
-                        $('#shelf option[value="' + datas + '"]').attr("selected",true)
-                    }
-            })
+            $('#shelf').empty();
+            if (productid != 0) {
+                $.post("@Url.Action("SelectShelfChange", "EnterStock")",
+                    { 'id': productid },
+                    function (datas) {
+                        
+                        $.each(datas, function (i, data) {
+                            var eleShelf = $('<option></option>');
+                            eleShelf.text(data.ShelfPosition);
+                            eleShelf.val(data.ShelfID);
+                            $("#shelf").append(eleShelf);
+                        })
+                        $('#shelf option[value="' + datas + '"]').attr("selected", true)
+                    })
+            }
+            else {
+                $.post("@Url.Action("SelectShelf", "EnterStock")",
+                    function (datas) {
+                        $("#shelf").append($('<option></option>').text("--請選擇--").val(0));
+                        $.each(datas, function (i, data) {
+                            var eleShelf = $('<option></option>');
+                            eleShelf.text(data.ShelfPosition);
+                            eleShelf.val(data.ShelfID);
+                            $("#shelf").append(eleShelf);
+                        })
+                    })
+            }
         }
 
     //送出按鈕
@@ -283,16 +303,7 @@
                 $("#milliliter").append(eleMilliliter);
             })
         })
-        $.post("@Url.Action("SelectShelf", "EnterStock")",
-                function (datas) {
-                $("#shelf").append($('<option></option>').text("--請選擇--").val(0));
-                $.each(datas, function (i, data) {
-                    var eleShelf = $('<option></option>');
-                    eleShelf.text(data.ShelfPosition);
-                    eleShelf.val(data.ShelfID);
-                    $("#shelf").append(eleShelf);
-                })
-            })
+        shelfchange(0);
         productchange(0);
     }
 

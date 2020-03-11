@@ -116,16 +116,16 @@ namespace WebApplication2.Models
             }
         }
 
-        public int ChangeShelf(int id)
+        public IQueryable ChangeShelf(int id)
         {
             try
             {
-                int shelf = (int)fj.Product.FirstOrDefault(p => p.ProductID == id).ShelfID;
+                var shelf = fj.Product.Where(p => p.ProductID == id).Select(p => new { p.ShelfID,p.Shelf.ShelfPosition});
                 return shelf;
             }
             catch
             {
-                return 0;
+                return null;
             }
         }
     }

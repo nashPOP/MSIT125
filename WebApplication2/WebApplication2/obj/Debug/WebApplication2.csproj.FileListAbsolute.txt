@@ -1152,7 +1152,6 @@ C:\Users\江韋初\Desktop\gitmain\MSIT125\WebApplication2\WebApplication2\obj\D
 C:\Users\江韋初\Desktop\gitmain\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\江韋初\Desktop\gitmain\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\江韋初\Desktop\gitmain\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb
-C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
 C:\Users\User\Desktop\新增資料夾 (3)\MSIT125\WebApplication2\WebApplication2\bin\WebApplication2.dll.config
 C:\Users\User\Desktop\新增資料夾 (3)\MSIT125\WebApplication2\WebApplication2\bin\WebApplication2.dll
 C:\Users\User\Desktop\新增資料夾 (3)\MSIT125\WebApplication2\WebApplication2\bin\WebApplication2.pdb
@@ -1349,3 +1348,4 @@ C:\Users\User\Desktop\新增資料夾 (5)\MSIT125\WebApplication2\WebApplication
 C:\Users\User\Desktop\新增資料夾 (5)\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\User\Desktop\新增資料夾 (5)\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\User\Desktop\新增資料夾 (5)\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb
+C:\Users\User\Desktop\git2\MSIT125\WebApplication2\WebApplication2\obj\Debug\WebApplication2.csprojAssemblyReference.cache
