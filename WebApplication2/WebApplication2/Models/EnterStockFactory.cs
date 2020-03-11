@@ -45,7 +45,7 @@ namespace WebApplication2.Models
         {
             try
             {
-                string datetime = DateTime.Now.ToString();
+                DateTime datetime = DateTime.Now;
                 foreach (var d in x)
                 {
                     d.StockEnterDate = datetime;
@@ -74,30 +74,26 @@ namespace WebApplication2.Models
             {
                 foreach (var i in x)
                 {
-                    var inventory = db.Inventory.FirstOrDefault
+                    var product = db.Product.FirstOrDefault
                         (
-                        p => p.ProductID == i.ProductID &&
-                        p.CategoryID == i.CategoryID &&
-                        p.MilliliterID == i.MilliliterID &&
-                        p.ShelfID == i.ShelfID
+                        p => p.ProductID == i.ProductID
                         );
-                    if (inventory != null)
+                    if (product != null)
                     {
-                        inventory.Quantity += i.Quantity;
+                        product.Quantity += i.Quantity;
                         db.SaveChanges();
                     }
-                    else
-                    {
-                        db.Inventory.Add(new Inventory()
-                        {
-                            ProductID = i.ProductID,
-                            CategoryID = i.CategoryID,
-                            MilliliterID = i.MilliliterID,
-                            Quantity = i.Quantity,
-                            ShelfID = i.ShelfID
-                        });
-                        db.SaveChanges();
-                    }
+                    //else
+                    //{
+                    //    db.Product.Add(new Product()
+                    //    {
+                    //        ProductID = i.ProductID,
+                    //        CategoryID = i.CategoryID,
+                    //        Quantity = i.Quantity,
+                    //        ShelfID = i.ShelfID
+                    //    });
+                    //    db.SaveChanges();
+                    //}
                 }
                 return "0";
             }

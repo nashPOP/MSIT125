@@ -124,5 +124,11 @@ namespace WebApplication2.Controllers
             }
             
         }
+
+        public ActionResult SelectShelfChange(int id)
+        {
+            var shelf = db.ChangeShelf(id);
+            return Json(shelf, JsonRequestBehavior.AllowGet);
+        }
     }
 }

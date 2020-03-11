@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication2.Models.Inventory>
+﻿@model IEnumerable<WebApplication2.Models.Product>
 @{
     ViewBag.Title = "Index";
 
@@ -39,7 +39,7 @@
                     @Html.DropDownList("DDL_Product", list, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="form-group row">
+            @*<div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Millilter" id="LB_Millilter">容量：</label>
                 </div>
@@ -47,7 +47,7 @@
                     @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
-            </div>
+            </div>*@
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
@@ -73,7 +73,7 @@
                     <th>編號</th>
                     <th>商品編號</th>
                     <th>商品名稱</th>
-                    <th>容量</th>
+                    @*<th>容量</th>*@
                     <th>總數</th>
                     <th>倉儲位置</th>
                     @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
@@ -91,17 +91,17 @@
                         <tr>
                             <td>@count</td>
                             <td>@Html.DisplayFor(modelitem => item.ProductID)</td>
-                            <td>@Html.DisplayFor(modelitem => item.Product.ProductName)</td>
-                            <td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)
+                            <td>@Html.DisplayFor(modelitem => item.ProductName)</td>
+                            @*<td>@Html.DisplayFor(modelitem => item.Milliliter.capacity)
                                 ml
-                            </td>
+                            </td>*@
                             <td>@Html.DisplayFor(modelitem => item.Quantity)</td>
                             <td>@Html.DisplayFor(modelitem => item.Shelf.ShelfPosition)</td>
                             @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
                             {
                                 <td class="text-center">
-                                    <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.InventoryID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
-                                    <button id="Btn_Delete" data-InventoryId="@item.InventoryID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
+                                    <a id="Btn_Edit" href="@Url.Action("InventoryEdit", "Query", new { id = item.ProductID })" class="btn btn-success"><span class="fa fa-edit"></span>&nbsp;編輯</a>
+                                    <button id="Btn_Delete" data-InventoryId="@item.ProductID" class="btn btn-danger"><span class="fa fa-trash"></span>&nbsp;刪除</button>
                                 </td>
                             }
                         </tr>
@@ -138,7 +138,7 @@
                 })
         }
 
-        function MillilterData() {
+        @*function MillilterData() {
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
@@ -147,7 +147,7 @@
                     $('#DDL_Millilter').append(op);
                 })
             })
-        }
+        }*@
 
         function ShelfData() {
             $.post("@Url.Action("GetShelf", "Query")", function (datas) {
@@ -190,7 +190,7 @@
         $(function () {
             CategoryData();
             ProductData();
-            MillilterData();
+            //MillilterData();
             ShelfData();
 
             $('#InventoryTable').DataTable({

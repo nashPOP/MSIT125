@@ -159,11 +159,11 @@ namespace WebApplication2.Controllers
                     if (Session["IdentityCode"].ToString().Trim() == "B")
                     {
                         fas.EditOrder(order);
-                        return RedirectToAction("OrderQuery");
+                        return RedirectToAction("OrderEdit", order.OrderID);
                     }
                     else
                     {
-                        return RedirectToAction("OrderQuery");
+                        return RedirectToAction("OrderEdit", order.OrderID);
                     }
                 }
                 else
@@ -493,13 +493,13 @@ namespace WebApplication2.Controllers
                 if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
                     int.TryParse(((string)Session["WineryID"]).Trim(), out int wineryid);
-                    IEnumerable<Inventory> Inventory = fas.getInventoryQuery(wineryid);
-                    return View(Inventory);
+                    IEnumerable<Product> products = fas.getInventoryQuery(wineryid);
+                    return View(products);
                 }
                 else if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
-                    IEnumerable<Inventory> Inventory = fas.getInventoryQuery();
-                    return View(Inventory);
+                    IEnumerable<Product> products = fas.getInventoryQuery();
+                    return View(products);
                 }
                 else
                 {
@@ -514,20 +514,20 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public ActionResult InventoryQuery(QInventory inventory)
+        public ActionResult InventoryQuery(QInventory qproducts)
         {
             if (Session["IdentityCode"] != null)
             {
                 if (Session["IdentityCode"].ToString().Trim() == "A")
                 {
                     int.TryParse(((string)Session["WineryID"]).Trim(), out int wineryid);
-                    var Inventory = fas.getInventoryQuery(inventory, wineryid).ToList();
-                    return View(Inventory);
+                    var products = fas.getInventoryQuery(qproducts, wineryid).ToList();
+                    return View(products);
                 }
                 else if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
-                    var Inventory = fas.getInventoryQuery(inventory,null).ToList();
-                    return View(Inventory);
+                    var products = fas.getInventoryQuery(qproducts, null).ToList();
+                    return View(products);
                 }
                 else
                 {
@@ -548,8 +548,8 @@ namespace WebApplication2.Controllers
                 {
                     if (id != null)
                     {
-                        var InventoryEdit = fas.getInventoryByID((int)id);
-                        return View(InventoryEdit);
+                        var productsEdit = fas.getInventoryByID((int)id);
+                        return View(productsEdit);
                     }
                     else
                     {
@@ -568,21 +568,21 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public ActionResult InventoryEdit(Inventory inventory)
+        public ActionResult InventoryEdit(Product product)
         {
 
             if (Session["IdentityCode"] != null)
             {
                 if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
-                    bool edit = fas.InventoryEdit(inventory);
+                    bool edit = fas.InventoryEdit(product);
                     if (edit)
                     {
                         return RedirectToAction("InventoryQuery");
                     }
                     else
                     {
-                        return RedirectToAction("InventoryEdit", inventory.InventoryID);
+                        return RedirectToAction("InventoryEdit", product.ProductID);
                     }
                 }
                 else
@@ -596,15 +596,15 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public ActionResult InventoryDelete(int? inventoryid)
+        public ActionResult InventoryDelete(int? productid)
         {
             if (Session["IdentityCode"] != null)
             {
                 if (Session["IdentityCode"].ToString().Trim() == "B")
                 {
-                    if (inventoryid != null)
+                    if (productid != null)
                     {
-                        string message = fas.InventoryDelete((int)inventoryid);
+                        string message = fas.InventoryDelete((int)productid);
                         return Json(message, JsonRequestBehavior.AllowGet);
                     }
                     else

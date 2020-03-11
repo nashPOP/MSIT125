@@ -22,12 +22,11 @@ namespace WebApplication2.Models
         public int MilliliterID { get; set; }
         public int Quantity { get; set; }
         public string Note { get; set; }
-        public string StockEnterDate { get; set; }
+        public System.DateTime StockEnterDate { get; set; }
     
-        public virtual Category Category { get; set; }
+        public virtual Milliliter Milliliter { get; set; }
         public virtual Product Product { get; set; }
         public virtual Shelf Shelf { get; set; }
         public virtual Winery Winery { get; set; }
-        public virtual Milliliter Milliliter { get; set; }
     }
 }

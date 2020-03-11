@@ -32,7 +32,7 @@
                         客戶名稱：
                     </div>
                     <div class="col-sm-3">
-                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @required = "required" } })
                         @Html.ValidationMessageFor(model => model.Order.CustomerName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         訂購時間：
                     </div>
                     <div class="col-sm-3">
-                        <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="訂購時間欄位必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
+                        <input class="form-control text-box single-line" autocomplete="off" required data-val="true" data-val-date="訂購時間欄位必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
                         @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
@@ -49,7 +49,7 @@
                         出貨時間：
                     </div>
                     <div class="col-sm-3">
-                        <input class="form-control text-box single-line" autocomplete="off" data-val="true" data-val-date="出貨時間欄位必須是日期。" data-val-required="RequiredDate 欄位是必要項。" id="Order_RequiredDate" name="Order.RequiredDate" type="datetime" value="@Model.Order.RequiredDate.ToShortDateString()">
+                        <input class="form-control text-box single-line" autocomplete="off" required data-val="true" data-val-date="出貨時間欄位必須是日期。" data-val-required="RequiredDate 欄位是必要項。" id="Order_RequiredDate" name="Order.RequiredDate" type="datetime" value="@Model.Order.RequiredDate.ToShortDateString()">
                         @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = "text-danger" })
                     </div>
                 </div>

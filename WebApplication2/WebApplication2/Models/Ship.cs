@@ -14,19 +14,12 @@ namespace WebApplication2.Models
     
     public partial class Ship
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Ship()
-        {
-            this.ShipDetail = new HashSet<ShipDetail>();
-        }
-    
         public int ShipID { get; set; }
         public int OrderID { get; set; }
         public System.DateTime RequiredDate { get; set; }
         public System.DateTime ShipDate { get; set; }
+        public string Note { get; set; }
     
         public virtual Order Order { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShipDetail> ShipDetail { get; set; }
     }
 }

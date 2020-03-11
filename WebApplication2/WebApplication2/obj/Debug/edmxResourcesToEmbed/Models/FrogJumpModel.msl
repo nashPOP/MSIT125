@@ -70,21 +70,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="StockEnter">
-      <EntityTypeMapping TypeName="Model1.StockEnter">
-        <MappingFragment StoreEntitySet="StockEnter">
-          <ScalarProperty Name="StockEnterID" ColumnName="StockEnterID" />
-          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
-          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
-          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-          <ScalarProperty Name="StockEnterDate" ColumnName="StockEnterDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Winery">
       <EntityTypeMapping TypeName="Model1.Winery">
         <MappingFragment StoreEntitySet="Winery">
@@ -113,6 +98,7 @@
     <EntitySetMapping Name="Ship">
       <EntityTypeMapping TypeName="Model1.Ship">
         <MappingFragment StoreEntitySet="Ship">
+          <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="ShipDate" ColumnName="ShipDate" />
           <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -120,12 +106,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ShipDetail">
-      <EntityTypeMapping TypeName="Model1.ShipDetail">
-        <MappingFragment StoreEntitySet="ShipDetail">
+    <EntitySetMapping Name="StockEnter">
+      <EntityTypeMapping TypeName="Model1.StockEnter">
+        <MappingFragment StoreEntitySet="StockEnter">
+          <ScalarProperty Name="StockEnterDate" ColumnName="StockEnterDate" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="MilliliterID" ColumnName="MilliliterID" />
+          <ScalarProperty Name="ShelfID" ColumnName="ShelfID" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="ShipID" ColumnName="ShipID" />
-          <ScalarProperty Name="ShipDetailId" ColumnName="ShipDetailId" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="WineryID" ColumnName="WineryID" />
+          <ScalarProperty Name="StockEnterID" ColumnName="StockEnterID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

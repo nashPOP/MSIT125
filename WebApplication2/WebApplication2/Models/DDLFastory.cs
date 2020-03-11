@@ -79,7 +79,7 @@ namespace WebApplication2.Models
                 }
                 else
                 {
-                    var q = from n in products
+                    var q = from n in fj.Product
                             select new { n.ProductID, n.ProductName };
                     return q;
                 }
@@ -113,6 +113,19 @@ namespace WebApplication2.Models
             catch
             {
                 return null;
+            }
+        }
+
+        public int ChangeShelf(int id)
+        {
+            try
+            {
+                int shelf = (int)fj.Product.FirstOrDefault(p => p.ProductID == id).ShelfID;
+                return shelf;
+            }
+            catch
+            {
+                return 0;
             }
         }
     }

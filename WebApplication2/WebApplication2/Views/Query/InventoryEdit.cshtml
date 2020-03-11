@@ -1,4 +1,4 @@
-﻿@model WebApplication2.Models.Inventory
+﻿@model WebApplication2.Models.Product
 
 @{
     ViewBag.Title = "InventoryEdit";
@@ -17,23 +17,23 @@
 
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.InventoryID)
+                @Html.HiddenFor(model => model.ProductID)
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ProductID, "產品名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ProductName, "產品名稱", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-5">
-                        @Html.DropDownList("ProductID", list, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model=>model.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.MilliliterID, "容量", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-5">
                         @Html.DropDownList("MilliliterID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.MilliliterID, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Quantity,"庫存量", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -68,8 +68,8 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        function ProductData() {
-            $.post("@Url.Action("GetProduct", "Query")",
+        @*function ProductData() {
+            $.post("@Url.Action("GetProduct", "Query")", {'id':0},
                 function (datas) {
                     $('#ProductID').empty();
                     
@@ -81,9 +81,9 @@
                         })
                             $('#ProductID option[value="@Model.ProductID"]').attr('selected', true);
                 })
-        }
+        }*@
 
-        function MillilterData() {
+        @*function MillilterData() {
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 if (datas != null) {
                     $.each(datas, function (Idx, data) {
@@ -95,7 +95,7 @@
                     $('#MilliliterID option[value="@Model.MilliliterID"]').attr('selected', true);
                 }
             })
-        }
+        }*@
 
         function ShelfData() {
             $.post("@Url.Action("GetShelf", "Query")", function (datas) {
@@ -112,8 +112,8 @@
         }
 
         $(function () {
-            ProductData();
-            MillilterData();
+            //ProductData();
+            //MillilterData();
             ShelfData();
         })
     </script>

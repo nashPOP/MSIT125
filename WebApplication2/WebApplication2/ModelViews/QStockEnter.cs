@@ -13,6 +13,6 @@ namespace WebApplication2.ModelViews
         public string DDL_Winery { get; set; }
         public string DDL_Millilter { get; set; }
         public string DDL_Shelf { get; set; }
-        public string D_StockEnterDate { get; set; }
+        public DateTime D_StockEnterDate { get; set; }
     }
 }

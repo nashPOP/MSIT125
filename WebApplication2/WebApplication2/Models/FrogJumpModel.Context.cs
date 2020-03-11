@@ -32,10 +32,9 @@ namespace WebApplication2.Models
         public virtual DbSet<Order_Details> Order_Details { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Shelf> Shelf { get; set; }
-        public virtual DbSet<StockEnter> StockEnter { get; set; }
         public virtual DbSet<Winery> Winery { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Ship> Ship { get; set; }
-        public virtual DbSet<ShipDetail> ShipDetail { get; set; }
+        public virtual DbSet<StockEnter> StockEnter { get; set; }
     }
 }

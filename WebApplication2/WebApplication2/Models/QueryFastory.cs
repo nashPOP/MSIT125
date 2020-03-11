@@ -82,7 +82,7 @@ namespace WebApplication2.Models
                     Edit.CustomerName = order.CustomerName;
                     Edit.OrderDate = order.OrderDate;
                     Edit.RequiredDate = order.RequiredDate;
-                    Edit.ShippedDate = (DateTime)order.ShippedDate;
+                    Edit.ShippedDate = order.ShippedDate;
                     Edit.Note = order.Note;
                     db.SaveChanges();
                     return true;
@@ -277,15 +277,10 @@ namespace WebApplication2.Models
                 {
                     table = table.Where(p => p.ShelfID.ToString() == qStockEnter.DDL_Shelf);
                 }
-                if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate))
+                if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate.ToString()))
                 {
-                    string date = qStockEnter.D_StockEnterDate;
-                    string dat1 = qStockEnter.D_StockEnterDate.Substring(8,1);
-                    if (qStockEnter.D_StockEnterDate.Substring(8, 1) == "0")
-                        date = date.Remove(8, 1);
-                    if (qStockEnter.D_StockEnterDate.Substring(5, 1) == "0")
-                        date = date.Remove(5, 1);
-                    table = table.Where(p => p.StockEnterDate.StartsWith(date));
+                    DateTime lasttime = qStockEnter.D_StockEnterDate.AddDays(1);
+                    table = table.Where(p => p.StockEnterDate >=qStockEnter.D_StockEnterDate && p.StockEnterDate <lasttime);
                 }
                 return table;
             }
@@ -299,29 +294,29 @@ namespace WebApplication2.Models
 
         #region Inventory
 
-        public IEnumerable<Inventory> getInventoryQuery()
+        public IEnumerable<Product> getInventoryQuery()
         {
-            var table = from n in db.Inventory
+            var table = from n in db.Product
                         select n;
             return table.ToList();
         }
 
-        public IEnumerable<Inventory> getInventoryQuery(int WineryId)
+        public IEnumerable<Product> getInventoryQuery(int WineryId)
         {
-            var table = from n in db.Inventory
-                        where n.Product.WineryID == WineryId
+            var table = from n in db.Product
+                        where n.WineryID == WineryId
                         select n;
             return table.ToList();
         }
 
-        public IQueryable<Inventory> getInventoryQuery(QInventory qinv,int? WineryID)
+        public IQueryable<Product> getInventoryQuery(QInventory qinv,int? WineryID)
         {
             try
             {
-                var table = db.Inventory.Select(p => p);
+                var table = db.Product.Select(p => p);
                 if (WineryID != null)
                 {
-                    table = db.Inventory.Where(p => p.Product.WineryID == WineryID);
+                    table = db.Product.Where(p => p.WineryID == WineryID);
                 }
                 if (!string.IsNullOrEmpty(qinv.TB_ProductID))
                 {
@@ -331,10 +326,10 @@ namespace WebApplication2.Models
                 {
                     table = table.Where(p => p.ProductID == qinv.DDL_Product);
                 }
-                if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()) && qinv.DDL_Millilter != 0)
-                {
-                    table = table.Where(p => p.MilliliterID == qinv.DDL_Millilter);
-                }
+                //if (!string.IsNullOrEmpty(qinv.DDL_Millilter.ToString()) && qinv.DDL_Millilter != 0)
+                //{
+                //    table = table.Where(p => p.MilliliterID == qinv.DDL_Millilter);
+                //}
                 if (!string.IsNullOrEmpty(qinv.DDL_Shelf.ToString()) && qinv.DDL_Shelf != 0)
                 {
                     table = table.Where(p => p.ShelfID == qinv.DDL_Shelf);
@@ -344,30 +339,30 @@ namespace WebApplication2.Models
             catch (Exception ex)
             {
                 string ErrorMessage = ex.Message;
-                return db.Inventory.Select(p => p);
+                return db.Product.Select(p => p);
             }
 
         }
 
-        public Inventory getInventoryByID(int id)
+        public Product getInventoryByID(int id)
         {
 
-            Inventory inventory = db.Inventory.FirstOrDefault(p => p.InventoryID == id);
+            Product product = db.Product.FirstOrDefault(p => p.ProductID == id);
 
-            return inventory;
+            return product;
         }
 
-        public bool InventoryEdit(Inventory inventory)
+        public bool InventoryEdit(Product product)
         {
             try
             {
-                Inventory inv = db.Inventory.FirstOrDefault(p => p.InventoryID == inventory.InventoryID);
+                Product inv = db.Product.FirstOrDefault(p => p.ProductID == product.ProductID);
                 if (inv != null)
                 {
-                    inv.ProductID = inventory.ProductID;
-                    inv.MilliliterID = inventory.MilliliterID;
-                    inv.ShelfID = inventory.ShelfID;
-                    inv.Quantity = inventory.Quantity;
+                    inv.ProductID = product.ProductID;
+                    //inv.MilliliterID = product.MilliliterID;
+                    inv.ShelfID = product.ShelfID;
+                    inv.Quantity = product.Quantity;
                     db.SaveChanges();
                 }
                 return true;
@@ -384,8 +379,8 @@ namespace WebApplication2.Models
         {
             try
             {
-                Inventory inv = db.Inventory.FirstOrDefault(p => p.InventoryID == inventoryid);
-                db.Inventory.Remove(inv);
+                Product inv = db.Product.FirstOrDefault(p => p.ProductID == inventoryid);
+                db.Product.Remove(inv);
                 db.SaveChanges();
                 return "刪除成功";
             }
