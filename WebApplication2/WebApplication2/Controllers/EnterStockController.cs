@@ -28,7 +28,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        public ActionResult CreateBtn(int winery, int category, int product, int milliliter, int count, int shelf, string note)
+        public ActionResult CreateBtn(int winery, int category, int product, int count, int shelf, string note)
         {
             List<StockEnter> list = new List<StockEnter>();
             if (Session["xxx"] != null)
@@ -39,7 +39,7 @@ namespace WebApplication2.Controllers
             {
                 WineryID = winery,
                 Note = note,
-                MilliliterID = milliliter,
+                MilliliterID = 1,
                 ProductID = product,
                 Quantity = count,
                 CategoryID = category,

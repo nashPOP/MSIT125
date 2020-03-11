@@ -29,15 +29,15 @@
             <div class="col-sm-1">
                 <label>品名：</label>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <select id="product" class="form-control"></select>
             </div>
-            <div class="col-sm-1">
+            @*<div class="col-sm-1">
                 <label>容量：</label>
             </div>
             <div class="col-sm-2">
                 <select id="milliliter" class="form-control"></select>
-            </div>
+            </div>*@
             <div class="col-sm-1">
                 <label>數量：</label>
             </div>
@@ -81,7 +81,7 @@
                     <th>序號</th>
                     <th>種類</th>
                     <th>品名</th>
-                    <th>容量</th>
+                    @*<th>容量</th>*@
                     <th>數量</th>
                     <th>貨架</th>
                     <th>備註</th>
@@ -110,17 +110,17 @@
             var winery = $("#winery option:selected");
             var category = $("#category option:selected");
             var product = $("#product option:selected");
-            var milliliter = $("#milliliter option:selected");
+            //var milliliter = $("#milliliter option:selected");
             var count = $("#count");
             var shelf = $("#shelf option:selected");
             var note = $("#note");
-            if (caveat(winery, category, product, milliliter, count, shelf)) {
+            if (caveat(winery, category, product/*, milliliter*/, count, shelf)) {
                 $.get("@Url.Action("CreateBtn", "EnterStock")",
                     {
                         'winery': $("#winery").val(),
                         'category': $("#category").val(),
                         'product': $("#product").val(),
-                        'milliliter': $("#milliliter").val(),
+                        //'milliliter': $("#milliliter").val(),
                         'count': $("#count").val(),
                         'shelf': $("#shelf").val(),
                         'note': $("#note").val()
@@ -133,14 +133,14 @@
                         else {
                             var eleNote = $("<td></td>");
                         }
-                        var eleMilliliterID = $("<td></td>").text(milliliter.text() + ' ml');
+                        //var eleMilliliterID = $("<td></td>").text(milliliter.text() + ' ml');
                         var eleProduct = $("<td></td>").text(product.text());
                         var eleQuantity = $("<td></td>").text(count.val());
                         var eleCategoryID = $("<td></td>").text(category.text());
                         var eleShelfID = $("<td></td>").text(shelf.text());
                         var eleCount = $("<td></td>").text(x++);
                         var eleBtn = $("<td><button id='btn_delete' type='button' class='btn btn-danger'><span class='fa fa-trash'></span>&nbsp;刪除</button></td>")
-                        eletr.append(eleCount).append(eleCategoryID).append(eleProduct).append(eleMilliliterID).append(eleQuantity).append(eleShelfID).append(eleNote).append(eleBtn);
+                        eletr.append(eleCount).append(eleCategoryID).append(eleProduct)/*.append(eleMilliliterID)*/.append(eleQuantity).append(eleShelfID).append(eleNote).append(eleBtn);
                         $("#tb").append(eletr);
                     })
             }
@@ -173,18 +173,18 @@
                 alert("請選擇產品名稱");
                 return false;
             }
-            if (milliliter.val() == 0) {
-                alert("請選擇容量");
-                return false;
-            }
+            //if (milliliter.val() == 0) {
+            //    alert("請選擇容量");
+            //    return false;
+            //}
             if (count.val() == "" || isNaN(count.val()) || count.val() <= 0) {
                 alert("請輸入數量");
                 return false;
             }
-            if (shelf.val() == 0) {
-                alert("請選擇貨架區域");
-                return false;
-            }
+            //if (shelf.val() == 0) {
+            //    alert("請選擇貨架區域");
+            //    return false;
+            //}
             return true;
         }
 
@@ -294,7 +294,7 @@
                 $("#category").append(eleCategory);
             })
         })
-        $.post("@Url.Action("SelectMilliliter", "EnterStock")", function (datas) {
+        @*$.post("@Url.Action("SelectMilliliter", "EnterStock")", function (datas) {
             $("#milliliter").append($('<option></option>').text("--請選擇--").val(0));
             $.each(datas, function (i, data) {
                 var eleMilliliter = $('<option></option>');
@@ -302,7 +302,7 @@
                 eleMilliliter.val(data.MilliliterID);
                 $("#milliliter").append(eleMilliliter);
             })
-        })
+        })*@
         shelfchange(0);
         productchange(0);
     }
