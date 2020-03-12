@@ -147,16 +147,33 @@
                                             @Html.DisplayFor(modelItem => item.CustomerName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.OrderDate)
+                                            @item.OrderDate.ToShortDateString()
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.RequiredDate)
+                                            @item.RequiredDate.ToShortDateString()
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ShippedDate)
+                                            @if (item.ShippedDate != null)
+                                            {
+                                                @item.ShippedDate.Value.ToShortDateString()
+                                            }
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Note)
+                                            @if (item.Note != null)
+                                            {
+                                                if (item.Note.Length > 6)
+                                                {
+                                                    <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Note)
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Note)
+                                            }
                                         </td>
                                         <td>
                                             @if (item.Status != "Z")

@@ -207,16 +207,14 @@ namespace WebApplication2.Models
             try
             {
                 var stockenter = db.StockEnter.FirstOrDefault(p => p.StockEnterID == stock.StockEnterID);
-                stockenter = new StockEnter()
-                {
-                    WineryID = stock.WineryID,
-                    ProductID = stock.ProductID,
-                    MilliliterID = stock.MilliliterID,
-                    ShelfID = stock.ShelfID,
-                    Quantity = stock.Quantity,
-                    Note = stock.Note,
-                    StockEnterDate = stock.StockEnterDate
-                };
+
+                stockenter.WineryID = stock.WineryID;
+                stockenter.ProductID = stock.ProductID;
+                stockenter.MilliliterID = stock.MilliliterID;
+                stockenter.ShelfID = stock.ShelfID;
+                stockenter.Quantity = stock.Quantity;
+                stockenter.Note = stock.Note;
+                stockenter.StockEnterDate = stock.StockEnterDate;
                 db.SaveChanges();
                 return true;
             }
