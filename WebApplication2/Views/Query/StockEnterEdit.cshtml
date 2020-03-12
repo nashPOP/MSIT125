@@ -1,14 +1,14 @@
 ﻿@model WebApplication2.Models.StockEnter
 
 @{
-    ViewBag.Title = "進貨紀錄查詢";
+    ViewBag.Title = "進貨紀錄編輯";
 
     List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 }
 
 <div class="card">
     <div class="card-header">
-        <h2>進貨紀錄查詢</h2>
+        <h2>進貨紀錄編輯</h2>
     </div>
     <div class="card-body">
         @using (Html.BeginForm())
@@ -16,8 +16,6 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>入庫編輯</h4>
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.StockEnterID)
 
@@ -38,20 +36,20 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ShelfID, "倉庫位置：", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ShelfID, "倉儲位置：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("ShelfID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ShelfID, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.MilliliterID, "容量：", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-sm-4">
                         @Html.DropDownList("MilliliterID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.MilliliterID, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Quantity,"數量：", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -144,7 +142,7 @@
             })
         }
 
-        function MillilterData() {
+        @*function MillilterData() {
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 if (datas != null) {
                     $.each(datas, function (Idx, data) {
@@ -156,7 +154,7 @@
                     $('#MilliliterID option[value=@Model.MilliliterID]').attr('selected', true);
                 }
             })
-        }
+        }*@
 
         function ShelfData() {
             $.post("@Url.Action("GetShelf", "Query")", function (datas) {
@@ -187,7 +185,7 @@
         WineryData();
         CategoryData();
         ProductData();
-        MillilterData();
+        //MillilterData();
         ShelfData();
 
         $('#StockEnterDate').datepicker({ dateFormat:'yy/mm/dd' });

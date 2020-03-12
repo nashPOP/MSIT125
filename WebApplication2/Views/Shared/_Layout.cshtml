@@ -122,7 +122,9 @@
                             if (Session["IdentityCode"].ToString().Trim() == "B")
                             {
                                 @Html.ActionLink("註冊新會員", "Register", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="buttons.html">註冊新會員</a>*@
+                                @*@Html.ActionLink("會員資料", "WineryAccount", "Login", null, new { @class = "collapse-item" })*@
                                 @Html.ActionLink("刪除會員", "Delete", "Login", null, new { @class = "collapse-item" })@*<a class="collapse-item" href="cards.html">刪除會員</a>*@
+
                             }
                             if (Session["IdentityCode"].ToString().Trim() == "A")
                             {

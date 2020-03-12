@@ -32,11 +32,19 @@ namespace WebApplication2.Models
             }
             if (!string.IsNullOrEmpty(qOrder.TB_CustomerName))
             {
-                table = table.Where(p => p.CustomerName.ToUpper().ToString() == qOrder.TB_CustomerName.Trim().ToUpper());
+                table = table.Where(p => p.CustomerName.ToUpper().Contains(qOrder.TB_CustomerName.Trim().ToUpper()));
             }
             if (!string.IsNullOrEmpty(qOrder.DDL_Product) && qOrder.DDL_Product != "0")
             {
                 table = table.Where(p => p.Order_Details.Where(c => c.ProductID.ToString() == qOrder.DDL_Product).Count() > 0);
+            }
+            if (!string.IsNullOrEmpty(qOrder.D_CustomerAddress))
+            {
+                table = table.Where(p => p.CustomerAddress.Contains(qOrder.D_CustomerAddress));
+            }
+            if (!string.IsNullOrEmpty(qOrder.TB_CustomerPhone))
+            {
+                table = table.Where(p => p.CustomerPhone.Contains(qOrder.TB_CustomerPhone));
             }
             if (qOrder.D_OrderDate!=null)
             {
@@ -84,6 +92,8 @@ namespace WebApplication2.Models
                     Edit.RequiredDate = order.RequiredDate;
                     Edit.ShippedDate = order.ShippedDate;
                     Edit.Note = order.Note;
+                    Edit.CustomerPhone = order.CustomerPhone;
+                    Edit.CustomerAddress = order.CustomerAddress;
                     db.SaveChanges();
                     return true;
                 }
@@ -210,7 +220,7 @@ namespace WebApplication2.Models
 
                 stockenter.WineryID = stock.WineryID;
                 stockenter.ProductID = stock.ProductID;
-                stockenter.MilliliterID = stock.MilliliterID;
+                stockenter.MilliliterID = 1;
                 stockenter.ShelfID = stock.ShelfID;
                 stockenter.Quantity = stock.Quantity;
                 stockenter.Note = stock.Note;
@@ -407,7 +417,10 @@ namespace WebApplication2.Models
                                 n.OrderDate,
                                 n.RequiredDate,
                                 n.ShippedDate,
-                                n.Note
+                                n.Note,
+                                n.CustomerAddress,
+                                n.CustomerPhone,
+                                n.Status
                             };
                 return order;
             }

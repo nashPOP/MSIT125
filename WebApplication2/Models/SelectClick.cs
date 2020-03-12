@@ -126,7 +126,8 @@ namespace WebApplication2.ModelView
                             p.ProductName,
                             p.Quantity,
                             p.WineryID,
-                            p.CategoryID
+                            p.CategoryID,
+                            p.ShelfID
                         });
                         return productWarning;
 

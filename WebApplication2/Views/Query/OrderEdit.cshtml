@@ -1,7 +1,7 @@
 ﻿@model WebApplication2.ModelViews.QueryModelByView
 
 @{
-    ViewBag.Title = "OrderEdit";
+    ViewBag.Title = "訂單編輯";
 
     List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 }
@@ -21,7 +21,7 @@
                 @Html.HiddenFor(model => model.Order.WineryID)
                 <div class="form-group row">
                     <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Order.WineryID,"酒莊", htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.Order.WineryID, "酒莊", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-sm-3">
                         @Html.TextBoxFor(model => model.Order.Winery.WineryName, htmlAttributes: new { @class = "form-control", @ReadOnly = "true", @autocomplete = "off" })
@@ -29,20 +29,21 @@
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
-                        客戶名稱：
-                    </div>
-                    <div class="col-sm-3">
-                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.Order.CustomerName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-1">
                         訂購時間：
                     </div>
                     <div class="col-sm-3">
                         <input class="form-control text-box single-line" autocomplete="off" required data-val="true" data-val-date="訂購時間欄位必須是日期。" data-val-required="OrderDate 欄位是必要項。" id="Order_OrderDate" name="Order.OrderDate" type="datetime" value="@Model.Order.OrderDate.ToShortDateString()">
                         @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = "text-danger" })
+                    </div>
+                    
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1">
+                        客戶名稱：
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Order.CustomerName, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Order.CustomerName, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-1">
@@ -54,6 +55,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <div class="col-sm-1">
+                        @Html.LabelFor(model => model.Order.CustomerPhone, "電話", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Order.CustomerPhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Order.CustomerPhone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-1"></div>
                     <div class="col-sm-1">
                         送達時間：
                     </div>
@@ -69,7 +78,16 @@
                         @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
+                <div class="form-group row">
+                    <div class="col-sm-1">
+                        @Html.LabelFor(model => model.Order.CustomerAddress, "地址", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.Order.CustomerAddress, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.Order.CustomerAddress, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
                 <div class="form-group row">
                     <div class="col-sm-1">
                         備註：
@@ -184,7 +202,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
 
     function ProductData() {
         $.post("@Url.Action("GetProduct", "Query")", { 'id': null}, function (datas) {
@@ -331,5 +349,5 @@
             });
         })
 
-</script>
+    </script>
 }

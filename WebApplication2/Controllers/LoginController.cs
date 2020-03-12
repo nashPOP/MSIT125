@@ -274,6 +274,30 @@ namespace WebApplication2.Controllers
             db.SaveChanges();
             return View();
         }
+
+        public ActionResult WineryAccount()
+        {
+            try
+            {
+                if (Session["IdentityCode"] != null)
+                {
+                    if (Session["IdentityCode"].ToString().Trim() == "B")
+                    {
+                        var account = db.Account.Select(p => p);
+                        return View(account);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                return RedirectToAction("LoginPage");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
     }
 }
 

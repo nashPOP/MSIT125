@@ -1,7 +1,7 @@
 ﻿@model WebApplication2.Models.Product
 
 @{
-    ViewBag.Title = "InventoryEdit";
+    ViewBag.Title = "庫存編輯";
 
     List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { Text = "--請選擇--", Value = "0" } };
 }
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ShelfID, "貨架位置", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ShelfID, "倉儲位置", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-5">
                         @Html.DropDownList("ShelfID", list, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ShelfID, "", new { @class = "text-danger" })

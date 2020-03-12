@@ -49,7 +49,7 @@
                     <div class="col-sm-3"></div>
                 </div>
             }
-            <div class="form-group row">
+            @*<div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Millilter" id="LB_Winery">容量：</label>
                 </div>
@@ -57,7 +57,7 @@
                     @Html.DropDownList("DDL_Millilter", list, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1"></div>
-            </div>
+            </div>*@
             <div class="form-group row">
                 <div class="col-sm-1">
                     <label for="DDL_Shelf" id="LB_Shelf">倉儲位置：</label>
@@ -95,7 +95,7 @@
                             <th>商品號碼</th>
                             <th>商品名稱</th>
                             <th>酒莊</th>
-                            <th>容量</th>
+                            @*<th>容量</th>*@
                             <th>入庫數量</th>
                             <th>倉儲位置</th>
                             <th>備註</th>
@@ -124,10 +124,10 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Winery.WineryName)
                                     </td>
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.Milliliter.capacity)
                                         ml
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Quantity)
                                     </td>
@@ -209,7 +209,7 @@
             })
         }
 
-        function MillilterData() {
+        @*function MillilterData() {
             $.post("@Url.Action("GetMillilter", "Query")", function (datas) {
                 $.each(datas, function (Idx, data) {
                     var op = $('<option></option>');
@@ -219,7 +219,7 @@
                 })
 
             })
-        }
+        }*@
 
         function ShelfData() {
             $.post("@Url.Action("GetShelf", "Query")", function (datas) {
@@ -264,7 +264,7 @@
             WineryData();
             CategoryData();
             ProductData();
-            MillilterData();
+            //MillilterData();
             ShelfData();
 
             $('#StockEnterTable').DataTable({

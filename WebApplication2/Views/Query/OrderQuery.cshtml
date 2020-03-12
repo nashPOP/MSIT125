@@ -13,34 +13,16 @@
     <div class="card-body">
         @using (Html.BeginForm())
         {
-        <div class="form-group row">
-            <div class="col-sm-1">
-                <label for="tborderid" id="lborderid">訂單編號：</label>
-            </div>
-            <div class="col-sm-3">
-                @Html.TextBox("TB_OrderID", "", new { @class = "form-control", @autocomplete = "off" })
-
-            </div>
-            <div class="col-sm-1"></div>
-            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
-            {
-                <div class="col-sm-1">
-                    <label for="selw" id="lbw">酒莊：</label>
-                </div>
-                <div class="col-sm-3">
-                    @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
-                </div>
-            }
-            <div class="col-sm-4"></div>
-        </div>
             <div class="form-group row">
                 <div class="col-sm-1">
-                    <label for="tbCustomer" id="lbw">客戶名稱：</label>
+                    <label for="tborderid" id="lborderid">訂單編號：</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control", @autocomplete = "off" })
+                    @Html.TextBox("TB_OrderID", "", new { @class = "form-control", @autocomplete = "off" })
                 </div>
-                <div class="col-sm-8"></div>
+                <div class="col-sm-1"></div>
+
+                <div class="col-sm-4"></div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-1">
@@ -60,11 +42,30 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-1">
+                    <label for="tbCustomer" id="lbw">客戶名稱：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_CustomerName", "", new { @class = "form-control", @autocomplete = "off" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
                     <label for="D_OrderDate" id="lbOrderDate">訂購時間：</label>
                 </div>
                 <div class="col-sm-3">
                     <input type="text" id="D_OrderDate" name="D_OrderDate" class="form-control is-vaid" autocomplete="off" />
                 </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="form-group row">
+                @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                {
+                    <div class="col-sm-1">
+                        <label for="selw" id="lbw">酒莊：</label>
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("DDL_Winery", list, new { @class = "form-control" })
+                    </div>
+                }
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1">
                     <label for="D_RequiredDate" id="lbRequiredDate">出貨時間：</label>
@@ -75,12 +76,29 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-1">
+                    <label for="tbCustomerPhone" id="lbw">電話：</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBox("TB_CustomerPhone", "", new { @class = "form-control", @autocomplete = "off" })
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-1">
                     <label for="D_ShippedDate" id="lbShippedDate">送達時間：</label>
                 </div>
                 <div class="col-sm-3">
                     <input type="text" id="D_ShippedDate" name="D_ShippedDate" class="form-control is-vaid" autocomplete="off" />
                 </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label for="D_CustomerAddress" id="lbCustomerAddress">地址：</label>
+                </div>
                 <div class="col-sm-8">
+                    <input type="text" id="D_CustomerAddress" name="D_CustomerAddress" class="form-control is-vaid" autocomplete="off" />
+                </div>
+                <div class="col-sm-3">
                 </div>
             </div>
             <button type="submit" id="" class="btn btn-primary"><span class="fa fa-search"></span>&nbsp;查詢</button>
@@ -100,113 +118,113 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="OrderTable" class="table table-bordered" >
-                            
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            訂單編號
-                                        </th>
-                                        <th>
-                                            酒莊
-                                        </th>
-                                        <th>
-                                            客戶名稱
-                                        </th>
-                                        <th>
-                                            訂購時間
-                                        </th>
-                                        <th>
-                                            出貨時間
-                                        </th>
-                                        <th>
-                                            送達時間
-                                        </th>
-                                        <th>
-                                            備註
-                                        </th>
-                                        <th>
-                                            狀態
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (Model.Orderlist != null)
+                        <table id="OrderTable" class="table table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th>
+                                        訂單編號
+                                    </th>
+                                    <th>
+                                        酒莊
+                                    </th>
+                                    <th>
+                                        客戶名稱
+                                    </th>
+                                    <th>
+                                        訂購時間
+                                    </th>
+                                    <th>
+                                        出貨時間
+                                    </th>
+                                    <th>
+                                        送達時間
+                                    </th>
+                                    <th>
+                                        備註
+                                    </th>
+                                    <th>
+                                        狀態
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Orderlist != null)
+                                {
+                                    foreach (var item in Model.Orderlist)
                                     {
-                                        foreach (var item in Model.Orderlist)
-                                        {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.OrderID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Winery.WineryName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CustomerName)
-                                        </td>
-                                        <td>
-                                            @item.OrderDate.ToShortDateString()
-                                        </td>
-                                        <td>
-                                            @item.RequiredDate.ToShortDateString()
-                                        </td>
-                                        <td>
-                                            @if (item.ShippedDate != null)
-                                            {
-                                                @item.ShippedDate.Value.ToShortDateString()
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (item.Note != null)
-                                            {
-                                                if (item.Note.Length > 6)
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OrderID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CustomerName)
+                                            </td>
+                                            <td>
+                                                @item.OrderDate.ToShortDateString()
+                                            </td>
+                                            <td>
+                                                @item.RequiredDate.ToShortDateString()
+                                            </td>
+                                            <td>
+                                                @if (item.ShippedDate != null)
                                                 {
-                                                    <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                    @item.ShippedDate.Value.ToShortDateString()
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.Note != null)
+                                                {
+                                                    if (item.Note.Length > 6)
+                                                    {
+                                                        <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.Note)
+                                                    }
                                                 }
                                                 else
                                                 {
                                                     @Html.DisplayFor(modelItem => item.Note)
                                                 }
-                                            }
-                                            else
-                                            {
-                                                @Html.DisplayFor(modelItem => item.Note)
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (item.Status != "Z")
-                                            {
-                                                <label>未出貨</label>
-                                            }
-                                            else
-                                            {
-                                                <label>已出貨</label>
-                                            }
-                                        </td>
-                                        <td class="text-center">
-                                            @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
-                                            {
-                                                <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
-                                                    <span class="fa fa-edit"></span>&nbsp;編輯
-                                                </a>
-                                            }
-                                            <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
-                                                <span class="fa fa-sticky-note"></span>&nbsp;明細
-                                            </button>
-                                            @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
-                                            {
-                                                <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
-                                                    <span class="fa fa-trash"></span>&nbsp;刪除
-                                                </a>
-                                            }
-                                        </td>
-                                    </tr>
-                                        }
+                                            </td>
+                                            <td>
+                                                @if (item.Status != "Z")
+                                                {
+                                                    <label>未出貨</label>
+                                                }
+                                                else
+                                                {
+                                                    <label>已出貨</label>
+                                                }
+                                            </td>
+                                            <td class="text-center">
+                                                @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                                {
+                                                    <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                        <span class="fa fa-edit"></span>&nbsp;編輯
+                                                    </a>
+                                                }
+                                                <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                    <span class="fa fa-sticky-note"></span>&nbsp;明細
+                                                </button>
+                                                @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
+                                                {
+                                                    <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
+                                                        <span class="fa fa-trash"></span>&nbsp;刪除
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
                                     }
-                                    </tbody>
-                            </table>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="row">
@@ -227,6 +245,12 @@
                     <div class="col-lg-4">
                         <label id="Dlog_OrderID"></label>
                     </div>
+                    <div class="col-lg-2">
+                        狀態：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_Status"></label>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2">
@@ -236,18 +260,18 @@
                         <label id="Dlog_Winery"></label>
                     </div>
                     <div class="col-lg-2">
-                        客戶名稱：
-                    </div>
-                    <div class="col-lg-4">
-                        <label id="Dlog_Customer"></label>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2">
                         訂購時間：
                     </div>
                     <div class="col-lg-4">
                         <label id="Dlog_OrderData"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        客戶名稱：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_Customer"></label>
                     </div>
                     <div class="col-lg-2">
                         出貨時間：
@@ -258,10 +282,24 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2">
+                        電話：
+                    </div>
+                    <div class="col-lg-4">
+                        <label id="Dlog_CustomerPhone"></label>
+                    </div>
+                    <div class="col-lg-2">
                         送達時間：
                     </div>
                     <div class="col-lg-4">
                         <label id="Dlog_ShipperData"></label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        地址：
+                    </div>
+                    <div class="col-lg-10">
+                        <label id="Dlog_CustomerAddress"></label>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -421,7 +459,7 @@
                 function (datas) {
                     //console.log(datas);
                     $.each(datas, function (idx, data) {
-                        var orderdata, shipperData,requiredDate;
+                        var orderdata, shipperData,requiredDate,status;
                         if (data.OrderDate != null) {
                             orderdata = new Date(parseInt(data.OrderDate.replace(/(^.*\()|([+-].*$)/g, ''))).toLocaleDateString();
                         }
@@ -440,12 +478,21 @@
                         else {
                             requiredDate = null;
                         }
+                        if (data.Status != "Z") {
+                            status = "未出貨"
+                        }
+                        else {
+                            status = "已出貨"
+                        }
                         $('#Dlog_OrderID').text(data.OrderID);
+                        $('#Dlog_Status').text(status);
                         $('#Dlog_Winery').text(data.WineryName);
                         $('#Dlog_Customer').text(data.CustomerName);
+                        $('#Dlog_CustomerPhone').text(data.CustomerPhone);
                         $('#Dlog_OrderData').text(orderdata);
                         $('#Dlog_RequiredDate').text(requiredDate);
                         $('#Dlog_ShipperData').text(shipperData);
+                        $('#Dlog_CustomerAddress').text(data.CustomerAddress);
                         $('#Dlog_Note').text(data.Note);
                     })
                 }
