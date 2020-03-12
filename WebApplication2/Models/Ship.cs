@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication2.Models
+using System;
+using System.Collections.Generic;
+
+public partial class Ship
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Ship
-    {
-        public int ShipID { get; set; }
-        public int OrderID { get; set; }
-        public System.DateTime RequiredDate { get; set; }
-        public System.DateTime ShipDate { get; set; }
-        public string Note { get; set; }
-    
-        public virtual Order Order { get; set; }
-    }
+    public int ShipID { get; set; }
+    public int OrderID { get; set; }
+    public System.DateTime RequiredDate { get; set; }
+    public System.DateTime ShipDate { get; set; }
+    public string Note { get; set; }
+
+    public virtual Order Order { get; set; }
 }

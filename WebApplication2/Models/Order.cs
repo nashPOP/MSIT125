@@ -7,33 +7,32 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication2.Models
+using System;
+using System.Collections.Generic;
+
+public partial class Order
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Order
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Order()
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
-        {
-            this.Order_Details = new HashSet<Order_Details>();
-            this.Ship = new HashSet<Ship>();
-        }
-    
-        public int OrderID { get; set; }
-        public System.DateTime OrderDate { get; set; }
-        public System.DateTime RequiredDate { get; set; }
-        public Nullable<System.DateTime> ShippedDate { get; set; }
-        public string CustomerName { get; set; }
-        public int WineryID { get; set; }
-        public string Note { get; set; }
-        public string Status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order_Details> Order_Details { get; set; }
-        public virtual Winery Winery { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ship> Ship { get; set; }
+        this.Order_Details = new HashSet<Order_Details>();
+        this.Ship = new HashSet<Ship>();
     }
+
+    public int OrderID { get; set; }
+    public System.DateTime OrderDate { get; set; }
+    public System.DateTime RequiredDate { get; set; }
+    public Nullable<System.DateTime> ShippedDate { get; set; }
+    public string CustomerName { get; set; }
+    public int WineryID { get; set; }
+    public string Note { get; set; }
+    public string Status { get; set; }
+    public string CustomerAddress { get; set; }
+    public string CustomerPhone { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public virtual ICollection<Order_Details> Order_Details { get; set; }
+    public virtual Winery Winery { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public virtual ICollection<Ship> Ship { get; set; }
 }

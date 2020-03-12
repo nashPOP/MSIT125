@@ -7,26 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication2.Models
+using System;
+using System.Collections.Generic;
+
+public partial class Milliliter
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Milliliter
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Milliliter()
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Milliliter()
-        {
-            this.Inventory = new HashSet<Inventory>();
-            this.StockEnter = new HashSet<StockEnter>();
-        }
-    
-        public int MilliliterID { get; set; }
-        public int capacity { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Inventory> Inventory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockEnter> StockEnter { get; set; }
+        this.Inventory = new HashSet<Inventory>();
+        this.StockEnter = new HashSet<StockEnter>();
     }
+
+    public int MilliliterID { get; set; }
+    public int capacity { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public virtual ICollection<Inventory> Inventory { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    public virtual ICollection<StockEnter> StockEnter { get; set; }
 }
