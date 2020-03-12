@@ -186,7 +186,8 @@ op.sendTableData = () => {
         data: JSON.stringify(sendData),
         contentType: "application/json",
         success: function (res) {
-            $("#testArea").text(JSON.stringify(res));
+            console.log(JSON.stringify(res))
+            //$("#testArea").text(JSON.stringify(res));
         },
         error: function (err) {
             $("#testArea").text(err);
