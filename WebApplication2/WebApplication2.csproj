@@ -201,6 +201,7 @@
     <Compile Include="Models\Ship.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ShipDetail.cs" />
     <Compile Include="Models\StockEnter.cs">
       <DependentUpon>FrogJumpModel.tt</DependentUpon>
     </Compile>
@@ -226,6 +227,39 @@
     <Content Include="Content\css\LoginStyleSheet.css" />
     <Content Include="Content\css\sb-admin-2.css" />
     <Content Include="Content\css\sb-admin-2.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.bootstrap.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.foundation.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.foundation.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.jqueryui.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.semanticui.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\jquery.dataTables.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\css\jquery.dataTables.min.css" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\images\sort_asc.png" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\images\sort_both.png" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\images\sort_desc.png" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.bootstrap.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.bootstrap4.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.foundation.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.foundation.min.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.jqueryui.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.jqueryui.min.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.semanticui.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\dataTables.semanticui.min.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\jquery.dataTables.js" />
+    <Content Include="Content\DataTables\DataTables-1.10.20\js\jquery.dataTables.min.js" />
+    <Content Include="Content\DataTables\datatables.css" />
+    <Content Include="Content\DataTables\datatables.js" />
+    <Content Include="Content\DataTables\datatables.min.css" />
+    <Content Include="Content\DataTables\datatables.min.js" />
     <Content Include="Content\js\demo\chart-area-demo.js" />
     <Content Include="Content\js\demo\chart-bar-demo.js" />
     <Content Include="Content\js\demo\chart-pie-demo.js" />
@@ -2084,6 +2118,7 @@
     <Content Include="Views\Login\Register.cshtml" />
     <Content Include="Views\Login\WineryEdit.cshtml" />
     <Content Include="Views\Login\WineryAccount.cshtml" />
+    <Content Include="Views\SelectorCreate\WineryEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
