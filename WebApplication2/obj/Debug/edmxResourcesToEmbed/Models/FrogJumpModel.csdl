@@ -286,6 +286,8 @@
     <NavigationProperty Name="Order_Details" Relationship="Model1.FK_Order_Details_Order" FromRole="Order" ToRole="Order_Details" />
     <NavigationProperty Name="Winery" Relationship="Model1.FK_Order_Winery" FromRole="Order" ToRole="Winery" />
     <NavigationProperty Name="Ship" Relationship="Model1.FK_Ship_Order" FromRole="Order" ToRole="Ship" />
+    <Property Name="CustomerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Order_Details_Order">
     <End Type="Model1.Order" Role="Order" Multiplicity="1" />

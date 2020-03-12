@@ -7,16 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class Account
+namespace WebApplication2.Models
 {
-    public int AccountId { get; set; }
-    public string Account1 { get; set; }
-    public string Password { get; set; }
-    public string IdentityCode { get; set; }
-    public int WineryID { get; set; }
-
-    public virtual Winery Winery { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Account
+    {
+        public int AccountId { get; set; }
+        public string Account1 { get; set; }
+        public string Password { get; set; }
+        public string IdentityCode { get; set; }
+        public int WineryID { get; set; }
+    
+        public virtual Winery Winery { get; set; }
+    }
 }

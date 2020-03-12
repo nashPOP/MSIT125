@@ -7,33 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class Product
+namespace WebApplication2.Models
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Product()
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Product
     {
-        this.Order_Details = new HashSet<Order_Details>();
-        this.Inventory = new HashSet<Inventory>();
-        this.StockEnter = new HashSet<StockEnter>();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.Order_Details = new HashSet<Order_Details>();
+            this.Inventory = new HashSet<Inventory>();
+            this.StockEnter = new HashSet<StockEnter>();
+        }
+    
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public Nullable<int> WineryID { get; set; }
+        public int Quantity { get; set; }
+        public Nullable<int> CategoryID { get; set; }
+        public Nullable<int> ShelfID { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order_Details> Order_Details { get; set; }
+        public virtual Winery Winery { get; set; }
+        public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inventory> Inventory { get; set; }
+        public virtual Shelf Shelf { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StockEnter> StockEnter { get; set; }
     }
-
-    public int ProductID { get; set; }
-    public string ProductName { get; set; }
-    public Nullable<int> WineryID { get; set; }
-    public int Quantity { get; set; }
-    public Nullable<int> CategoryID { get; set; }
-    public Nullable<int> ShelfID { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    public virtual ICollection<Order_Details> Order_Details { get; set; }
-    public virtual Winery Winery { get; set; }
-    public virtual Category Category { get; set; }
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    public virtual ICollection<Inventory> Inventory { get; set; }
-    public virtual Shelf Shelf { get; set; }
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    public virtual ICollection<StockEnter> StockEnter { get; set; }
 }

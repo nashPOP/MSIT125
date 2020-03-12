@@ -7,20 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-public partial class Inventory
+namespace WebApplication2.Models
 {
-    public int InventoryID { get; set; }
-    public Nullable<int> ProductID { get; set; }
-    public Nullable<int> CategoryID { get; set; }
-    public Nullable<int> MilliliterID { get; set; }
-    public Nullable<int> Quantity { get; set; }
-    public Nullable<int> ShelfID { get; set; }
-
-    public virtual Category Category { get; set; }
-    public virtual Milliliter Milliliter { get; set; }
-    public virtual Shelf Shelf { get; set; }
-    public virtual Product Product { get; set; }
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Inventory
+    {
+        public int InventoryID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public Nullable<int> CategoryID { get; set; }
+        public Nullable<int> MilliliterID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<int> ShelfID { get; set; }
+    
+        public virtual Category Category { get; set; }
+        public virtual Milliliter Milliliter { get; set; }
+        public virtual Shelf Shelf { get; set; }
+        public virtual Product Product { get; set; }
+    }
 }

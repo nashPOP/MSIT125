@@ -84,6 +84,8 @@
     <EntitySetMapping Name="Order">
       <EntityTypeMapping TypeName="Model1.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="WineryID" ColumnName="WineryID" />

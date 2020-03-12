@@ -44,6 +44,8 @@
     <Property Name="RequiredDate" Type="datetime" Nullable="false" />
     <Property Name="ShippedDate" Type="datetime" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="CustomerAddress" Type="nvarchar(max)" />
+    <Property Name="CustomerPhone" Type="nvarchar" MaxLength="20" />
     <Property Name="WineryID" Type="int" Nullable="false" />
     <Property Name="Note" Type="nvarchar" MaxLength="50" />
     <Property Name="Status" Type="nvarchar" MaxLength="10" Nullable="false" />
