@@ -55,6 +55,8 @@ namespace WebApplication2.Models
                     CustomerName = item.CustomerName,
                     WineryID = wineryid,
                     Note = item.Note,
+                    CustomerAddress = item.Address,
+                    CustomerPhone = item.Telphone,
                     Status = "P"
                 };
                 db.Order.Add(o);

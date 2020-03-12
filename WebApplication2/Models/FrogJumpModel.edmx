@@ -49,6 +49,8 @@
           <Property Name="RequiredDate" Type="datetime" Nullable="false" />
           <Property Name="ShippedDate" Type="datetime" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CustomerAddress" Type="nvarchar(max)" />
+          <Property Name="CustomerPhone" Type="nvarchar" MaxLength="20" />
           <Property Name="WineryID" Type="int" Nullable="false" />
           <Property Name="Note" Type="nvarchar" MaxLength="50" />
           <Property Name="Status" Type="nvarchar" MaxLength="10" Nullable="false" />
@@ -643,6 +645,8 @@
           <NavigationProperty Name="Order_Details" Relationship="Model1.FK_Order_Details_Order" FromRole="Order" ToRole="Order_Details" />
           <NavigationProperty Name="Winery" Relationship="Model1.FK_Order_Winery" FromRole="Order" ToRole="Winery" />
           <NavigationProperty Name="Ship" Relationship="Model1.FK_Ship_Order" FromRole="Order" ToRole="Ship" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Order_Details_Order">
           <End Type="Model1.Order" Role="Order" Multiplicity="1" />
@@ -858,6 +862,8 @@
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="Model1.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="WineryID" ColumnName="WineryID" />

@@ -138,7 +138,7 @@
                                         @Html.DisplayFor(modelItem => item.Note)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.StockEnterDate)
+                                        @item.StockEnterDate.ToShortDateString()
                                     </td>
                                     @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
                                     {
