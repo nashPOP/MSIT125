@@ -40,9 +40,9 @@ namespace WebApplication2.Controllers
             for (int i = 0; i < list_all_Order_ID.Length; i++)
             {
                 int Sel = list_all_Order_ID[i];
-                var OrderID_Send_tmp = dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.OrderID).ToList();
-                var RequiredDate_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.RequiredDate).ToList());
-                var status_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).Select(p => p.Status).ToList());
+                var OrderID_Send_tmp = dbcontext.Order.Where(p => p.OrderID == Sel).OrderBy(p => p.RequiredDate).Select(p => p.OrderID).ToList();
+                var RequiredDate_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).OrderBy(p=>p.RequiredDate).Select(p => p.RequiredDate).ToList());
+                var status_Send_tmp = (dbcontext.Order.Where(p => p.OrderID == Sel).OrderBy(p => p.RequiredDate).Select(p => p.Status).ToList());
 
                 OrderID_Send.Add(OrderID_Send_tmp[0]);
                 RequiredDate_Send.Add(RequiredDate_Send_tmp[0]);
@@ -55,7 +55,7 @@ namespace WebApplication2.Controllers
             }
 
 
-            return View(q);
+            return View(q.OrderBy(p=>p.RequiredDate));
         }
 
         public ActionResult order_Detail(string orderID)
