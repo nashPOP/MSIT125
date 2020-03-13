@@ -271,7 +271,7 @@ namespace WebApplication2.Models
                 }
                 if (!string.IsNullOrEmpty(qStockEnter.DDL_Winery) && qStockEnter.DDL_Winery != "0")
                 {
-                    table = table.Where(p => p.WineryID.ToString() == qStockEnter.DDL_Winery);
+                    table = table.Where(p => p.WineryID.ToString().Trim() == qStockEnter.DDL_Winery.Trim());
                 }
                 if (!string.IsNullOrEmpty(qStockEnter.DDL_Product) && qStockEnter.DDL_Product != "0")
                 {
@@ -285,9 +285,9 @@ namespace WebApplication2.Models
                 {
                     table = table.Where(p => p.ShelfID.ToString() == qStockEnter.DDL_Shelf);
                 }
-                if (!string.IsNullOrEmpty(qStockEnter.D_StockEnterDate.ToString()))
+                if (qStockEnter.D_StockEnterDate !=null)
                 {
-                    DateTime lasttime = qStockEnter.D_StockEnterDate.AddDays(1);
+                    DateTime lasttime = qStockEnter.D_StockEnterDate.Value.AddDays(1);
                     table = table.Where(p => p.StockEnterDate >=qStockEnter.D_StockEnterDate && p.StockEnterDate <lasttime);
                 }
                 return table;

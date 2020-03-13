@@ -172,7 +172,7 @@ namespace WebApplication2.Controllers
                 Session["account1"] =c.Account1.ToString();
                 Session["IdentityCode"] = c.IdentityCode.ToString();
                 Session["WineryID"] =c.WineryID.ToString();
-                return RedirectToAction("EditPassWord", "Login");
+                return RedirectToAction("Index", "Home");
 
             }
 
