@@ -155,73 +155,184 @@
                                 {
                                     foreach (var item in Model.Orderlist)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.OrderID)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Winery.WineryName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerName)
-                                            </td>
-                                            <td>
-                                                @item.OrderDate.ToShortDateString()
-                                            </td>
-                                            <td>
-                                                @item.RequiredDate.ToShortDateString()
-                                            </td>
-                                            <td>
-                                                @if (item.ShippedDate != null)
-                                                {
-                                                    @item.ShippedDate.Value.ToShortDateString()
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.Note != null)
-                                                {
-                                                    if (item.Note.Length > 6)
+                                        if (item.Status != "Z")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.OrderID)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @item.OrderDate.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @item.RequiredDate.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @if (item.ShippedDate != null)
                                                     {
-                                                        <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                        @item.ShippedDate.Value.ToShortDateString()
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.Note != null)
+                                                    {
+                                                        if (item.Note.Length > 6)
+                                                        {
+                                                            <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.Note)
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         @Html.DisplayFor(modelItem => item.Note)
                                                     }
-                                                }
-                                                else
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.Note)
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.Status != "Z")
-                                                {
-                                                    <label>未出貨</label>
-                                                }
-                                                else
-                                                {
-                                                    <label>已出貨</label>
-                                                }
-                                            </td>
-                                            <td class="text-center">
-                                                @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
-                                                {
-                                                    <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
-                                                        <span class="fa fa-edit"></span>&nbsp;編輯
-                                                    </a>
-                                                }
-                                                <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
-                                                    <span class="fa fa-sticky-note"></span>&nbsp;預覽
-                                                </button>
-                                                @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
-                                                {
-                                                    <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
-                                                        <span class="fa fa-trash"></span>&nbsp;刪除
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    @if (item.Status != "Z")
+                                                    {
+                                                        <label>未出貨</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label>已出貨</label>
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+
+                                                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        if (item.Status != "Z")
+                                                        {
+                                                            <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                                <span class="fa fa-edit"></span>&nbsp;編輯
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="btnEdit" class="btn btn-success" disabled href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                                <span class="fa fa-edit"></span>&nbsp;編輯
+                                                            </button>
+                                                        }
+                                                    }
+                                                    <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                        <span class="fa fa-sticky-note"></span>&nbsp;預覽
+                                                    </button>
+                                                    @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        if (item.Status != "Z")
+                                                        {
+                                                            <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
+                                                                <span class="fa fa-trash"></span>&nbsp;刪除
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="btnDelete" class="btn btn-danger" href="#" disabled data-id="@item.OrderID">
+                                                                <span class="fa fa-trash"></span>&nbsp;刪除
+                                                            </button>
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr style="background-color:#f6f6f6">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.OrderID)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Winery.WineryName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @item.OrderDate.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @item.RequiredDate.ToShortDateString()
+                                                </td>
+                                                <td>
+                                                    @if (item.ShippedDate != null)
+                                                    {
+                                                        @item.ShippedDate.Value.ToShortDateString()
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.Note != null)
+                                                    {
+                                                        if (item.Note.Length > 6)
+                                                        {
+                                                            <lable>@item.Note.Substring(0, 6).ToString() ...</lable>
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.Note)
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DisplayFor(modelItem => item.Note)
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.Status != "Z")
+                                                    {
+                                                        <label>未出貨</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label>已出貨</label>
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+
+                                                    @if (Session["IdentityCode"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        if (item.Status != "Z")
+                                                        {
+                                                            <a id="btnEdit" class="btn btn-success" href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                                <span class="fa fa-edit"></span>&nbsp;編輯
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="btnEdit" class="btn btn-success" disabled href="@Url.Action("OrderEdit", "Query", new { id = item.OrderID })">
+                                                                <span class="fa fa-edit"></span>&nbsp;編輯
+                                                            </button>
+                                                        }
+                                                    }
+                                                    <button id="Details" data-OrderID="@item.OrderID" data class="btn btn-info">
+                                                        <span class="fa fa-sticky-note"></span>&nbsp;預覽
+                                                    </button>
+                                                    @if (Session["account1"] != null && (string)Session["IdentityCode"] == "B")
+                                                    {
+                                                        if (item.Status != "Z")
+                                                        {
+                                                            <a id="btnDelete" class="btn btn-danger" href="#" data-id="@item.OrderID">
+                                                                <span class="fa fa-trash"></span>&nbsp;刪除
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="btnDelete" class="btn btn-danger" href="#" disabled data-id="@item.OrderID">
+                                                                <span class="fa fa-trash"></span>&nbsp;刪除
+                                                            </button>
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 }
                             </tbody>
@@ -517,6 +628,8 @@
             )
             $("#dialog").dialog("open");
         });
+
+        $('td label[text="已出貨"]').parent().css("background-color","gray")
     })
 
     </script>
