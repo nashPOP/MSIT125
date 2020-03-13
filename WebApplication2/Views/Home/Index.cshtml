@@ -2,3 +2,28 @@
     ViewBag.Title = "index";
 
 }
+
+@if (Session["IdentityCode"] != null)
+{
+    if (Session["IdentityCode"].ToString() == "B")
+    {
+    <div class="card text-center" style="width:1134px;margin:auto;">
+        <div class="card-header text-center">
+            <h1>德義-國際後勤倉儲管理系統</h1>
+        </div>
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col-4"><p>庫存查詢</p><a href="/Query/InventoryQuery"><img src="~/image/1.jpg"  /></a></div>
+                <div class="col-4"><p>存貨輸入</p><a href="/EnterStock/EnterStock"><img src="~/image/2.jpg" /></a></div>
+                <div class="col-4"><p>訂單輸入</p><a href="/OrderInput/InputPage"><img src="~/image/3.jpg" /></a></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-4"><p>撿貨處理</p><a href="/Pick/pick"><img src="~/image/4.jpg" /></a></div>
+                <div class="col-4"><p>資料管理</p><a href="/SelectorCreate/SelectorCreate"><img src="~/image/5.jpg" /></a></div>
+                <div class="col-4"><p>會員系統</p><a href="/Login/Register"><img src="~/image/6.jpg" /></a></div>
+            </div>
+        </div>
+    </div>
+    }
+}
