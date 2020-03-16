@@ -265,39 +265,49 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult WineryEdit(Winery b)
         {
-            int x = int.Parse(Session["WineryID"].ToString());
-            var a = db.Winery.FirstOrDefault(p => p.WineryID == x);
-            a.WineryName = b.WineryName;
-            a.WineryPhone = b.WineryPhone;
-            a.WineryEmail = b.WineryEmail;
-            a.WineryAddress = b.WineryAddress;
-            db.SaveChanges();
-            return View();
-        }
-
-        public ActionResult WineryAccount()
-        {
             try
             {
-                if (Session["IdentityCode"] != null)
+                int x = int.Parse(Session["WineryID"].ToString());
+                var a = db.Winery.FirstOrDefault(p => p.WineryID == x);
+                if (a != null)
                 {
-                    if (Session["IdentityCode"].ToString().Trim() == "B")
-                    {
-                        var account = db.Account.Select(p => p);
-                        return View(account);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    a.WineryName = b.WineryName;
+                    a.WineryPhone = b.WineryPhone;
+                    a.WineryEmail = b.WineryEmail;
+                    a.WineryAddress = b.WineryAddress;
+                    db.SaveChanges();
                 }
-                return RedirectToAction("LoginPage");
+                return RedirectToAction("WineryEdit");
             }
-            catch (Exception ex)
+            catch
             {
-                return Content(ex.Message);
+                return RedirectToAction("WineryEdit");
             }
         }
+
+        //public ActionResult WineryAccount()
+        //{
+        //    try
+        //    {
+        //        if (Session["IdentityCode"] != null)
+        //        {
+        //            if (Session["IdentityCode"].ToString().Trim() == "B")
+        //            {
+        //                var account = db.Account.Select(p => p);
+        //                return View(account);
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //        }
+        //        return RedirectToAction("LoginPage");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content(ex.Message);
+        //    }
+        //}
     }
 }
 

@@ -8,14 +8,16 @@
 <head>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
-        
+
         <script>
             $("#submit").click(function () {
                 alert("恭喜您新增成功!!")
-               
+
             })
 
-
+            $(function () {
+                $('#collapseMember').collapse('show');
+            })
         </script>
     }
 </head>
